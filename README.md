@@ -56,14 +56,14 @@ Follow these instructions to get a local copy of Daedalus up and running.
 1.  **Clone the Repository:**
 
     ```bash
-    git clone https://github.com/Hackathons-Canada/Daedalus.git
-    cd Daedalus
+    git clone https://github.com/Hack-Canada/Daedalus-Hacker-Portal.git
+    cd Daedalus-Hacker-Portal
     ```
 
 2.  **Install Dependencies:**
 
     ```bash
-    pnpm install
+    pnpm install || bun install || npm install
     ```
 
 3.  **Set Up Environment Variables:**
@@ -72,11 +72,16 @@ Follow these instructions to get a local copy of Daedalus up and running.
     ```env
     # Auth.js
     AUTH_SECRET="YOUR_AUTH_SECRET" # openssl rand -base64 32
-    AUTH_URL="http://localhost:3000/api/auth"
+    AUTH_URL="http://localhost:3000"
 
     # Database (PostgreSQL)
     DATABASE_URL="YOUR_DATABASE_URL"
 
+    # Application URL
+    NEXT_PUBLIC_APP_URL="http://localhost:3000"
+
+
+    # ----- below variables need to be done ------
     # Google OAuth
     GOOGLE_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID"
     GOOGLE_CLIENT_SECRET="YOUR_GOOGLE_CLIENT_SECRET"
@@ -93,8 +98,7 @@ Follow these instructions to get a local copy of Daedalus up and running.
     AWS_SES_VERIFIED_EMAIL="YOUR_VERIFIED_SES_EMAIL"
     AWS_SES_NO_REPLY_EMAIL="no-reply@your-domain.com"
 
-    # Application URL
-    NEXT_PUBLIC_APP_URL="http://localhost:3000"
+
     ```
 
 4.  **Run Database Migrations:**
