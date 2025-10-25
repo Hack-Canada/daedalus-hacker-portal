@@ -7,6 +7,8 @@ declare global {
   var _db: ReturnType<typeof drizzle<typeof schema>> | undefined;
 }
 
+console.log(process.env.DATABASE_URL);
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   max: 10,
