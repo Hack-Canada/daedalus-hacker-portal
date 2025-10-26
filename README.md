@@ -39,7 +39,7 @@ Daedalus is packed with features to streamline hackathon management for both org
 - **UI Components:** [shadcn/ui](https://ui.shadcn.com/)
 - **Form Handling:** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/) for validation
 - **Deployment:** [Vercel](https://vercel.com/)
-- **Package Manager:** [pnpm](https://pnpm.io/)
+- **Package Manager:** [Bun](https://bun.sh/)
 
 ## 🚀 Getting Started
 
@@ -47,9 +47,10 @@ Follow these instructions to get a local copy of Daedalus up and running.
 
 ### Prerequisites
 
-- Node.js (v18 or higher recommended)
-- pnpm (`npm install -g pnpm`)
-- A PostgreSQL database. You can set one up locally or use a free provider like [Neon](https://neon.tech/).
+- **Node.js** (v18 or higher recommended)
+- **Bun** (fast JavaScript runtime & package manager): `curl -fsSL https://bun.sh/install | bash`
+  - On Windows: `powershell -c "irm bun.sh/install.ps1 | iex"`
+- **Database Access:** Contact **Sohel (VP Backend)** for database connection details
 
 ### Installation & Setup
 
@@ -63,56 +64,86 @@ Follow these instructions to get a local copy of Daedalus up and running.
 2.  **Install Dependencies:**
 
     ```bash
-    pnpm install || bun install || npm install
+    bun install
     ```
 
 3.  **Set Up Environment Variables:**
-    Create a `.env` file in the root of the project. I recommend creating a `.env.example` file in the repository to document the required variables. Here are the variables you'll need:
+
+    Create a `.env.local` file in the root of the project:
+
+    ```bash
+    # Create environment file
+    touch .env.local  # On Windows: type nul > .env.local
+    ```
+
+    Add the following variables to your `.env.local` file:
 
     ```env
-    # Auth.js
-    AUTH_SECRET="YOUR_AUTH_SECRET" # openssl rand -base64 32
-    AUTH_URL="http://localhost:3000"
+    # Database (PostgreSQL) - Contact Sohel (VP Backend) for this URL
+    DATABASE_URL="postgresql://username:password@host:port/database"
 
-    # Database (PostgreSQL)
-    DATABASE_URL="YOUR_DATABASE_URL"
+    # Auth.js - Generate a secret key
+    AUTH_SECRET="your-auth-secret-here"  # Generate with: openssl rand -base64 32
+    AUTH_URL="http://localhost:3000"
 
     # Application URL
     NEXT_PUBLIC_APP_URL="http://localhost:3000"
 
+    # Optional: Google OAuth (for social login)
+    GOOGLE_CLIENT_ID="your-google-client-id"
+    GOOGLE_CLIENT_SECRET="your-google-client-secret"
 
-    # ----- below variables need to be done ------
-    # Google OAuth
-    GOOGLE_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID"
-    GOOGLE_CLIENT_SECRET="YOUR_GOOGLE_CLIENT_SECRET"
-
-    # AWS for SES (Email) and S3 (Resume Uploads)
-    AWS_REGION="YOUR_AWS_REGION"
-    AWS_ACCESS_KEY_ID="YOUR_AWS_ACCESS_KEY_ID"
-    AWS_SECRET_ACCESS_KEY="YOUR_AWS_SECRET_ACCESS_KEY"
-    AWS_S3_BUCKET_NAME="YOUR_S3_BUCKET_NAME"
-    NEXT_PUBLIC_AWS_S3_BUCKET_NAME="YOUR_S3_BUCKET_NAME" # Yes, this is duplicated for public access
-    AWS_SES_REGION="YOUR_AWS_SES_REGION"
-    AWS_SES_ACCESS_KEY_ID="YOUR_AWS_SES_ACCESS_KEY_ID"
-    AWS_SES_SECRET_ACCESS_KEY="YOUR_AWS_SES_SECRET_ACCESS_KEY"
-    AWS_SES_VERIFIED_EMAIL="YOUR_VERIFIED_SES_EMAIL"
+    # Optional: AWS Services (for file uploads and emails)
+    AWS_REGION="us-east-1"
+    AWS_ACCESS_KEY_ID="your-aws-access-key"
+    AWS_SECRET_ACCESS_KEY="your-aws-secret-key"
+    AWS_S3_BUCKET_NAME="your-s3-bucket"
+    NEXT_PUBLIC_AWS_S3_BUCKET_NAME="your-s3-bucket"
+    AWS_SES_VERIFIED_EMAIL="your-verified-email@domain.com"
     AWS_SES_NO_REPLY_EMAIL="no-reply@your-domain.com"
-
-
     ```
 
-4.  **Run Database Migrations:**
+4.  **Set Up Database Schema:**
+
     Push the database schema to your PostgreSQL instance:
 
     ```bash
-    pnpm db:push
+    bun run db:push
     ```
 
 5.  **Launch the Development Server:**
+
     ```bash
-    pnpm run dev
+    bun dev
     ```
-    Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+
+    Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+### 🔧 Available Scripts
+
+| Command     | Bun Command         | Description               |
+| ----------- | ------------------- | ------------------------- |
+| Development | `bun dev`           | Start development server  |
+| Build       | `bun run build`     | Build for production      |
+| Start       | `bun start`         | Start production server   |
+| Lint        | `bun run lint`      | Run ESLint                |
+| Format      | `bun run format`    | Format code with Prettier |
+| DB Push     | `bun run db:push`   | Push schema to database   |
+| DB Studio   | `bun run db:studio` | Open Drizzle Studio       |
+
+### 🐛 Troubleshooting
+
+**Database Connection Issues:**
+
+- Ensure your `DATABASE_URL` is correct (contact Sohel if needed)
+- Check that your database is running and accessible
+- Verify your `.env.local` file is in the project root
+
+**Environment Variables Not Loading:**
+
+- Make sure you're using `.env.local` (not `.env`)
+- Restart your development server after changing environment variables
+- Check that there are no syntax errors in your `.env.local` file
 
 ## 🤝 Contributing
 
