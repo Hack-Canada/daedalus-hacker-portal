@@ -6,13 +6,14 @@ export const metadata: Metadata = {
   title: "Reset Password",
 };
 
-const ResetPasswordPage = ({
-  params,
-}: {
-  params: {
-    token: string;
-  };
-}) => {
+const ResetPasswordPage = async (
+  props: {
+    params: Promise<{
+      token: string;
+    }>;
+  }
+) => {
+  const params = await props.params;
   return <ResetPasswordCard token={params.token} />;
 };
 

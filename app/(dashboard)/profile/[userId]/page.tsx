@@ -14,11 +14,12 @@ import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { ProfileHobbies } from "@/components/profile/ProfileHobbies";
 import { SocialLinkCard } from "@/components/profile/SocialLinkCard";
 
-export default async function ProfilePage({
-  params,
-}: {
-  params: { userId: string };
-}) {
+export default async function ProfilePage(
+  props: {
+    params: Promise<{ userId: string }>;
+  }
+) {
+  const params = await props.params;
   const currentUser = await getCurrentUser();
   const profile = await getProfileWithUser(params.userId);
 
