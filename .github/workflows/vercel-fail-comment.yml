@@ -28,7 +28,7 @@ jobs:
 
           # Find the most recent deployment for this PR branch
           DEPLOYMENT_ID=$(echo "$response" | jq -r --arg branch "$PR_BRANCH" \
-            '.deployments[] | select(.meta.gitBranch==$branch) | .uid' | head -n1)
+            '.deployments[] | select(.meta.gitBranch? == $branch) | .uid' | head -n1)
 
           if [ -z "$DEPLOYMENT_ID" ]; then
             echo "No deployment found for this PR branch."
