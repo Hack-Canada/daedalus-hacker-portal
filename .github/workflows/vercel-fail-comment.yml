@@ -1,0 +1,86 @@
+name: Comment Vercel Error on PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  vercel-error-comment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get PR info
+        run: |
+          echo "PR_BRANCH=${{ github.head_ref }}" >> $GITHUB_ENV
+          echo "PR_SHA=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
+          echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+
+      - name: Get latest Vercel deployment for this PR
+        id: get-deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          PR_BRANCH: ${{ env.PR_BRANCH }}
+        run: |
+          echo "Fetching latest deployment for branch $PR_BRANCH"
+          response=$(curl -s -H "Authorization: Bearer $VERCEL_TOKEN" \
+            "https://api.vercel.com/v6/deployments?projectId=$VERCEL_PROJECT_ID&limit=5")
+
+          # Find the most recent deployment for this PR branch
+          DEPLOYMENT_ID=$(echo "$response" | jq -r --arg branch "$PR_BRANCH" \
+            '.deployments[] | select(.meta.gitBranch==$branch) | .uid' | head -n1)
+
+          if [ -z "$DEPLOYMENT_ID" ]; then
+            echo "No deployment found for this PR branch."
+            echo "found=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "Found deployment ID: $DEPLOYMENT_ID"
+          echo "DEPLOYMENT_ID=$DEPLOYMENT_ID" >> $GITHUB_ENV
+          echo "found=true" >> $GITHUB_OUTPUT
+
+      - name: Check deployment status
+        if: steps.get-deploy.outputs.found == 'true'
+        id: check-status
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          DEPLOYMENT_ID: ${{ env.DEPLOYMENT_ID }}
+        run: |
+          status=$(curl -s -H "Authorization: Bearer $VERCEL_TOKEN" \
+            "https://api.vercel.com/v13/deployments/$DEPLOYMENT_ID" | jq -r '.state')
+          echo "Deployment status: $status"
+          echo "STATUS=$status" >> $GITHUB_ENV
+          echo "status=$status" >> $GITHUB_OUTPUT
+
+      - name: Fetch and comment error logs if deployment failed
+        if: steps.check-status.outputs.status == 'ERROR'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          DEPLOYMENT_ID: ${{ env.DEPLOYMENT_ID }}
+          PR_NUMBER: ${{ env.PR_NUMBER }}
+        run: |
+          echo "Deployment failed. Fetching logs..."
+          logs=$(curl -s -H "Authorization: Bearer $VERCEL_TOKEN" \
+            "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/events")
+
+          # Extract only build errors
+          error_lines=$(echo "$logs" | jq -r '.[] | select(.payload.text | test("Error|Exception|Failed"; "i")) | .payload.text' | tail -n 20)
+
+          if [ -z "$error_lines" ]; then
+            error_lines="No specific error lines found. Check full logs on Vercel."
+          fi
+
+          # Post comment on PR
+          gh api repos/${{ github.repository }}/issues/$PR_NUMBER/comments \
+            -f body="❌ **Vercel Deployment Failed**
+
+          **Error stack:**
+          \`\`\`
+          $error_lines
+          \`\`\`
+          [View full logs on Vercel →](https://vercel.com/dashboard/deployments/$DEPLOYMENT_ID)
+          "
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
