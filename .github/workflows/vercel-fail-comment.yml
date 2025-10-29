@@ -1,15 +1,17 @@
-name: Comment Vercel Error on PR
+name: Vercel Deployment Monitor
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
-  vercel-error-comment:
+  monitor-deployment:
+    name: Monitor Vercel Deployment
     runs-on: ubuntu-latest
+    timeout-minutes: 25
 
     steps:
-      - name: Get PR info
+      - name: Setup environment variables
         env:
           HEAD_REF: ${{ github.head_ref }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
@@ -18,115 +20,358 @@ jobs:
           echo "PR_BRANCH=$HEAD_REF" >> $GITHUB_ENV
           echo "PR_SHA=$HEAD_SHA" >> $GITHUB_ENV
           echo "PR_NUMBER=$PR_NUM" >> $GITHUB_ENV
+          echo "📋 Monitoring deployment for PR #$PR_NUM on branch: $HEAD_REF"
 
-      - name: Get latest Vercel deployment for this PR
-        id: get-deploy
+      - name: Wait for Vercel deployment to start
+        id: wait-for-deployment
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          PR_BRANCH: ${{ env.PR_BRANCH }}
+          VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
         run: |
-          echo "Fetching latest deployment for branch $PR_BRANCH"
-          response=$(curl -s -H "Authorization: Bearer $VERCEL_TOKEN" \
-            "https://api.vercel.com/v6/deployments?projectId=$VERCEL_PROJECT_ID&limit=5")
-
-          # Find the most recent deployment for this PR branch
-          DEPLOYMENT_ID=$(echo "$response" | jq -r --arg branch "$PR_BRANCH" \
-            '.deployments[] | select(.meta.gitBranch? == $branch) | .uid' | head -n1)
-
-          if [ -z "$DEPLOYMENT_ID" ]; then
-            echo "No deployment found for this PR branch."
-            echo "found=false" >> $GITHUB_OUTPUT
+          echo "🔍 Waiting for Vercel deployment to start..."
+          
+          max_attempts=20  # 10 minutes (30s * 20)
+          attempt=0
+          deployment_found=false
+          
+          while [ $attempt -lt $max_attempts ]; do
+            attempt=$((attempt + 1))
+            echo "⏳ Check $attempt/$max_attempts (waiting for deployment to appear)"
+            
+            # Build API URL with optional team parameter
+            api_url="https://api.vercel.com/v6/deployments?projectId=$VERCEL_PROJECT_ID&limit=30"
+            if [ -n "$VERCEL_TEAM_ID" ]; then
+              api_url="${api_url}&teamId=$VERCEL_TEAM_ID"
+            fi
+            
+            # Fetch recent deployments
+            response=$(curl -sf -H "Authorization: Bearer $VERCEL_TOKEN" "$api_url" 2>/tmp/curl_error.log)
+            curl_exit=$?
+            
+            if [ $curl_exit -ne 0 ]; then
+              echo "❌ Failed to fetch deployments from Vercel API (attempt $attempt)"
+              if [ -f /tmp/curl_error.log ]; then
+                cat /tmp/curl_error.log
+              fi
+              sleep 30
+              continue
+            fi
+            
+            # Look for deployment matching this PR's commit SHA or branch
+            deployment_id=$(echo "$response" | jq -r --arg sha "$PR_SHA" --arg branch "$PR_BRANCH" '
+              .deployments[]? |
+              select(
+                (.meta.githubCommitSha? == $sha) or
+                (.meta.gitBranch? == $branch)
+              ) |
+              .uid
+            ' | head -n1)
+            
+            if [ -n "$deployment_id" ]; then
+              echo "✅ Found deployment: $deployment_id"
+              
+              # Get deployment details
+              deploy_info=$(echo "$response" | jq -r --arg id "$deployment_id" '
+                .deployments[]? | select(.uid == $id) |
+                "Branch: \(.meta.gitBranch // "unknown")\nCommit: \(.meta.githubCommitSha // "unknown")\nState: \(.state)\nURL: \(.url)"
+              ')
+              
+              echo "$deploy_info"
+              echo "DEPLOYMENT_ID=$deployment_id" >> $GITHUB_ENV
+              deployment_found=true
+              break
+            fi
+            
+            echo "ℹ️  No deployment found yet for commit $PR_SHA or branch $PR_BRANCH"
+            
+            # Show what deployments exist (for debugging)
+            if [ $attempt -eq 1 ] || [ $((attempt % 5)) -eq 0 ]; then
+              echo "📊 Recent deployments in project:"
+              echo "$response" | jq -r '.deployments[]? | "\(.uid) - \(.meta.gitBranch // "no-branch") - \(.state)"' | head -5
+            fi
+            
+            sleep 30
+          done
+          
+          if [ "$deployment_found" = false ]; then
+            echo "⏰ Timeout: No deployment found after $max_attempts attempts"
+            echo "This could mean:"
+            echo "  • Vercel integration is not configured for this repository"
+            echo "  • Wrong VERCEL_PROJECT_ID in secrets"
+            echo "  • Vercel deployment was not triggered by this PR"
+            echo "deployment_found=false" >> $GITHUB_OUTPUT
             exit 0
           fi
+          
+          echo "deployment_found=true" >> $GITHUB_OUTPUT
 
-          echo "Found deployment ID: $DEPLOYMENT_ID"
-          echo "DEPLOYMENT_ID=$DEPLOYMENT_ID" >> $GITHUB_ENV
-          echo "found=true" >> $GITHUB_OUTPUT
-
-      - name: Check deployment status
-        if: steps.get-deploy.outputs.found == 'true'
-        id: check-status
+      - name: Monitor deployment until completion
+        id: monitor-deployment
+        if: steps.wait-for-deployment.outputs.deployment_found == 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          DEPLOYMENT_ID: ${{ env.DEPLOYMENT_ID }}
+          VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
         run: |
-          echo "Fetching deployment status for ID: $DEPLOYMENT_ID"
-
-          # Fetch deployment data with proper error handling
-          response=$(curl -sf -H "Authorization: Bearer $VERCEL_TOKEN" \
-            "https://api.vercel.com/v13/deployments/$DEPLOYMENT_ID")
-
-          if [ $? -ne 0 ]; then
-            echo "❌ Error: Failed to fetch deployment status from Vercel API"
-            echo "This could be due to network issues, invalid token, or deployment not found"
-            exit 1
+          echo "🔄 Monitoring deployment: $DEPLOYMENT_ID"
+          
+          max_attempts=30  # 15 minutes (30s * 30)
+          attempt=0
+          final_state=""
+          
+          while [ $attempt -lt $max_attempts ]; do
+            attempt=$((attempt + 1))
+            
+            # Build API URL with optional team parameter
+            api_url="https://api.vercel.com/v13/deployments/$DEPLOYMENT_ID"
+            if [ -n "$VERCEL_TEAM_ID" ]; then
+              api_url="${api_url}?teamId=$VERCEL_TEAM_ID"
+            fi
+            
+            # Fetch deployment status
+            response=$(curl -sf -H "Authorization: Bearer $VERCEL_TOKEN" "$api_url" 2>/tmp/curl_error.log)
+            curl_exit=$?
+            
+            if [ $curl_exit -ne 0 ]; then
+              echo "❌ Failed to fetch deployment status (attempt $attempt)"
+              if [ -f /tmp/curl_error.log ]; then
+                cat /tmp/curl_error.log
+              fi
+              sleep 30
+              continue
+            fi
+            
+            # Extract deployment state
+            state=$(echo "$response" | jq -r '.state // empty')
+            ready_state=$(echo "$response" | jq -r '.readyState // empty')
+            
+            if [ -z "$state" ]; then
+              echo "⚠️  Could not determine deployment state"
+              sleep 30
+              continue
+            fi
+            
+            echo "📊 Status check $attempt/$max_attempts: $state${ready_state:+ ($ready_state)}"
+            
+            # Check if deployment reached final state
+            case "$state" in
+              READY)
+                echo "✅ Deployment succeeded!"
+                final_state="READY"
+                break
+                ;;
+              ERROR)
+                echo "❌ Deployment failed!"
+                final_state="ERROR"
+                break
+                ;;
+              CANCELED)
+                echo "🚫 Deployment was canceled"
+                final_state="CANCELED"
+                break
+                ;;
+              BUILDING|QUEUED|INITIALIZING)
+                elapsed=$((attempt * 30))
+                echo "⏳ Still building... (${elapsed}s elapsed)"
+                ;;
+              *)
+                echo "ℹ️  Current state: $state"
+                ;;
+            esac
+            
+            sleep 30
+          done
+          
+          if [ -z "$final_state" ]; then
+            echo "⏰ Timeout: Deployment did not complete within 15 minutes"
+            final_state="TIMEOUT"
           fi
+          
+          echo "DEPLOYMENT_STATE=$final_state" >> $GITHUB_ENV
+          echo "deployment_state=$final_state" >> $GITHUB_OUTPUT
 
-          # Extract status from response and verify it's not empty
-          status=$(echo "$response" | jq -r '.state // empty')
-
-          if [ -z "$status" ] || [ "$status" = "null" ]; then
-            echo "❌ Error: Deployment status is empty or null"
-            echo "API Response: $response"
-            exit 1
-          fi
-
-          echo "✅ Deployment status: $status"
-          echo "STATUS=$status" >> $GITHUB_ENV
-          echo "status=$status" >> $GITHUB_OUTPUT
-
-      - name: Fetch and comment error logs if deployment failed
-        if: steps.check-status.outputs.status == 'ERROR'
+      - name: Fetch error logs and post comment
+        if: steps.monitor-deployment.outputs.deployment_state == 'ERROR'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          DEPLOYMENT_ID: ${{ env.DEPLOYMENT_ID }}
-          PR_NUMBER: ${{ env.PR_NUMBER }}
+          VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "Deployment failed. Fetching logs..."
-
-          # Fetch logs with proper error handling
-          http_code=$(curl -sf -w "%{http_code}" -H "Authorization: Bearer $VERCEL_TOKEN" \
-            "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/events" \
-            -o /tmp/vercel_logs.json 2>/tmp/curl_error.log)
-          curl_exit_code=$?
-
-          if [ $curl_exit_code -ne 0 ]; then
-            echo "❌ Error: Failed to fetch deployment logs from Vercel API"
-            echo "Curl exit code: $curl_exit_code"
+          echo "📝 Fetching deployment error logs..."
+          
+          # Build API URL with optional team parameter
+          api_url="https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/events"
+          if [ -n "$VERCEL_TEAM_ID" ]; then
+            api_url="${api_url}?teamId=$VERCEL_TEAM_ID"
+          fi
+          
+          # Fetch deployment events/logs
+          events_response=$(curl -sf -H "Authorization: Bearer $VERCEL_TOKEN" "$api_url" -o /tmp/events.json 2>/tmp/curl_error.log)
+          curl_exit=$?
+          
+          if [ $curl_exit -ne 0 ]; then
+            echo "❌ Failed to fetch deployment events"
             if [ -f /tmp/curl_error.log ]; then
-              echo "Curl stderr: $(cat /tmp/curl_error.log)"
+              cat /tmp/curl_error.log
             fi
-            error_lines="Failed to fetch deployment logs from Vercel API (HTTP $http_code, exit code $curl_exit_code). Please check the deployment logs manually on Vercel dashboard."
-          else
-            echo "✅ Successfully fetched logs (HTTP $http_code)"
             
-            # Verify we have valid JSON
-            if ! jq empty /tmp/vercel_logs.json 2>/dev/null; then
-              echo "❌ Error: Invalid JSON response from Vercel logs API"
-              echo "Response preview: $(head -c 200 /tmp/vercel_logs.json)..."
-              error_lines="Received invalid JSON from Vercel logs API. Please check the deployment logs manually on Vercel dashboard."
-            else
-              # Extract build errors with error handling
-              error_lines=$(jq -r '.[] | select(.payload.text | test("Error|Exception|Failed"; "i")) | .payload.text' /tmp/vercel_logs.json 2>/dev/null | tail -n 20)
+            error_message="⚠️ **Unable to fetch detailed error logs from Vercel API**
+
+\`\`\`
+Failed to retrieve deployment events (HTTP error or network issue)
+\`\`\`
+
+**What to do:**
+1. Check the [Vercel Dashboard](https://vercel.com/dashboard) for full logs
+2. View this deployment: https://vercel.com/deployments/$DEPLOYMENT_ID
+3. Verify VERCEL_TOKEN has correct permissions"
+          else
+            # Validate JSON
+            if ! jq empty /tmp/events.json 2>/dev/null; then
+              echo "❌ Invalid JSON response from Vercel events API"
               
-              if [ -z "$error_lines" ]; then
-                error_lines="No specific error lines found in deployment logs. Check full logs on Vercel dashboard for more details."
+              error_message="⚠️ **Received invalid response from Vercel API**
+
+\`\`\`
+Unable to parse deployment events (invalid JSON)
+\`\`\`
+
+**What to do:**
+1. Check the [Vercel Dashboard](https://vercel.com/dashboard) for full logs
+2. View this deployment: https://vercel.com/deployments/$DEPLOYMENT_ID"
+            else
+              echo "✅ Successfully fetched deployment events"
+              
+              # Extract error messages from events
+              # Look for build errors, exceptions, and failed steps
+              error_logs=$(jq -r '
+                .[] |
+                select(
+                  (.type == "stderr") or
+                  (.type == "error") or
+                  (.payload.text? | test("Error|Exception|Failed|ERROR|FATAL"; "i"))
+                ) |
+                if .payload.text then
+                  .payload.text
+                elif .text then
+                  .text
+                else
+                  .payload | tostring
+                end
+              ' /tmp/events.json 2>/dev/null | grep -v "^null$" || echo "")
+              
+              # If no specific errors found, get the last build output
+              if [ -z "$error_logs" ]; then
+                echo "ℹ️  No specific error messages found, extracting build output..."
+                error_logs=$(jq -r '
+                  .[] |
+                  select(.type == "stdout" or .type == "stderr") |
+                  .payload.text // .text // empty
+                ' /tmp/events.json 2>/dev/null | tail -50 || echo "")
               fi
+              
+              # Limit output to last 100 lines to avoid huge comments
+              if [ -n "$error_logs" ]; then
+                error_logs=$(echo "$error_logs" | tail -100)
+              else
+                error_logs="No detailed error messages found in deployment logs.
+Please check the Vercel dashboard for complete build output."
+              fi
+              
+              # Get deployment URL
+              deploy_url=$(curl -sf -H "Authorization: Bearer $VERCEL_TOKEN" \
+                "https://api.vercel.com/v13/deployments/$DEPLOYMENT_ID" | \
+                jq -r '.url // empty')
+              
+              # Construct error message
+              error_message="## 🚨 Vercel Deployment Failed
+
+**Deployment ID:** \`$DEPLOYMENT_ID\`
+**Branch:** \`$PR_BRANCH\`
+**Commit:** \`${PR_SHA:0:7}\`
+${deploy_url:+**Preview URL:** https://$deploy_url}
+
+---
+
+### 📋 Error Stack Trace
+
+\`\`\`
+$error_logs
+\`\`\`
+
+---
+
+### 🔗 Useful Links
+
+- [View Full Logs on Vercel](https://vercel.com/deployments/$DEPLOYMENT_ID)
+- [Vercel Dashboard](https://vercel.com/dashboard)
+- [Deployment Events API](https://vercel.com/docs/rest-api/endpoints#get-deployment-events)
+
+### 💡 Next Steps
+
+1. Review the error stack trace above
+2. Fix the issues in your code
+3. Push new commits to trigger a new deployment
+4. Check Vercel dashboard for additional context
+
+---
+
+<sub>🤖 This comment was automatically generated by the Vercel Deployment Monitor workflow</sub>"
             fi
           fi
-
+          
           # Clean up temporary files
-          rm -f /tmp/vercel_logs.json /tmp/curl_error.log
+          rm -f /tmp/events.json /tmp/curl_error.log
+          
+          # Post comment to PR using GitHub CLI
+          echo "$error_message" > /tmp/comment.md
+          
+          echo "📤 Posting comment to PR #$PR_NUMBER..."
+          gh pr comment "$PR_NUMBER" --body-file /tmp/comment.md --repo "${{ github.repository }}"
+          
+          if [ $? -eq 0 ]; then
+            echo "✅ Successfully posted error details to PR"
+          else
+            echo "❌ Failed to post comment to PR"
+            exit 1
+          fi
+          
+          rm -f /tmp/comment.md
 
-          # Post comment on PR
-          gh api repos/${{ github.repository }}/issues/$PR_NUMBER/comments \
-            -f body="❌ **Vercel Deployment Failed**
+      - name: Report timeout
+        if: steps.monitor-deployment.outputs.deployment_state == 'TIMEOUT'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "⏰ Posting timeout notice to PR..."
+          
+          timeout_message="## ⏰ Vercel Deployment Timeout
 
-          **Error stack:**
-          \`\`\`
-          $error_lines
-          \`\`\`
-          [View full logs on Vercel →](https://vercel.com/dashboard/deployments/$DEPLOYMENT_ID)
-          "
+**Deployment ID:** \`$DEPLOYMENT_ID\`
+**Branch:** \`$PR_BRANCH\`
+
+The deployment did not complete within the 15-minute monitoring window.
+
+### What this means:
+
+- The deployment may still be in progress
+- It could be stuck in a long build process
+- There may be an issue with Vercel's platform
+
+### What to do:
+
+1. Check the [Vercel Dashboard](https://vercel.com/deployments/$DEPLOYMENT_ID) to see current status
+2. If stuck, try canceling and re-triggering the deployment
+3. Consider optimizing your build process if builds consistently take >15 minutes
+
+---
+
+<sub>🤖 This comment was automatically generated by the Vercel Deployment Monitor workflow</sub>"
+          
+          echo "$timeout_message" | gh pr comment "$PR_NUMBER" --body-file - --repo "${{ github.repository }}"
+
+      - name: Report success
+        if: steps.monitor-deployment.outputs.deployment_state == 'READY'
+        run: |
+          echo "✅ Deployment completed successfully!"
+          echo "No comment needed - deployment succeeded"
