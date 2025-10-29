@@ -10,10 +10,14 @@ jobs:
 
     steps:
       - name: Get PR info
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUM: ${{ github.event.pull_request.number }}
         run: |
-          echo "PR_BRANCH=${{ github.head_ref }}" >> $GITHUB_ENV
-          echo "PR_SHA=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
-          echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+          echo "PR_BRANCH=$HEAD_REF" >> $GITHUB_ENV
+          echo "PR_SHA=$HEAD_SHA" >> $GITHUB_ENV
+          echo "PR_NUMBER=$PR_NUM" >> $GITHUB_ENV
 
       - name: Get latest Vercel deployment for this PR
         id: get-deploy
@@ -47,9 +51,28 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           DEPLOYMENT_ID: ${{ env.DEPLOYMENT_ID }}
         run: |
-          status=$(curl -s -H "Authorization: Bearer $VERCEL_TOKEN" \
-            "https://api.vercel.com/v13/deployments/$DEPLOYMENT_ID" | jq -r '.state')
-          echo "Deployment status: $status"
+          echo "Fetching deployment status for ID: $DEPLOYMENT_ID"
+
+          # Fetch deployment data with proper error handling
+          response=$(curl -sf -H "Authorization: Bearer $VERCEL_TOKEN" \
+            "https://api.vercel.com/v13/deployments/$DEPLOYMENT_ID")
+
+          if [ $? -ne 0 ]; then
+            echo "❌ Error: Failed to fetch deployment status from Vercel API"
+            echo "This could be due to network issues, invalid token, or deployment not found"
+            exit 1
+          fi
+
+          # Extract status from response and verify it's not empty
+          status=$(echo "$response" | jq -r '.state // empty')
+
+          if [ -z "$status" ] || [ "$status" = "null" ]; then
+            echo "❌ Error: Deployment status is empty or null"
+            echo "API Response: $response"
+            exit 1
+          fi
+
+          echo "✅ Deployment status: $status"
           echo "STATUS=$status" >> $GITHUB_ENV
           echo "status=$status" >> $GITHUB_OUTPUT
 
@@ -62,15 +85,40 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Deployment failed. Fetching logs..."
-          logs=$(curl -s -H "Authorization: Bearer $VERCEL_TOKEN" \
-            "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/events")
 
-          # Extract only build errors
-          error_lines=$(echo "$logs" | jq -r '.[] | select(.payload.text | test("Error|Exception|Failed"; "i")) | .payload.text' | tail -n 20)
+          # Fetch logs with proper error handling
+          http_code=$(curl -sf -w "%{http_code}" -H "Authorization: Bearer $VERCEL_TOKEN" \
+            "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/events" \
+            -o /tmp/vercel_logs.json 2>/tmp/curl_error.log)
+          curl_exit_code=$?
 
-          if [ -z "$error_lines" ]; then
-            error_lines="No specific error lines found. Check full logs on Vercel."
+          if [ $curl_exit_code -ne 0 ]; then
+            echo "❌ Error: Failed to fetch deployment logs from Vercel API"
+            echo "Curl exit code: $curl_exit_code"
+            if [ -f /tmp/curl_error.log ]; then
+              echo "Curl stderr: $(cat /tmp/curl_error.log)"
+            fi
+            error_lines="Failed to fetch deployment logs from Vercel API (HTTP $http_code, exit code $curl_exit_code). Please check the deployment logs manually on Vercel dashboard."
+          else
+            echo "✅ Successfully fetched logs (HTTP $http_code)"
+            
+            # Verify we have valid JSON
+            if ! jq empty /tmp/vercel_logs.json 2>/dev/null; then
+              echo "❌ Error: Invalid JSON response from Vercel logs API"
+              echo "Response preview: $(head -c 200 /tmp/vercel_logs.json)..."
+              error_lines="Received invalid JSON from Vercel logs API. Please check the deployment logs manually on Vercel dashboard."
+            else
+              # Extract build errors with error handling
+              error_lines=$(jq -r '.[] | select(.payload.text | test("Error|Exception|Failed"; "i")) | .payload.text' /tmp/vercel_logs.json 2>/dev/null | tail -n 20)
+              
+              if [ -z "$error_lines" ]; then
+                error_lines="No specific error lines found in deployment logs. Check full logs on Vercel dashboard for more details."
+              fi
+            fi
           fi
+
+          # Clean up temporary files
+          rm -f /tmp/vercel_logs.json /tmp/curl_error.log
 
           # Post comment on PR
           gh api repos/${{ github.repository }}/issues/$PR_NUMBER/comments \
