@@ -59,6 +59,7 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           DEPLOYMENT_ID: ${{ env.DEPLOYMENT_ID }}
           PR_NUMBER: ${{ env.PR_NUMBER }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Deployment failed. Fetching logs..."
           logs=$(curl -s -H "Authorization: Bearer $VERCEL_TOKEN" \
@@ -81,6 +82,3 @@ jobs:
           \`\`\`
           [View full logs on Vercel →](https://vercel.com/dashboard/deployments/$DEPLOYMENT_ID)
           "
-
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
