@@ -1,6 +1,12 @@
 name: Vercel Deployment Monitor
 
 on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "The pull request number to monitor"
+        required: true
+        default: "1"
   pull_request:
     types: [opened, synchronize, reopened]
 
