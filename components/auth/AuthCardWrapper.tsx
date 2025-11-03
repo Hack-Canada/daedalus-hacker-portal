@@ -1,5 +1,5 @@
-import { Snowflake } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Snowflake } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -29,6 +29,8 @@ const AuthCardWrapper = ({ children, className }: Props) => {
       delay: Math.random() * 5,
       isLarge: i % 3 === 0,
     }));
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intended: we are doing client side only so SSR hydration mismatch error is not an issue
     setSnowflakes(newSnowflakes);
   }, []);
 

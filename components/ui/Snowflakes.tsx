@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 type Snowflake = {
   i: number;
@@ -26,13 +26,13 @@ export const Snowflakes = () => {
       return { i, size, duration, delay, x, startY, drift };
     });
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intended: we are doing client side only so SSR hydration mismatch error is not an issue
     setFlakes(newFlakes);
   }, []);
 
   return (
     <div className="pointer-events-none absolute inset-0 z-0 select-none overflow-hidden">
       {flakes.map((flake) => {
-
         return (
           <motion.div
             key={flake.i}
