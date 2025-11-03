@@ -62,7 +62,7 @@ const CancelRSVP = () => {
               onClick={() => setShowConfirmation(false)}
               className="hover:text-text text-xs text-success md:text-sm"
             >
-              Let's keep it!
+              Let&apos;s keep it!
             </button>
             <span className="my-auto h-4 w-0.5 bg-textMuted" />
             <button

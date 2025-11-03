@@ -29,7 +29,7 @@ const HackathonsCanadaDiscord = () => {
 
         <p className="pb-8 text-textMuted">
           Join the Hackathons Canada community! Connect with fellow hackers,
-          stay updated on upcoming events, and be part of Canada's largest
+          stay updated on upcoming events, and be part of Canada&apos;s largest
           hackathon community.
         </p>
 

@@ -119,7 +119,7 @@ export function Scanner() {
       {scanData.length > 0 && (
         <div className="mt-4 md:mt-6">
           <h3 className="mb-4 text-lg font-semibold text-textPrimary">
-            User's Check-in History
+            User&apos;s Check-in History
           </h3>
           <div className="space-y-2">
             {scanData.map((checkIn) => (
