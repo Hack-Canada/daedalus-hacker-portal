@@ -42,6 +42,10 @@ export default defineConfig([{
         "react/jsx-key": "off",
         "tailwindcss/no-custom-classname": "off",
         "tailwindcss/classnames-order": "error",
+        "tailwindcss/enforces-shorthand": "off",
+        "tailwindcss/enforces-negative-arbitrary-values": "off",
+        "tailwindcss/no-unnecessary-arbitrary-value": "off",
+        "tailwindcss/migration-from-tailwind-2": "off",
     },
 }, {
     files: ["**/*.ts", "**/*.tsx"],
