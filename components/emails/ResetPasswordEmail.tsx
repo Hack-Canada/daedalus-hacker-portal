@@ -74,7 +74,7 @@ const ResetPasswordEmail = ({ name, resetUrl }: ResetPasswordEmailProps) => {
               </Section>
 
               <Text className="mt-8 text-center text-sm text-textMuted">
-                ❗ If you didn't request this password reset, please ignore this
+                ❗ If you didn&apos;t request this password reset, please ignore this
                 email. ❗
               </Text>
 
