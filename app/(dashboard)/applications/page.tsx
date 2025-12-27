@@ -15,7 +15,7 @@ const ApplicationPage = async () => {
   const user = await getCurrentUser();
 
   if (!user || !user.id) {
-    redirect("/login");
+    redirect("/sign-in");
   }
 
   const alreadyApplied = user.status !== "not_applied";

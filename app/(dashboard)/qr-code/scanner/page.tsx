@@ -11,7 +11,7 @@ export default async function QrScannerPage() {
   const currentUser = await getCurrentUser();
 
   if (!currentUser?.id) {
-    redirect("/login");
+    redirect("/sign-in");
   }
 
   if (!isVolunteer(currentUser.role)) {
