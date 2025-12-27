@@ -50,7 +50,7 @@ export default async function ProfilePage(
       return (
         <EmptyPage
           title="Unauthorized"
-          message="This feature is only available to users with an assigned role."
+          message="This feature is only available to participants."
         />
       );
     }
