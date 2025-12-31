@@ -76,8 +76,8 @@ const SignUpForm = ({}: Props) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {error && (
-          <div className="rounded-md border border-error/50 bg-error/10 p-2">
-            <p className="text-sm text-error">{error}</p>
+          <div className="border-error/50 bg-error/10 rounded-md border p-2">
+            <p className="text-error text-sm">{error}</p>
           </div>
         )}
 
@@ -92,7 +92,7 @@ const SignUpForm = ({}: Props) => {
                   {...field}
                   placeholder="Enter your name"
                   type="text"
-                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 from-white/10 to-white/10 px-3 py-2 text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-sm file:font-medium placeholder:text-textMuted focus-visible:outline-none focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
+                  className="text-textSecondary placeholder:text-textMuted flex h-10 w-full rounded-sm border border-white/50 bg-white/10 from-white/10 to-white/10 px-3 py-2 shadow-[0_4px_6px] shadow-black/10 backdrop-blur-xs file:font-medium focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
                   autoFocus={true}
                 />
               </FormControl>
@@ -112,7 +112,7 @@ const SignUpForm = ({}: Props) => {
                   {...field}
                   placeholder="Enter your email"
                   type="text"
-                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 from-white/10 to-white/10 px-3 py-2 lowercase text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-sm file:font-medium placeholder:capitalize placeholder:text-textMuted focus-visible:outline-none focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
+                  className="text-textSecondary placeholder:text-textMuted flex h-10 w-full rounded-sm border border-white/50 bg-white/10 from-white/10 to-white/10 px-3 py-2 lowercase shadow-[0_4px_6px] shadow-black/10 backdrop-blur-xs file:font-medium placeholder:capitalize focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </FormControl>
               <FormMessage />
@@ -131,7 +131,7 @@ const SignUpForm = ({}: Props) => {
                   {...field}
                   type="password"
                   placeholder="Enter your password"
-                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 from-white/10 to-white/10 px-3 py-2 text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-sm file:font-medium placeholder:text-textMuted focus-visible:outline-none focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
+                  className="text-textSecondary placeholder:text-textMuted flex h-10 w-full rounded-sm border border-white/50 bg-white/10 from-white/10 to-white/10 px-3 py-2 shadow-[0_4px_6px] shadow-black/10 backdrop-blur-xs file:font-medium focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </FormControl>
               <FormMessage />
