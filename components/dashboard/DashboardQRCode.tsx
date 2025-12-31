@@ -25,8 +25,8 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
       <div
         className={`group relative flex h-full min-h-[250px] flex-col gap-0 rounded-md border-2 p-6 transition-all duration-500 before:absolute before:inset-0 before:-z-10 before:transition ${
           isLocked
-            ? "border-gray-200/50 before:bg-gradient-to-br before:from-primary/15 before:via-info/10 before:to-primaryLight/10 before:opacity-25"
-            : "border-primary/15 before:bg-gradient-to-br before:from-primary/10 before:via-info/15 before:to-primaryLight/20 before:opacity-75 hover:border-primary/25 hover:before:opacity-100"
+            ? "border-gray-200/50 before:bg-linear-to-br before:from-primary/15 before:via-info/10 before:to-primaryLight/10 before:opacity-25"
+            : "border-primary/15 before:bg-linear-to-br before:from-primary/10 before:via-info/15 before:to-primaryLight/20 before:opacity-75 hover:border-primary/25 hover:before:opacity-100"
         }`}
       >
         {isLocked && <LockedState label="Participants Only" />}
@@ -48,10 +48,10 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
             <DialogTrigger asChild>
               <Button
                 disabled={isLocked}
-                variant={isLocked ? "outline" : "primary"}
+                variant={isLocked ? "outline-solid" : "primary"}
                 className={`inline-flex items-center gap-2 ${
                   isLocked
-                    ? "pointer-events-none cursor-not-allowed !text-gray-400 opacity-40 hover:bg-transparent"
+                    ? "pointer-events-none cursor-not-allowed text-gray-400! opacity-40 hover:bg-transparent"
                     : ""
                 }`}
               >
@@ -60,13 +60,13 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
               </Button>
             </DialogTrigger>
             <DialogContent className="group flex max-w-sm flex-col items-center overflow-hidden border border-primary/50">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-info/20 to-primary/30">
-                <span className="absolute -top-4 left-20 h-16 w-[500px] -translate-x-40 -rotate-[20deg] border-y border-white/20 bg-white/10 backdrop-blur-[0.5px]" />
-                <span className="absolute -bottom-4 -left-4 size-20 rotate-[20deg] rounded-lg bg-primary/15" />
-                <span className="absolute -bottom-4 left-2 size-16 rotate-[20deg] rounded-lg bg-primary/15" />
-                <span className="absolute inset-x-0 -top-0.5 h-[3px] bg-gradient-to-r from-transparent via-primary to-transparent" />
-                <span className="absolute inset-x-0 -bottom-0.5 h-[3px] bg-gradient-to-r from-transparent via-primary to-transparent" />
-                <ScanQrCode className="absolute -bottom-2 -right-2 size-16 -rotate-12 text-white opacity-30 transition-transform duration-500 group-hover:-rotate-[30deg]" />
+              <div className="absolute inset-0 bg-linear-to-br from-primary/30 via-info/20 to-primary/30">
+                <span className="absolute -top-4 left-20 h-16 w-[500px] -translate-x-40 -rotate-20 border-y border-white/20 bg-white/10 backdrop-blur-[0.5px]" />
+                <span className="absolute -bottom-4 -left-4 size-20 rotate-20 rounded-lg bg-primary/15" />
+                <span className="absolute -bottom-4 left-2 size-16 rotate-20 rounded-lg bg-primary/15" />
+                <span className="absolute inset-x-0 -top-0.5 h-[3px] bg-linear-to-r from-transparent via-primary to-transparent" />
+                <span className="absolute inset-x-0 -bottom-0.5 h-[3px] bg-linear-to-r from-transparent via-primary to-transparent" />
+                <ScanQrCode className="absolute -bottom-2 -right-2 size-16 -rotate-12 text-white opacity-30 transition-transform duration-500 group-hover:-rotate-30" />
               </div>
               <DialogHeader>
                 <DialogTitle className="md:text-xl">Your QR Code</DialogTitle>

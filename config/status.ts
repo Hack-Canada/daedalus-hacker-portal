@@ -16,7 +16,7 @@ interface ActionConfig {
     | "secondary"
     | "ghost"
     | "destructive"
-    | "outline";
+    | "outline-solid";
 }
 
 interface StatusConfig {

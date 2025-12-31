@@ -17,7 +17,7 @@ const QrCodeOrganizerActions = ({}: Props) => {
       {/* Enhanced layered background effects */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(59,130,246,0.1),rgba(255,255,255,0))]" />
-        <div className="absolute inset-0 bg-gradient-to-br from-info/20 via-primary/20 to-info/20 opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-100" />
+        <div className="absolute inset-0 bg-linear-to-br from-info/20 via-primary/20 to-info/20 opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-100" />
         <div className="absolute inset-0 opacity-5 mix-blend-soft-light transition group-hover:opacity-20">
           <Image
             src="/grainy-texture.jpg"
@@ -47,12 +47,12 @@ const QrCodeOrganizerActions = ({}: Props) => {
           <Button
             className={cn(
               "group relative w-full overflow-hidden border border-info py-6 text-lg",
-              "bg-gradient-to-br from-info/10 to-primary/10 hover:from-info/20 hover:to-primary/20 hover:text-blue-50",
+              "bg-linear-to-br from-info/10 to-primary/10 hover:from-info/20 hover:to-primary/20 hover:text-blue-50",
               "transition-all duration-500",
             )}
             variant="outline"
           >
-            <span className="absolute inset-0 bg-gradient-to-r from-info/30 via-primary/20 to-info/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            <span className="absolute inset-0 bg-linear-to-r from-info/30 via-primary/20 to-info/30 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
             <span className="relative flex items-center justify-center gap-2">
               QR Code Scanner
               <ScanQrCode className="size-5 transition-transform duration-300 group-hover:scale-110" />

@@ -23,7 +23,7 @@ const ApplicationPage = async () => {
   return (
     <PageWrapper>
       <div className="mb-8 space-y-2">
-        <div className="w-fit bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
+        <div className="w-fit bg-linear-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
           <h1 className="font-rubik text-3xl font-bold">Applications Closed</h1>
         </div>
         <p className="text-textMuted max-md:text-sm">

@@ -13,7 +13,7 @@ interface ActionButton {
     | "secondary"
     | "ghost"
     | "destructive"
-    | "outline";
+    | "outline-solid";
 }
 
 interface StatusActionsProps {

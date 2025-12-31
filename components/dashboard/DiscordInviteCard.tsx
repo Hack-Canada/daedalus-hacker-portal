@@ -53,8 +53,8 @@ const DiscordInviteCard = ({ isLocked }: DiscordInviteCardProps) => {
             rel="noopener noreferrer"
             aria-disabled={isDisabled}
             className={buttonVariants({
-              variant: isDisabled ? "outline" : "default",
-              className: `inline-flex items-center gap-2 ${isDisabled ? "pointer-events-none cursor-not-allowed !text-gray-400 opacity-40 hover:bg-transparent" : ""}`,
+              variant: isDisabled ? "outline-solid" : "default",
+              className: `inline-flex items-center gap-2 ${isDisabled ? "pointer-events-none cursor-not-allowed text-gray-400! opacity-40 hover:bg-transparent" : ""}`,
             })}
           >
             Join Server

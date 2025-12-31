@@ -92,13 +92,13 @@ export function ProfileIntegrations({
           }}
           className="mt-4"
         >
-          <div className="rounded-lg border p-4 shadow-sm transition-shadow hover:shadow-md">
+          <div className="rounded-lg border p-4 shadow-xs transition-shadow hover:shadow-md">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
               <FormField
                 control={control}
                 name={`integrations.${index}.platform`}
                 render={({ field }) => (
-                  <FormItem className="flex-[2]">
+                  <FormItem className="flex-2">
                     <FormControl>
                       <PlatformSelect
                         value={field.value}
@@ -114,7 +114,7 @@ export function ProfileIntegrations({
                 control={control}
                 name={`integrations.${index}.url`}
                 render={({ field }) => (
-                  <FormItem className="flex-[3]">
+                  <FormItem className="flex-3">
                     <FormControl>
                       <Input
                         {...field}
