@@ -33,7 +33,7 @@ export function ProfileHeader({
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.1),rgba(255,255,255,0))]" />
 
         {/* Animated gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-info/30 to-primaryLight/30 opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-100" />
+        <div className="absolute inset-0 bg-linear-to-br from-primary/30 via-info/30 to-primaryLight/30 opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-100" />
 
         {/* Additional decorative elements */}
         <div className="absolute -left-32 -top-32 size-64 rounded-full bg-primary/20 blur-3xl transition-all duration-700 group-hover:bg-primary/30" />
@@ -55,7 +55,7 @@ export function ProfileHeader({
               {name}
             </h1>
           </div>
-          <span className="inline-block rounded-full bg-gradient-to-r from-primary/10 via-info/10 to-primaryLight/10 px-4 py-1.5 text-sm font-medium capitalize text-textPrimary shadow-sm backdrop-blur-[2px] transition-all duration-500 group-hover:from-primary/20 group-hover:via-info/20 group-hover:to-primaryLight/20 group-hover:shadow-md">
+          <span className="inline-block rounded-full bg-linear-to-r from-primary/10 via-info/10 to-primaryLight/10 px-4 py-1.5 text-sm font-medium capitalize text-textPrimary shadow-xs backdrop-blur-[2px] transition-all duration-500 group-hover:from-primary/20 group-hover:via-info/20 group-hover:to-primaryLight/20 group-hover:shadow-md">
             {role}
           </span>
         </div>
@@ -69,7 +69,7 @@ export function ProfileHeader({
               variant: "ghost",
               size: "icon",
               className:
-                "shrink-0 text-textSecondary shadow-sm transition-all duration-500 hover:scale-105 hover:text-black group-hover:shadow-md",
+                "shrink-0 text-textSecondary shadow-xs transition-all duration-500 hover:scale-105 hover:text-black group-hover:shadow-md",
             })}
           >
             <Pencil className="size-4" />
@@ -78,11 +78,11 @@ export function ProfileHeader({
       </div>
 
       {/* Bio Section */}
-      <div className="relative overflow-hidden rounded-lg bg-white/60 p-4 shadow-sm backdrop-blur-sm transition-all duration-500 group-hover:bg-white/80 group-hover:shadow-md 3xl:max-w-3xl">
+      <div className="relative overflow-hidden rounded-lg bg-white/60 p-4 shadow-xs backdrop-blur-xs transition-all duration-500 group-hover:bg-white/80 group-hover:shadow-md 3xl:max-w-3xl">
         {bio ? (
           <>
-            <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 via-info/5 to-primaryLight/5 opacity-0 transition-all duration-700 group-hover:opacity-100" />
-            <p className="max-h-80 overflow-y-auto whitespace-pre-wrap break-words text-textSecondary transition-all duration-500 group-hover:text-black md:max-h-64">
+            <div className="absolute inset-0 -z-10 bg-linear-to-br from-primary/5 via-info/5 to-primaryLight/5 opacity-0 transition-all duration-700 group-hover:opacity-100" />
+            <p className="max-h-80 overflow-y-auto whitespace-pre-wrap wrap-break-word text-textSecondary transition-all duration-500 group-hover:text-black md:max-h-64">
               {bio}
             </p>
           </>

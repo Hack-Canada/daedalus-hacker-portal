@@ -87,7 +87,7 @@ const ResetPasswordForm = ({ token }: ResetPasswordParamsProps) => {
                   {...field}
                   type="password"
                   placeholder="Enter new password"
-                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-sm file:font-medium placeholder:text-textMuted focus-visible:outline-none focus-visible:ring focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-xs file:font-medium placeholder:text-textMuted focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </FormControl>
               <FormMessage />
@@ -106,7 +106,7 @@ const ResetPasswordForm = ({ token }: ResetPasswordParamsProps) => {
                   {...field}
                   type="password"
                   placeholder="Confirm new password"
-                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-sm file:font-medium placeholder:text-textMuted focus-visible:outline-none focus-visible:ring focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-xs file:font-medium placeholder:text-textMuted focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
                 />
               </FormControl>
               <FormMessage />

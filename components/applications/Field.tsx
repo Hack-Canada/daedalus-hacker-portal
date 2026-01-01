@@ -51,7 +51,7 @@ export function Field({ label, value, customValue }: FieldProps) {
           <span>View {label}</span>
         </a>
       ) : (
-        <p className="truncate whitespace-pre-line break-words text-gray-900 md:text-lg">
+        <p className="truncate whitespace-pre-line wrap-break-word text-gray-900 md:text-lg">
           {strValue}
         </p>
       )}

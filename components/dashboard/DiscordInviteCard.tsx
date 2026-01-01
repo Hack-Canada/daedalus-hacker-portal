@@ -17,14 +17,14 @@ const DiscordInviteCard = ({ isLocked }: DiscordInviteCardProps) => {
   return (
     <div className="col-span-1 overflow-hidden lg:col-span-2">
       <div
-        className={`group relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-md border bg-backgroundMuted p-6 transition hover:border-primaryLight hover:shadow-lg ${isLocked ? "border-gray-200/50" : "border-border"}`}
+        className={`group bg-backgroundMuted hover:border-primaryLight relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-md border p-6 transition hover:shadow-lg ${isLocked ? "border-gray-200/50" : "border-border"}`}
       >
         {isDisabled && (
           <LockedState label={isLocked ? "Participants Only" : "Coming Soon"} />
         )}
 
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-medium text-textPrimary">
+          <h2 className="text-textPrimary text-2xl font-medium">
             Discord Community
           </h2>
           {/* Discord SVG Icon */}
@@ -41,7 +41,7 @@ const DiscordInviteCard = ({ isLocked }: DiscordInviteCardProps) => {
           </svg>
         </div>
 
-        <p className="pb-2 text-textMuted">
+        <p className="text-textMuted pb-2">
           Join our Discord server to connect with other hackers and get
           important updates and announcements!
         </p>
@@ -54,7 +54,7 @@ const DiscordInviteCard = ({ isLocked }: DiscordInviteCardProps) => {
             aria-disabled={isDisabled}
             className={buttonVariants({
               variant: isDisabled ? "outline" : "default",
-              className: `inline-flex items-center gap-2 ${isDisabled ? "pointer-events-none cursor-not-allowed !text-gray-400 opacity-40 hover:bg-transparent" : ""}`,
+              className: `inline-flex items-center gap-2 ${isDisabled ? "pointer-events-none cursor-not-allowed text-gray-400! opacity-40 hover:bg-transparent" : ""}`,
             })}
           >
             Join Server

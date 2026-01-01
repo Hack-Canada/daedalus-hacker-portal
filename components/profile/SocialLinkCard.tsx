@@ -16,22 +16,22 @@ import { Platform } from "@/lib/validations/profile";
 
 const platformIcons: Record<Platform, React.ReactNode> = {
   github: (
-    <Github className="size-8 transition-all duration-500 ease-out group-hover/card:rotate-[20deg] group-hover/card:scale-110 md:size-10 lg:size-12" />
+    <Github className="size-8 transition-all duration-500 ease-out group-hover/card:scale-110 group-hover/card:rotate-[20deg] md:size-10 lg:size-12" />
   ),
   linkedin: (
-    <LinkedinIcon className="size-8 transition-all duration-500 ease-out group-hover/card:-rotate-12 group-hover/card:scale-125 md:size-10 lg:size-12" />
+    <LinkedinIcon className="size-8 transition-all duration-500 ease-out group-hover/card:scale-125 group-hover/card:-rotate-[12deg] md:size-10 lg:size-12" />
   ),
   instagram: (
-    <Instagram className="size-8 transition-all duration-500 ease-out group-hover/card:rotate-[45deg] group-hover/card:scale-110 md:size-10 lg:size-12" />
+    <Instagram className="size-8 transition-all duration-500 ease-out group-hover/card:scale-110 group-hover/card:rotate-45 md:size-10 lg:size-12" />
   ),
   youtube: (
     <Youtube className="size-8 transition-all duration-500 ease-out group-hover/card:scale-125 group-hover/card:text-red-500 md:size-10 lg:size-12" />
   ),
   twitch: (
-    <Radio className="size-8 transition-all duration-500 ease-out group-hover/card:rotate-[360deg] group-hover/card:scale-110 md:size-10 lg:size-12" />
+    <Radio className="size-8 transition-all duration-500 ease-out group-hover/card:scale-110 group-hover/card:rotate-[360deg] md:size-10 lg:size-12" />
   ),
   portfolio: (
-    <Flame className="size-8 transition-all duration-500 ease-out group-hover/card:rotate-[-12deg] group-hover/card:scale-125 group-hover/card:text-orange-500 md:size-10 lg:size-12" />
+    <Flame className="size-8 transition-all duration-500 ease-out group-hover/card:scale-125 group-hover/card:-rotate-[12deg] group-hover/card:text-orange-500 md:size-10 lg:size-12" />
   ),
 };
 
@@ -71,7 +71,7 @@ interface SocialLinkCardProps {
 export function SocialLinkCard({ integrations }: SocialLinkCardProps) {
   return (
     <div
-      className="group relative overflow-hidden rounded-lg border-2 border-primary/20 bg-white/50 p-8 transition-all duration-500 hover:border-primary/40 hover:shadow-lg"
+      className="group border-primary/20 hover:border-primary/40 relative overflow-hidden rounded-lg border-2 bg-white/50 p-8 transition-all duration-500 hover:shadow-lg"
       role="region"
       aria-label="Social Media Links"
     >
@@ -81,7 +81,7 @@ export function SocialLinkCard({ integrations }: SocialLinkCardProps) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.1),rgba(255,255,255,0))]" />
 
         {/* Animated gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-info/30 via-primaryLight/30 to-primary/30 opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-100" />
+        <div className="from-info/30 via-primaryLight/30 to-primary/30 absolute inset-0 bg-linear-to-br opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-100" />
 
         {/* Mesh gradient pattern */}
         <div className="absolute inset-0 opacity-0 mix-blend-normal transition-all duration-700 group-hover:opacity-80">
@@ -106,23 +106,23 @@ export function SocialLinkCard({ integrations }: SocialLinkCardProps) {
       {/* Enhanced decorative elements */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         {/* Large winter-themed decorative icons */}
-        <CloudSnow className="absolute -right-16 -top-16 size-40 rotate-12 text-[#f0f4ff] transition-all duration-700 group-hover:rotate-[30deg] group-hover:scale-110 group-hover:text-[#e5e9ff]" />
-        <Share2 className="absolute -bottom-12 -left-12 size-32 -rotate-12 text-[#f0f4ff] transition-all duration-700 group-hover:-rotate-[30deg] group-hover:scale-110 group-hover:text-[#e5e9ff]" />
+        <CloudSnow className="absolute -top-16 -right-16 size-40 rotate-[12deg] text-[#f0f4ff] transition-all duration-700 group-hover:scale-110 group-hover:rotate-[30deg] group-hover:text-[#e5e9ff]" />
+        <Share2 className="absolute -bottom-12 -left-12 size-32 -rotate-[12deg] text-[#f0f4ff] transition-all duration-700 group-hover:scale-110 group-hover:-rotate-[30deg] group-hover:text-[#e5e9ff]" />
 
         {/* Additional floating elements */}
-        <div className="absolute left-1/4 top-0 h-20 w-20 rounded-full bg-info/5 blur-xl transition-all duration-700 group-hover:scale-150 group-hover:opacity-75" />
-        <div className="absolute bottom-1/4 right-0 h-24 w-24 rounded-full bg-primary/5 blur-xl transition-all duration-700 group-hover:scale-150 group-hover:opacity-75" />
+        <div className="bg-info/5 absolute top-0 left-1/4 h-20 w-20 rounded-full blur-xl transition-all duration-700 group-hover:scale-150 group-hover:opacity-75" />
+        <div className="bg-primary/5 absolute right-0 bottom-1/4 h-24 w-24 rounded-full blur-xl transition-all duration-700 group-hover:scale-150 group-hover:opacity-75" />
       </div>
 
       {/* Enhanced header */}
       <div className="mb-8 flex items-center gap-3">
-        <div className="rounded-full bg-gradient-to-br from-primary/10 to-info/10 p-2">
+        <div className="from-primary/10 to-info/10 rounded-full bg-linear-to-br p-2">
           <Snowflake
             strokeWidth={2.5}
-            className="size-5 text-primary transition-transform duration-500 group-hover:rotate-90 group-hover:scale-110"
+            className="text-primary size-5 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-90"
           />
         </div>
-        <h2 className="text-2xl font-semibold tracking-wide text-textPrimary">
+        <h2 className="text-textPrimary text-2xl font-semibold tracking-wide">
           Connect With Me
         </h2>
       </div>
@@ -159,21 +159,21 @@ export function SocialLinkCard({ integrations }: SocialLinkCardProps) {
             <div
               className={cn(
                 "relative flex aspect-square w-16 items-center justify-center overflow-hidden rounded-xl md:w-20 lg:w-24",
-                "bg-gradient-to-br p-3 md:p-4 lg:p-5",
+                "bg-linear-to-br p-3 md:p-4 lg:p-5",
                 platformGradients[integration.platform],
-                "group-hover/card:shadow-current/10 transition-all duration-500 group-hover/card:translate-y-[-2px] group-hover/card:scale-105 group-hover/card:shadow-lg",
+                "transition-all duration-500 group-hover/card:translate-y-[-2px] group-hover/card:scale-105 group-hover/card:shadow-lg group-hover/card:shadow-current/10",
               )}
             >
               {/* Animated background effects */}
               <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover/card:opacity-100">
                 {/* Spinning highlight */}
                 <div className="absolute inset-0 animate-[spin_4s_linear_infinite] opacity-75">
-                  <div className="absolute inset-0 rotate-45 transform-gpu rounded-full bg-gradient-to-r from-transparent via-white/90 to-transparent blur-md" />
+                  <div className="absolute inset-0 rotate-45 transform-gpu rounded-full bg-linear-to-r from-transparent via-white/90 to-transparent blur-md" />
                 </div>
                 {/* Pulsing radial gradient */}
                 <div className="absolute inset-0 animate-[pulse_2s_ease-in-out_infinite] bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2),transparent_60%)]" />
                 {/* Additional glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 transition-opacity duration-500 group-hover/card:opacity-100" />
+                <div className="absolute inset-0 bg-linear-to-br from-white/20 to-transparent opacity-0 transition-opacity duration-500 group-hover/card:opacity-100" />
               </div>
 
               {/* Platform icon wrapper */}
@@ -181,7 +181,7 @@ export function SocialLinkCard({ integrations }: SocialLinkCardProps) {
                 {platformIcons[integration.platform]}
               </div>
             </div>
-            <span className="text-sm font-medium capitalize tracking-wide md:text-base lg:text-lg">
+            <span className="text-sm font-medium tracking-wide capitalize md:text-base lg:text-lg">
               {integration.platform}
             </span>
           </a>

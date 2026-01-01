@@ -81,7 +81,7 @@ export function Scanner() {
                 className={cn(
                   "absolute inset-0 scale-x-0 scale-y-0 rounded-[50px] bg-black transition-all duration-500",
                   {
-                    "scale-x-100 scale-y-100 rounded-[0px]": isCameraOn,
+                    "scale-x-100 scale-y-100 rounded-none": isCameraOn,
                   },
                 )}
               />

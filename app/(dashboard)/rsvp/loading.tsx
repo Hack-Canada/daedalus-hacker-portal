@@ -13,7 +13,7 @@ export default function Loading() {
       </div>
 
       {/* Form */}
-      <div className="space-y-6 rounded-lg border-border sm:border sm:p-6 sm:shadow-sm">
+      <div className="border-border space-y-6 rounded-lg sm:border sm:p-6 sm:shadow-xs">
         {/* Form Fields */}
         <div className="grid gap-6 md:grid-cols-2">
           <div className="space-y-2">

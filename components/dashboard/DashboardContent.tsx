@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 
 import PageWrapper from "../PageWrapper";
 import { BackButton } from "../ui/back-button";
+import { ApplicationStatus } from "./ApplicationStatus";
 import { ContactSection } from "./ContactSection";
 import { CountdownSection } from "./CountdownSection";
 import { DashboardHeader } from "./DashboardHeader";
@@ -28,9 +29,9 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
         })}
       >
         {/* Application Status commented out post-hackathon */}
-        {/* <ApplicationStatus status={user.status} role={user.role} /> */}
+        <ApplicationStatus status={user.status} role={user.role} />
 
-        <HackathonConclusion role={user.role} />
+        {/* <HackathonConclusion role={user.role} /> */}
 
         {/* Main Grid Sections */}
         <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-4 lg:gap-10">

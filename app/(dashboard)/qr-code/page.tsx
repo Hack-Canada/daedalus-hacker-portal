@@ -32,7 +32,7 @@ export default async function QRCodePage() {
       <div className="flex flex-col gap-6 md:gap-8 lg:gap-10">
         {/* Page Header */}
         <div className="space-y-2">
-          <div className="w-fit bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
+          <div className="w-fit bg-linear-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
             <h1 className="font-rubik text-3xl font-bold">Your QR Code</h1>
           </div>
           <p className="text-textMuted max-md:text-sm">
@@ -55,7 +55,7 @@ export default async function QRCodePage() {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.1),rgba(255,255,255,0))]" />
 
                 {/* Animated gradient background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-info/30 via-primaryLight/30 to-primary/30 opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-linear-to-br from-info/30 via-primaryLight/30 to-primary/30 opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-100" />
 
                 {/* Mesh gradient pattern */}
                 <div className="absolute inset-0 opacity-0 mix-blend-normal transition-all duration-700 group-hover:opacity-80">

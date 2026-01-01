@@ -42,14 +42,14 @@ const ResetPasswordEmail = ({ name, resetUrl }: ResetPasswordEmailProps) => {
         }}
       >
         <Body className="bg-backgroundMuted">
-          <Container className="mx-auto max-w-[42rem] px-3 py-6">
+          <Container className="mx-auto max-w-2xl px-3 py-6">
             <Img
               src="https://i.imgur.com/OBbPUOD.png"
               width={500}
               alt="Hack Canada"
               className="w-full rounded-t-lg"
             />
-            <Section className="rounded-b-lg bg-background p-6 shadow-sm">
+            <Section className="rounded-b-lg bg-background p-6 shadow-xs">
               <Heading className="text-2xl font-semibold text-textPrimary">
                 Password Reset Request
               </Heading>
@@ -59,7 +59,7 @@ const ResetPasswordEmail = ({ name, resetUrl }: ResetPasswordEmailProps) => {
               </Text>
               <Hr className="mb-6 border-gray-200" />
 
-              <Section className="mb-6 rounded-lg border border-blue-500/10 bg-primary/5 p-6 text-center shadow-sm">
+              <Section className="mb-6 rounded-lg border border-blue-500/10 bg-primary/5 p-6 text-center shadow-xs">
                 <div className="text-center">
                   <Text className="text-textSecondary">
                     Click the button below to reset your password:

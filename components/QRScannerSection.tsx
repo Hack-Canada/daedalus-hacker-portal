@@ -16,7 +16,7 @@ export function QRScannerSection({
         </p>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-primary/20 bg-backgroundMuted/50 backdrop-blur-sm transition-colors duration-300">
+      <div className="overflow-hidden rounded-xl border border-primary/20 bg-backgroundMuted/50 backdrop-blur-xs transition-colors duration-300">
         <div id="qr-reader" className="w-full" />
       </div>
 

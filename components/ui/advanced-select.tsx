@@ -75,7 +75,7 @@ export function AdvancedSelect({
         }),
       }}
       className={cn(
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2",
+        "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2",
         className,
       )}
     />
