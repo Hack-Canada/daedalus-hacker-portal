@@ -21,7 +21,7 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
   const isLocked = user.role === "unassigned";
 
   return (
-    <PageWrapper className="max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-xl)">
+    <PageWrapper className="max-w-screen-xl 2xl:max-w-screen-xl">
       <DashboardHeader userName={user.name || "Hacker"} />
       <div
         className={cn("flex flex-col gap-6 md:gap-8 lg:gap-10", {

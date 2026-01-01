@@ -43,7 +43,7 @@ const RSVPPage = async () => {
   // TODO (maybe): If exactly 7 days has passed, process an automatic rejection
 
   return (
-    <PageWrapper className="3xl:max-w-(--breakpoint-lg)">
+    <PageWrapper className="3xl:max-w-screen-lg">
       <div className="mb-8">
         <div className="mb-2 w-fit bg-linear-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
           <h1 className="font-rubik text-3xl font-bold md:text-4xl">RSVP</h1>

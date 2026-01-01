@@ -23,7 +23,7 @@ const ProfileCard = ({ isLocked, userId }: ProfileCardProps) => {
         {!isLocked && (
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
             <div className="absolute left-0 top-[300px] h-14 w-[600px] origin-left -translate-x-60 -rotate-45 border border-white/5 bg-white/5 transition delay-150 duration-700 hover:border-white/10 group-hover:translate-x-0 group-hover:bg-white/10 md:h-20" />
-            <Snowflake className="absolute bottom-2 right-2 size-12 rotate-12 text-white/20 transition duration-1000 group-hover:-rotate-360 group-hover:text-white/40" />
+            <Snowflake className="absolute bottom-2 right-2 size-12 rotate-[12deg] text-white/20 transition duration-1000 group-hover:-rotate-[360deg] group-hover:text-white/40" />
           </div>
         )}
 

@@ -98,7 +98,7 @@ export function ProfileIntegrations({
                 control={control}
                 name={`integrations.${index}.platform`}
                 render={({ field }) => (
-                  <FormItem className="flex-2">
+                  <FormItem className="flex-[2]">
                     <FormControl>
                       <PlatformSelect
                         value={field.value}
@@ -114,7 +114,7 @@ export function ProfileIntegrations({
                 control={control}
                 name={`integrations.${index}.url`}
                 render={({ field }) => (
-                  <FormItem className="flex-3">
+                  <FormItem className="flex-[3]">
                     <FormControl>
                       <Input
                         {...field}
@@ -149,7 +149,7 @@ export function ProfileIntegrations({
           {typeof integrationErrors === "object" &&
             !Array.isArray(integrationErrors) &&
             integrationErrors.message && (
-              <div className="rounded-lg border border-destructive bg-destructive/10 p-3 text-sm text-destructive">
+              <div className="border-destructive bg-destructive/10 text-destructive rounded-lg border p-3 text-sm">
                 {integrationErrors.message}
               </div>
             )}
@@ -159,7 +159,7 @@ export function ProfileIntegrations({
               return (
                 <div
                   key={index}
-                  className="rounded-lg border border-destructive bg-destructive/10 p-3 text-sm text-destructive"
+                  className="border-destructive bg-destructive/10 text-destructive rounded-lg border p-3 text-sm"
                 >
                   <div className="font-medium">Platform {index + 1}</div>
                   {error.platform?.message && (

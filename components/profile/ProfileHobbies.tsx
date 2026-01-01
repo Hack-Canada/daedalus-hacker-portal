@@ -25,14 +25,14 @@ export function ProfileHobbies({ hobbies }: ProfileHobbiesProps) {
       </div>
 
       {/* Decorative icons */}
-      <Heart className="absolute -right-12 -top-12 h-32 w-32 rotate-12 text-primary/5 transition-all duration-500 group-hover:scale-105 group-hover:text-primary/10" />
-      <Sparkles className="absolute -bottom-8 -left-8 h-24 w-24 -rotate-12 text-primary/5 transition-all duration-500 group-hover:scale-105 group-hover:text-primary/10" />
+      <Heart className="absolute -right-12 -top-12 h-32 w-32 rotate-[12deg] text-primary/5 transition-all duration-500 group-hover:scale-105 group-hover:text-primary/10" />
+      <Sparkles className="absolute -bottom-8 -left-8 h-24 w-24 -rotate-[12deg] text-primary/5 transition-all duration-500 group-hover:scale-105 group-hover:text-primary/10" />
 
       {/* Header */}
       <div className="mb-4 flex items-center gap-2">
         <Heart
           strokeWidth={3}
-          className="size-4 fill-primary/25 text-primary transition-transform group-hover:-rotate-12 group-hover:scale-110"
+          className="size-4 fill-primary/25 text-primary transition-transform group-hover:-rotate-[12deg] group-hover:scale-110"
         />
         <h2 className="text-xl font-semibold tracking-wide text-textPrimary">
           Interests and Hobbies

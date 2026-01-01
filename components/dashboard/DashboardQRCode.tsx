@@ -48,10 +48,10 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
             <DialogTrigger asChild>
               <Button
                 disabled={isLocked}
-                variant={isLocked ? "outline-solid" : "primary"}
+                variant={isLocked ? "outline" : "primary"}
                 className={`inline-flex items-center gap-2 ${
                   isLocked
-                    ? "pointer-events-none cursor-not-allowed text-gray-400! opacity-40 hover:bg-transparent"
+                    ? "pointer-events-none cursor-not-allowed !text-gray-400 opacity-40 hover:bg-transparent"
                     : ""
                 }`}
               >
@@ -61,12 +61,12 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
             </DialogTrigger>
             <DialogContent className="group flex max-w-sm flex-col items-center overflow-hidden border border-primary/50">
               <div className="absolute inset-0 bg-linear-to-br from-primary/30 via-info/20 to-primary/30">
-                <span className="absolute -top-4 left-20 h-16 w-[500px] -translate-x-40 -rotate-20 border-y border-white/20 bg-white/10 backdrop-blur-[0.5px]" />
-                <span className="absolute -bottom-4 -left-4 size-20 rotate-20 rounded-lg bg-primary/15" />
-                <span className="absolute -bottom-4 left-2 size-16 rotate-20 rounded-lg bg-primary/15" />
+                <span className="absolute -top-4 left-20 h-16 w-[500px] -translate-x-40 -rotate-[20deg] border-y border-white/20 bg-white/10 backdrop-blur-[0.5px]" />
+                <span className="absolute -bottom-4 -left-4 size-20 rotate-[20deg] rounded-lg bg-primary/15" />
+                <span className="absolute -bottom-4 left-2 size-16 rotate-[20deg] rounded-lg bg-primary/15" />
                 <span className="absolute inset-x-0 -top-0.5 h-[3px] bg-linear-to-r from-transparent via-primary to-transparent" />
                 <span className="absolute inset-x-0 -bottom-0.5 h-[3px] bg-linear-to-r from-transparent via-primary to-transparent" />
-                <ScanQrCode className="absolute -bottom-2 -right-2 size-16 -rotate-12 text-white opacity-30 transition-transform duration-500 group-hover:-rotate-30" />
+                <ScanQrCode className="absolute -bottom-2 -right-2 size-16 -rotate-[12deg] text-white opacity-30 transition-transform duration-500 group-hover:-rotate-[30deg]" />
               </div>
               <DialogHeader>
                 <DialogTitle className="md:text-xl">Your QR Code</DialogTitle>

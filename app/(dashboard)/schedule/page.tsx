@@ -30,7 +30,7 @@ export default async function SchedulePage() {
   }
 
   return (
-    <PageWrapper className="max-w-(--breakpoint-2xl) 3xl:max-w-(--breakpoint-2xl)">
+    <PageWrapper className="max-w-screen-2xl 3xl:max-w-screen-2xl">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <div className="w-fit bg-linear-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">

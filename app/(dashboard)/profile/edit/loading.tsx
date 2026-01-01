@@ -3,7 +3,7 @@ import PageWrapper from "@/components/PageWrapper";
 
 export default function Loading() {
   return (
-    <PageWrapper className="max-w-(--breakpoint-lg) 3xl:max-w-(--breakpoint-lg)">
+    <PageWrapper className="3xl:max-w-screen-lg max-w-screen-lg">
       <div className="mb-8">
         {/* Header */}
         <div className="w-fit">

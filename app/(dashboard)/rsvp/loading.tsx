@@ -3,17 +3,17 @@ import PageWrapper from "@/components/PageWrapper";
 
 export default function Loading() {
   return (
-    <PageWrapper className="3xl:max-w-(--breakpoint-lg)">
+    <PageWrapper className="3xl:max-w-screen-lg">
       {/* Header */}
       <div className="mb-8">
         <div className="mb-2">
           <Skeleton className="h-10 w-32" />
         </div>
-        <Skeleton className="h-4 w-lg max-w-full" />
+        <Skeleton className="h-4 w-[32rem] max-w-full" />
       </div>
 
       {/* Form */}
-      <div className="space-y-6 rounded-lg border-border sm:border sm:p-6 sm:shadow-xs">
+      <div className="border-border space-y-6 rounded-lg sm:border sm:p-6 sm:shadow-xs">
         {/* Form Fields */}
         <div className="grid gap-6 md:grid-cols-2">
           <div className="space-y-2">
