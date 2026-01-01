@@ -10,7 +10,7 @@ export function Tabs() {
   const pathname = usePathname();
 
   return (
-    <div className="absolute left-1/2 top-16 flex w-fit -translate-x-1/2 gap-4 rounded-full border-2 border-white bg-white/50 p-1 backdrop-blur-sm md:top-20">
+    <div className="absolute left-1/2 top-16 flex w-fit -translate-x-1/2 gap-4 rounded-full border-2 border-white bg-white/50 p-1 backdrop-blur-xs md:top-20">
       <Link
         href="/sign-in"
         className={cn(

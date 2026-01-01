@@ -39,7 +39,7 @@ const AuthCardWrapper = ({ children, className }: Props) => {
   return (
     <div
       className={cn(
-        "relative w-full space-y-4 rounded-md border border-white/50 bg-gradient-to-b from-white/50 to-white/50 p-4 shadow-md backdrop-blur-sm md:space-y-6 md:to-[#0A1F44]/10 md:p-8 xl:p-10",
+        "relative w-full space-y-4 rounded-md border border-white/50 bg-linear-to-b from-white/50 to-white/50 p-4 shadow-md backdrop-blur-xs md:space-y-6 md:to-[#0A1F44]/10 md:p-8 xl:p-10",
         className,
       )}
     >

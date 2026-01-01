@@ -6,7 +6,7 @@ import { Confetti } from "@/components/ui/confetti";
 
 export default function SubmissionSuccess() {
   return (
-    <div className="relative mx-auto flex min-h-[calc(100svh-64px)] w-full max-w-5xl flex-grow flex-col items-center justify-center px-4 sm:px-6 lg:min-h-svh xl:px-10">
+    <div className="relative mx-auto flex min-h-[calc(100svh-64px)] w-full max-w-5xl grow flex-col items-center justify-center px-4 sm:px-6 lg:min-h-svh xl:px-10">
       <Confetti className="confetti-container pointer-events-none absolute inset-0 h-svh w-full" />
 
       {/* Main content */}
@@ -37,7 +37,7 @@ export default function SubmissionSuccess() {
 
         <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:gap-4 md:mb-10 xl:mb-12">
           <div className="text-4xl font-bold md:text-5xl xl:text-6xl">
-            <div className="bg-gradient-to-r from-blue-400 via-sky-400 to-primary/70 bg-clip-text text-transparent md:w-fit">
+            <div className="bg-linear-to-r from-blue-400 via-sky-400 to-primary/70 bg-clip-text text-transparent md:w-fit">
               <h1 className="font-rubik">Submitted!</h1>
             </div>
           </div>

@@ -18,7 +18,10 @@ export const ContactSection = () => {
 
       <div className="space-y-2 px-4">
         <p className="text-xl font-semibold md:text-2xl">Have questions?</p>
-        <p className="font-light text-gray-500 md:text-lg">Too late!</p>
+        {/* <p className="font-light text-gray-500 md:text-lg">Too late!</p> */}
+        <p className="font-light text-gray-500 md:text-lg">
+          Check back in January 2026 for updates!
+        </p>
       </div>
 
       <div className="mt-6 space-y-2.5">

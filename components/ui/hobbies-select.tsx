@@ -83,7 +83,7 @@ export function HobbiesSelect({
       isSearchable
       isClearable
       classNames={{
-        control: () => "!min-h-[40px]",
+        control: () => "min-h-[40px]!",
       }}
       styles={{
         control: (base) => ({
@@ -129,7 +129,7 @@ export function HobbiesSelect({
         }),
       }}
       className={cn(
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2",
+        "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2",
         className,
       )}
     />

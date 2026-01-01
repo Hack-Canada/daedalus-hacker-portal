@@ -60,7 +60,7 @@ const WelcomeEmail = ({
               alt="Hack Canada"
               className="w-full rounded-t-lg"
             />
-            <Section className="rounded-b-lg bg-background/95 p-6 shadow-lg backdrop-blur-sm">
+            <Section className="rounded-b-lg bg-background/95 p-6 shadow-lg backdrop-blur-xs">
               <Heading className="text-2xl font-semibold text-textPrimary">
                 Welcome, {name}! 🎉
               </Heading>
@@ -73,7 +73,7 @@ const WelcomeEmail = ({
               </Text>
               <Hr className="mb-6 border-gray-200" />
 
-              <Section className="mb-4 rounded-lg border border-blue-500/10 bg-primary/5 to-primary/5 p-6 shadow-sm">
+              <Section className="mb-4 rounded-lg border border-blue-500/10 bg-primary/5 to-primary/5 p-6 shadow-xs">
                 <div className="text-center">
                   <Text className="text-textSecondary">
                     🔐 Your verification code is:

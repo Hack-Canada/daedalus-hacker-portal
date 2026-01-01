@@ -13,30 +13,30 @@ const ProfileCard = ({ isLocked, userId }: ProfileCardProps) => {
   return (
     <div className="col-span-1 lg:col-span-3">
       <div
-        className={`group relative flex h-full min-h-[250px] flex-col gap-0 rounded-md border-2 p-6 transition-all duration-500 before:absolute before:inset-0 before:-z-10 before:transition after:absolute after:inset-0 after:-z-20 after:bg-backgroundMuted ${
+        className={`group after:bg-backgroundMuted relative flex h-full min-h-[250px] flex-col gap-0 rounded-md border-2 p-6 transition-all duration-500 before:absolute before:inset-0 before:-z-10 before:transition after:absolute after:inset-0 after:-z-20 ${
           isLocked
-            ? "border-gray-200/50 before:bg-gradient-to-br before:from-primary/20 before:via-info/30 before:to-primaryLight/20 before:opacity-25"
-            : "border-primary/25 before:bg-gradient-to-br before:from-primary/20 before:via-info/30 before:to-primaryLight/30 before:opacity-75 hover:border-primary/50 hover:shadow-2xl hover:shadow-primaryLight/50 hover:before:opacity-100"
+            ? "before:from-primary/20 before:via-info/30 before:to-primaryLight/20 border-gray-200/50 before:bg-linear-to-br before:opacity-25"
+            : "border-primary/25 before:from-primary/20 before:via-info/30 before:to-primaryLight/30 hover:border-primary/50 hover:shadow-primaryLight/50 before:bg-linear-to-br before:opacity-75 hover:shadow-2xl hover:before:opacity-100"
         }`}
       >
         {/* Decorative elements */}
         {!isLocked && (
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute left-0 top-[300px] h-14 w-[600px] origin-left -translate-x-60 -rotate-45 border border-white/5 bg-white/5 transition delay-150 duration-700 hover:border-white/10 group-hover:-translate-x-0 group-hover:bg-white/10 md:h-20" />
-            <Snowflake className="absolute bottom-2 right-2 size-12 rotate-12 text-white/20 transition duration-1000 group-hover:-rotate-[360deg] group-hover:text-white/40" />
+            <div className="absolute top-[300px] left-0 h-14 w-[600px] origin-left -translate-x-60 -rotate-45 border border-white/5 bg-white/5 transition delay-150 duration-700 group-hover:translate-x-0 group-hover:bg-white/10 hover:border-white/10 md:h-20" />
+            <Snowflake className="absolute right-2 bottom-2 size-12 rotate-[12deg] text-white/20 transition duration-1000 group-hover:-rotate-[360deg] group-hover:text-white/40" />
           </div>
         )}
 
         {isLocked && <LockedState label="Participants Only" />}
 
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-2xl font-medium text-textPrimary">
+          <h2 className="text-textPrimary text-2xl font-medium">
             Your Profile
           </h2>
           <User className="size-8 transition-transform duration-500 md:size-8" />
         </div>
 
-        <p className="pb-8 text-textPrimary/70">
+        <p className="text-textPrimary/70 pb-8">
           Customize your public profile, share your interests, and connect with
           others through your unique profile page.
         </p>
@@ -49,7 +49,7 @@ const ProfileCard = ({ isLocked, userId }: ProfileCardProps) => {
               variant: isLocked ? "outline" : "primary",
               className: `inline-flex items-center gap-2 ${
                 isLocked
-                  ? "pointer-events-none cursor-not-allowed !text-gray-400 opacity-40 hover:bg-transparent"
+                  ? "pointer-events-none cursor-not-allowed text-gray-400! opacity-40 hover:bg-transparent"
                   : ""
               }`,
             })}

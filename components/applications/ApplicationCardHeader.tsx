@@ -17,7 +17,7 @@ export const ApplicationCardHeader = ({
       <h2 className="mb-1 flex items-center text-lg font-semibold text-gray-800 transition-colors duration-500 group-hover:text-primary dark:text-gray-200 dark:group-hover:text-primaryDark md:mb-2 md:text-xl">
         <Icon
           size={24}
-          className="mr-3 size-6 text-primary transition duration-500 group-hover:-rotate-6 group-hover:text-primaryDark md:size-7"
+          className="mr-3 size-6 text-primary transition duration-500 group-hover:-rotate-[6deg] group-hover:text-primaryDark md:size-7"
         />
         {title}
       </h2>

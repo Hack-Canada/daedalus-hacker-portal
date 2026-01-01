@@ -42,14 +42,14 @@ const ApplicationSubmittedEmail = ({
         }}
       >
         <Body className="bg-backgroundMuted">
-          <Container className="mx-auto max-w-[42rem] px-3 py-6">
+          <Container className="mx-auto max-w-2xl px-3 py-6">
             <Img
               src="https://i.imgur.com/pjSy91v.png"
               width={500}
               alt="Hack Canada"
               className="w-full rounded-t-lg"
             />
-            <Section className="rounded-b-lg bg-background p-6 shadow-sm">
+            <Section className="rounded-b-lg bg-background p-6 shadow-xs">
               <Heading className="text-2xl font-semibold text-textPrimary">
                 Thanks for applying! 🎉
               </Heading>

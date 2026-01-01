@@ -35,7 +35,7 @@ const RSVPForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 rounded-lg border-border sm:border sm:p-6 sm:shadow-sm"
+        className="space-y-6 rounded-lg border-border sm:border sm:p-6 sm:shadow-xs"
       >
         <div className="grid gap-6 md:grid-cols-2 md:gap-8">
           <FormField
