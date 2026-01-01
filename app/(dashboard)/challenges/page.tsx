@@ -23,7 +23,7 @@ export default async function ChallengesPage() {
   if (currentUser.role === "unassigned") {
     return (
       <EmptyPage
-        title="QR Code Page"
+        title="Challenges"
         message="Sorry, this feature is only available to participants."
       />
     );
