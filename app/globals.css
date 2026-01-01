@@ -1,6 +1,145 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= --theme(--breakpoint-xs)) {
+    max-width: none;
+  }
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
+
+@theme {
+  --breakpoint-xs: 500px;
+  --breakpoint-3xl: 1850px;
+
+  --font-rubik: var(--font-rubik), Luckiest Guy, cursive;
+
+  --color-primary: #1e90ff;
+  --color-primaryLight: #87ceeb;
+  --color-primaryDark: #1565c0;
+  --color-secondary: #ffa726;
+  --color-secondaryLight: #ffd580;
+  --color-secondaryDark: #ff8c00;
+  --color-background: #ffffff;
+  --color-backgroundMuted: #f8fafc;
+  --color-textPrimary: #1f2937;
+  --color-textSecondary: #4b5563;
+  --color-textMuted: #9ca3af;
+  --color-border: #e5e7eb;
+  --color-shadow: #0000001a;
+  --color-success: #4caf50;
+  --color-warning: #ffb74d;
+  --color-error: #f44336;
+  --color-info: #29b6f6;
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-snow-float: snow-float 8s ease-in-out infinite;
+  --animate-aurora: aurora 30s ease-in-out infinite alternate;
+  --animate-flash: flash 0.5s ease-in-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  @keyframes snow-float {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0.8;
+    }
+    50% {
+      transform: translateY(-15px) rotate(180deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(0) rotate(360deg);
+      opacity: 0.8;
+    }
+  }
+  @keyframes aurora {
+    0% {
+      transform: translateX(0) translateY(-5%);
+    }
+    50% {
+      transform: translateX(0) translateY(0%);
+    }
+    100% {
+      transform: translateX(0) translateY(-5%);
+    }
+  }
+  @keyframes flash {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility animate-fadeIn {
+  animation: fadeIn 0.5s ease-out;
+}
 
 @layer base {
   :root {
@@ -78,10 +217,6 @@
       opacity: 1;
       transform: translateY(0);
     }
-  }
-
-  .animate-fadeIn {
-    animation: fadeIn 0.5s ease-out;
   }
 }
 

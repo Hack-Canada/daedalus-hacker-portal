@@ -11,7 +11,7 @@ export const UnauthorizedState = () => {
         className="w-full max-w-md bg-background p-4 shadow-lg md:p-8 xl:p-10"
       >
         <div className="space-y-6 text-center">
-          <h1 className="mx-auto w-fit bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text font-rubik text-3xl font-extrabold text-transparent">
+          <h1 className="mx-auto w-fit bg-linear-to-r from-primary via-sky-400 to-primary bg-clip-text font-rubik text-3xl font-extrabold text-transparent">
             Not Logged In
           </h1>
           <p className="text-textMuted max-md:text-sm">

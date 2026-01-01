@@ -92,7 +92,7 @@ export function ProfileIntegrations({
           }}
           className="mt-4"
         >
-          <div className="rounded-lg border p-4 shadow-sm transition-shadow hover:shadow-md">
+          <div className="rounded-lg border p-4 shadow-xs transition-shadow hover:shadow-md">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
               <FormField
                 control={control}
@@ -149,7 +149,7 @@ export function ProfileIntegrations({
           {typeof integrationErrors === "object" &&
             !Array.isArray(integrationErrors) &&
             integrationErrors.message && (
-              <div className="rounded-lg border border-destructive bg-destructive/10 p-3 text-sm text-destructive">
+              <div className="border-destructive bg-destructive/10 text-destructive rounded-lg border p-3 text-sm">
                 {integrationErrors.message}
               </div>
             )}
@@ -159,7 +159,7 @@ export function ProfileIntegrations({
               return (
                 <div
                   key={index}
-                  className="rounded-lg border border-destructive bg-destructive/10 p-3 text-sm text-destructive"
+                  className="border-destructive bg-destructive/10 text-destructive rounded-lg border p-3 text-sm"
                 >
                   <div className="font-medium">Platform {index + 1}</div>
                   {error.platform?.message && (

@@ -26,7 +26,7 @@ export function EventSelector({
       </div>
 
       <Select value={selectedEvent} onValueChange={onEventChange}>
-        <SelectTrigger className="border-primary/20 bg-background/50 backdrop-blur-sm">
+        <SelectTrigger className="border-primary/20 bg-background/50 backdrop-blur-xs">
           <SelectValue placeholder="Select event for check-in" />
         </SelectTrigger>
         <SelectContent className="max-h-[250px]">

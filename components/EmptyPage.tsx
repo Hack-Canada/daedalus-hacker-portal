@@ -17,7 +17,7 @@ export const EmptyPage = ({ title, message, buttonLabel }: EmptyPageProps) => {
         className="w-full max-w-md bg-background p-4 shadow-lg md:p-8 xl:p-10"
       >
         <div className="space-y-4 text-center">
-          <h1 className="mx-auto w-fit bg-gradient-to-r from-primary via-sky-400 to-primary bg-clip-text font-rubik text-3xl font-extrabold text-transparent sm:text-4xl">
+          <h1 className="mx-auto w-fit bg-linear-to-r from-primary via-sky-400 to-primary bg-clip-text font-rubik text-3xl font-extrabold text-transparent sm:text-4xl">
             {title}
           </h1>
           <p className="pb-2 text-textMuted max-md:text-sm">{message}</p>

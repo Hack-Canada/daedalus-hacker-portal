@@ -25,7 +25,7 @@ export function EmergencyContacts({ contact }: EmergencyContactsProps) {
       aria-labelledby="emergency-contact-heading"
     >
       {/* Layered background effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-info/30 to-primaryLight/30 opacity-50 transition-all duration-700 group-hover:opacity-100" />
+      <div className="absolute inset-0 bg-linear-to-br from-primary/30 via-info/30 to-primaryLight/30 opacity-50 transition-all duration-700 group-hover:opacity-100" />
 
       {/* Header with Organizer Badge */}
       <div className="mb-6 space-y-2">
@@ -57,11 +57,11 @@ export function EmergencyContacts({ contact }: EmergencyContactsProps) {
 
       {/* Contact info */}
       <div
-        className="relative overflow-hidden rounded-lg bg-white/60 p-4 shadow-sm backdrop-blur-sm transition-all duration-500 group-hover:bg-white/80 group-hover:shadow-md"
+        className="relative overflow-hidden rounded-lg bg-white/60 p-4 shadow-xs backdrop-blur-xs transition-all duration-500 group-hover:bg-white/80 group-hover:shadow-md"
         role="region"
         aria-label="Emergency contact details"
       >
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 via-info/5 to-primaryLight/5 opacity-0 transition-all duration-700 group-hover:opacity-100" />
+        <div className="absolute inset-0 -z-10 bg-linear-to-br from-primary/5 via-info/5 to-primaryLight/5 opacity-0 transition-all duration-700 group-hover:opacity-100" />
         <dl className="flex flex-col gap-3">
           <div>
             <dt className="mb-1 text-sm font-medium text-textSecondary">

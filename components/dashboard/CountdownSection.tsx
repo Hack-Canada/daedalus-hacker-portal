@@ -9,7 +9,7 @@ import { Snowflakes } from "../ui/Snowflakes";
 
 export const CountdownSection = () => {
   return (
-    <div className="relative overflow-hidden rounded-md border border-gray-300 p-4 shadow-sm md:p-8 lg:col-span-2 xl:p-12">
+    <div className="relative overflow-hidden rounded-md border border-gray-300 p-4 shadow-xs md:p-8 lg:col-span-2 xl:p-12">
       <Snowflakes />
 
       <div className="relative z-10 flex h-full flex-col justify-between gap-8">

@@ -47,7 +47,7 @@ export const ApplicationCard = ({
           Applied
         </div>
       )}
-      <div className="pointer-events-auto absolute inset-0 -z-10 rounded-lg bg-gradient-to-br from-primaryLight to-primary opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
+      <div className="pointer-events-auto absolute inset-0 -z-10 rounded-lg bg-linear-to-br from-primaryLight to-primary opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
       <ApplicationCardHeader
         title={
           <div className="flex items-center gap-2">
