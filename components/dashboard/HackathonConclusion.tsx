@@ -11,11 +11,11 @@ interface HackathonConclusionProps {
 
 export const HackathonConclusion = ({ role }: HackathonConclusionProps) => {
   return (
-    <div className="relative w-full rounded-md border-2 border-primary/25 p-6 transition-all duration-500 before:absolute before:inset-0 before:-z-10 before:bg-linear-to-br before:from-primary/20 before:via-info/30 before:to-primaryLight/30 before:opacity-75 md:p-8 xl:p-12">
-      <h2 className="mb-4 text-2xl font-medium text-textPrimary">
+    <div className="border-primary/25 before:from-primary/20 before:via-info/30 before:to-primaryLight/30 relative w-full rounded-md border-2 p-6 transition-all duration-500 before:absolute before:inset-0 before:-z-10 before:bg-linear-to-br before:opacity-75 md:p-8 xl:p-12">
+      <h2 className="text-textPrimary mb-4 text-2xl font-medium">
         Hack Canada 2025 Has Concluded
       </h2>
-      <p className="mb-6 text-textPrimary/70">
+      <p className="text-textPrimary/70 mb-6">
         {role === "hacker" &&
           "Thank you for participating in Hack Canada 2025! Your projects and enthusiasm made this event truly special. We hope you gained valuable experience, made lasting connections, and will join us again for Hack Canada 2026!"}
         {(role === "organizer" || role === "admin") &&
@@ -31,7 +31,7 @@ export const HackathonConclusion = ({ role }: HackathonConclusionProps) => {
         rel="noopener noreferrer"
         aria-disabled={!eventGalleryUrl}
         className={buttonVariants({
-          variant: eventGalleryUrl ? "primary" : "outline-solid",
+          variant: eventGalleryUrl ? "primary" : "outline",
           className: `inline-flex items-center gap-2 ${!eventGalleryUrl ? "pointer-events-none cursor-not-allowed text-gray-400! opacity-40 hover:bg-transparent" : ""}`,
         })}
       >

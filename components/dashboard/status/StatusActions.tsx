@@ -13,7 +13,7 @@ interface ActionButton {
     | "secondary"
     | "ghost"
     | "destructive"
-    | "outline-solid";
+    | "outline";
 }
 
 interface StatusActionsProps {
@@ -30,14 +30,14 @@ export const StatusActions = ({
   if (!primaryAction && !secondaryAction) return null;
 
   return (
-    <div className={cn("flex gap-2 max-xs:flex-col", className)}>
+    <div className={cn("max-xs:flex-col flex gap-2", className)}>
       {primaryAction && (
         <Link
           href={primaryAction.href}
           className={buttonVariants({
             variant: primaryAction.variant || "primary",
             size: "sm",
-            className: "w-fit max-xs:w-full",
+            className: "max-xs:w-full w-fit",
           })}
         >
           {primaryAction.label}
@@ -49,7 +49,7 @@ export const StatusActions = ({
           className={buttonVariants({
             variant: secondaryAction.variant || "ghost",
             size: "sm",
-            className: "w-fit max-xs:w-full",
+            className: "max-xs:w-full w-fit",
           })}
         >
           {secondaryAction.label}
