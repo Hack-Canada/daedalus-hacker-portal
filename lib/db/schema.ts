@@ -281,3 +281,21 @@ export const checkIns = pgTable("checkIn", {
 
 export type CheckIn = typeof checkIns.$inferSelect;
 export type NewCheckIn = typeof checkIns.$inferInsert;
+
+export const challenges = pgTable("challenges", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text("name").notNull(),
+  category: text("category").notNull(),
+  points: integer("points").notNull(),
+  difficulty: text("difficulty").notNull(), // easy, medium, hard
+  status: text("status").notNull(), // "not_started" | "in_progress" | "completed";
+  shortDescription: text("short_description").notNull(),
+  instructions: text("instructions").notNull(),
+  hints: text("hints").array().notNull(),
+  qrCode: boolean("qr_code").notNull(),
+  submissionInstructions: text("submission_instructions").notNull(),
+});
+
+export type Challenge = typeof challenges.$inferSelect;
