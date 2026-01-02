@@ -110,6 +110,48 @@ export const useQRScanner = ({
     }
   };
 
+  const handleChallengeSubmission = async (userData: {
+    userId: "string";
+    challengeId: "string";
+  }) => {
+    try {
+      const response = await fetch("/api/challenges/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userData.userId,
+          challengeId: userData.challengeId,
+        }),
+      });
+
+      const data = await response.json();
+      setScanData([]); // Set scan data to nothing as it is a challenge check in
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to check in");
+      }
+
+      setScannedUserName(data.userName || "No name found");
+      await playSound("success");
+      setScanResult("success");
+      toast.success("Challenge submission successful!");
+    } catch (error) {
+      await playSound("error");
+      setScanResult("error");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to process challenge submission",
+      );
+    } finally {
+      stopCamera();
+      isProcessing.current = false;
+      setTimeout(() => setScanResult(null), 500);
+    }
+  };
+
   const handleResetEvent = async (userId?: string, eventName?: string) => {
     const userIdToReset = userId || lastUserId;
     const eventNameToReset = eventName || selectedEvent;
@@ -184,10 +226,31 @@ export const useQRScanner = ({
         ) => {
           if (error || !result || isProcessing.current) return;
 
-          const scannedUrl = result.getText();
-          const userId = scannedUrl.split("/profile/")[1];
+          const scannedText = result.getText();
+          console.log(scannedText);
+          let userId;
+          let userData;
+          if (scannedText.startsWith("https://app.hackcanada.org/profile/")) {
+            userId = scannedText.split("/profile/")[1];
+          } else {
+            try {
+              userData = JSON.parse(scannedText);
+              userId = userData.userId;
+            } catch (e) {
+              console.error(e);
+            }
+          }
 
           if (!userId) {
+            await playSound("error");
+            toast.error("Invalid QR code");
+            setScanResult("error");
+            setTimeout(() => setScanResult(null), 1000);
+            return;
+          }
+
+          // For our challenge submission
+          if (selectedEvent == "challenge" && !("challengeId" in userData)) {
             await playSound("error");
             toast.error("Invalid QR code");
             setScanResult("error");
@@ -210,7 +273,11 @@ export const useQRScanner = ({
           setLastUserId(userId);
 
           isProcessing.current = true;
-          await handleCheckIn(userId);
+          if (selectedEvent == "challenge") {
+            await handleChallengeSubmission(userData);
+          } else {
+            await handleCheckIn(userId);
+          }
         },
       );
 
