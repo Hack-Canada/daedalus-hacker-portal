@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getCurrentUser } from "@/auth";
-import { eq } from "drizzle-orm";
+import { and, count, eq, sql } from "drizzle-orm";
 import { z } from "zod";
 
 import type { ApiResponse } from "@/types/api";
@@ -9,6 +9,7 @@ import { db } from "@/lib/db";
 import { getUserById } from "@/lib/db/queries/user";
 import {
   auditLogs,
+  challenges,
   challengesSubmitted,
   ChallengeSubmission,
 } from "@/lib/db/schema";
@@ -83,48 +84,81 @@ export async function POST(
       );
     }
 
-    // Get all check-ins for the user
-    const userChallengeSubmissions =
-      await db.query.challengesSubmitted.findMany({
-        where: eq(challengesSubmitted.userId, userId),
-        orderBy: (challengeSubmission, { desc }) => [
-          desc(challengeSubmission.submittedAt),
-        ],
+    return await db.transaction(async (tx) => {
+      // 1. Fetch challenge details with a lock to ensure atomicity for maxCompletions check
+      // Note: 'for update' locks the row so other transactions waiting to submit for this challenge will wait
+      const [challenge] = await tx
+        .select()
+        .from(challenges)
+        .where(eq(challenges.id, challengeId))
+        .for("update");
+
+      if (!challenge) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Challenge not found",
+            error: "Invalid challenge ID",
+          },
+          { status: 404 },
+        );
+      }
+
+      // 2. Check if user already submitted
+      // We check this inside transaction for consistency, though unique constraint also protects
+      const existingSubmission = await tx.query.challengesSubmitted.findFirst({
+        where: and(
+          eq(challengesSubmitted.userId, userId),
+          eq(challengesSubmitted.challengeId, challengeId),
+        ),
       });
 
-    // Check if user has already checked in for this event using the fetched data
-    const alreadySubmitted = userChallengeSubmissions.find(
-      (submission) => submission.challengeId === challengeId,
-    );
+      if (existingSubmission) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "User already completed this challenge",
+            error: "Duplicate check-in",
+            data: existingSubmission,
+          },
+          { status: 400 },
+        );
+      }
 
-    if (alreadySubmitted) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "User already completed this challenge",
-          error: "Duplicate check-in",
-          data: alreadySubmitted,
-        },
-        { status: 400 },
-      );
-    }
+      // 3. Check max completions
+      if (challenge.maxCompletions !== null) {
+        const [submissionCount] = await tx
+          .select({ count: count() })
+          .from(challengesSubmitted)
+          .where(eq(challengesSubmitted.challengeId, challengeId));
 
-    // Create new check-in
-    const [newChallengeSubmission] = await db
-      .insert(challengesSubmitted)
-      .values({
-        userId,
-        challengeId,
-      })
-      .returning();
+        if (submissionCount.count >= challenge.maxCompletions) {
+          return NextResponse.json(
+            {
+              success: false,
+              message: "Maximum submissions reached for this challenge",
+              error: "Max completions limit exceeded",
+            },
+            { status: 400 },
+          );
+        }
+      }
 
-    // Get updated check-ins including the new one
+      // 4. Create new submission
+      const [newChallengeSubmission] = await tx
+        .insert(challengesSubmitted)
+        .values({
+          userId,
+          challengeId,
+        })
+        .returning();
 
-    return NextResponse.json({
-      success: true,
-      message: "Challenge completed",
-      data: newChallengeSubmission,
-      userName: existingUser.name,
+      return NextResponse.json({
+        success: true,
+        message: "Challenge completed",
+        data: newChallengeSubmission,
+        userName: existingUser.name,
+      });
     });
   } catch (error) {
     console.error("Check-in error:", error);

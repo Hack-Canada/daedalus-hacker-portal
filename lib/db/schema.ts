@@ -6,6 +6,7 @@ import {
   pgTable,
   text,
   timestamp,
+  unique,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("user", {
@@ -301,20 +302,26 @@ export const challenges = pgTable("challenges", {
 
 export type Challenge = typeof challenges.$inferSelect;
 
-export const challengesSubmitted = pgTable("challengesSubmitted", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  userId: text("userId")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  challengeId: text("challengeId")
-    .notNull()
-    .references(() => challenges.id, { onDelete: "cascade" }),
-  submittedAt: timestamp("submittedAt")
-    .notNull()
-    .default(sql`CURRENT_TIMESTAMP`),
-});
+export const challengesSubmitted = pgTable(
+  "challengesSubmitted",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    challengeId: text("challengeId")
+      .notNull()
+      .references(() => challenges.id, { onDelete: "cascade" }),
+    submittedAt: timestamp("submittedAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+  },
+  (t) => ({
+    uniq: unique().on(t.userId, t.challengeId),
+  }),
+);
 
 export type ChallengeSubmission = typeof challengesSubmitted.$inferSelect;
 export type NewChallengeSubmission = typeof challengesSubmitted.$inferInsert;
