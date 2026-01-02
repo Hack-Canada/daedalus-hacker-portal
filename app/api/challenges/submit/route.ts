@@ -101,7 +101,7 @@ export async function POST(
       return NextResponse.json(
         {
           success: false,
-          message: "User already checked in for this event",
+          message: "User already completed this challenge",
           error: "Duplicate check-in",
           data: alreadySubmitted,
         },
@@ -122,7 +122,7 @@ export async function POST(
 
     return NextResponse.json({
       success: true,
-      message: "Check-in successful",
+      message: "Challenge completed",
       data: newChallengeSubmission,
       userName: existingUser.name,
     });

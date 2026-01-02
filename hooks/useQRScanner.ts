@@ -130,7 +130,7 @@ export const useQRScanner = ({
       setScanData([]); // Set scan data to nothing as it is a challenge check in
 
       if (!response.ok) {
-        throw new Error(data.message || "Failed to check in");
+        throw new Error(data.message || "Failed to submit challenge");
       }
 
       setScannedUserName(data.userName || "No name found");
