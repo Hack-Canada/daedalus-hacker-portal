@@ -22,7 +22,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-function StatusBadge({ status }: { status: Challenge["status"] }) {
+function StatusBadge({ status }: { status?: string }) {
   if (status === "completed") {
     return (
       <Badge className="border-emerald-200 bg-emerald-100 text-emerald-700">
@@ -48,7 +48,7 @@ export function ChallengeCard({
   challenge,
   user,
 }: {
-  challenge: Challenge;
+  challenge: Challenge & { status?: string };
   user: User;
 }) {
   const profileUrl = `https://app.hackcanada.org/profile/${user.id!}`;
@@ -66,7 +66,7 @@ export function ChallengeCard({
       </CardHeader>
 
       <CardContent className="space-y-3">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           {challenge.shortDescription}
         </p>
 
@@ -75,14 +75,14 @@ export function ChallengeCard({
             <AccordionTrigger className="text-sm">
               Full instructions
             </AccordionTrigger>
-            <AccordionContent className="text-sm text-muted-foreground">
+            <AccordionContent className="text-muted-foreground text-sm">
               {challenge.instructions}
             </AccordionContent>
           </AccordionItem>
 
           <AccordionItem value="hints">
             <AccordionTrigger className="text-sm">Hints</AccordionTrigger>
-            <AccordionContent className="space-y-1 text-sm text-muted-foreground">
+            <AccordionContent className="text-muted-foreground space-y-1 text-sm">
               <ul className="list-inside list-disc space-y-1">
                 {challenge.hints.map((hint) => (
                   <li key={hint}>{hint}</li>
@@ -109,7 +109,7 @@ export function ChallengeCard({
                     excavate: true,
                   }}
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   Scan this code on-site to confirm your visit.
                 </p>
               </AccordionContent>
@@ -120,7 +120,7 @@ export function ChallengeCard({
             <AccordionTrigger className="text-sm">
               Submission instructions
             </AccordionTrigger>
-            <AccordionContent className="text-sm text-muted-foreground">
+            <AccordionContent className="text-muted-foreground text-sm">
               {challenge.submissionInstructions}
             </AccordionContent>
           </AccordionItem>

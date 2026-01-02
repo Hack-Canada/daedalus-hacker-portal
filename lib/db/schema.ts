@@ -289,13 +289,14 @@ export const challenges = pgTable("challenges", {
   name: text("name").notNull(),
   category: text("category").notNull(),
   points: integer("points").notNull(),
-  difficulty: text("difficulty").notNull(), // easy, medium, hard
-  status: text("status").notNull(), // "not_started" | "in_progress" | "completed";
-  shortDescription: text("short_description").notNull(),
+  difficulty: text("difficulty").notNull().default("easy"), // easy, medium, hard
+  shortDescription: text("shortDescription").notNull().default(""),
   instructions: text("instructions").notNull(),
   hints: text("hints").array().notNull(),
-  qrCode: boolean("qr_code").notNull(),
-  submissionInstructions: text("submission_instructions").notNull(),
+  qrCode: boolean("qrCode").notNull(),
+  submissionInstructions: text("submissionInstructions").notNull(),
+  maxCompletions: integer("maxCompletions"),
+  enabled: boolean("enabled").notNull().default(true),
 });
 
 export type Challenge = typeof challenges.$inferSelect;

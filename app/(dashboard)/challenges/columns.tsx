@@ -8,7 +8,7 @@ import { Challenge } from "@/lib/db/schema";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-function StatusBadge({ status }: { status: Challenge["status"] }) {
+function StatusBadge({ status }: { status: string }) {
   if (status === "completed") {
     return (
       <Badge className="border-emerald-200 bg-emerald-100 text-emerald-700">
@@ -30,7 +30,7 @@ function StatusBadge({ status }: { status: Challenge["status"] }) {
   );
 }
 
-export const columns: ColumnDef<Challenge>[] = [
+export const columns: ColumnDef<Challenge & { status: string }>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (

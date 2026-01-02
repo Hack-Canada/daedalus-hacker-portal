@@ -26,17 +26,17 @@ import {
 } from "@/components/ui/table";
 import { ChallengeCard } from "@/components/challenges/ChallengeCard";
 
-interface ChallengesDataTableProps {
-  columns: ColumnDef<Challenge, any>[];
-  data: Challenge[];
+interface ChallengesDataTableProps<TData extends Challenge, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
   user: User;
 }
 
-export function ChallengesDataTable({
+export function ChallengesDataTable<TData extends Challenge, TValue>({
   columns,
   data,
   user,
-}: ChallengesDataTableProps) {
+}: ChallengesDataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [selectedChallenge, setSelectedChallenge] =
