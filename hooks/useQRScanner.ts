@@ -111,8 +111,8 @@ export const useQRScanner = ({
   };
 
   const handleChallengeSubmission = async (userData: {
-    userId: "string";
-    challengeId: "string";
+    userId: string;
+    challengeId: string;
   }) => {
     try {
       const response = await fetch("/api/challenges/submit", {
@@ -228,16 +228,21 @@ export const useQRScanner = ({
 
           const scannedText = result.getText();
           console.log(scannedText);
-          let userId;
-          let userData;
+          let userId: string | undefined;
+          let challengeId: string | undefined;
+
+          // Determine QR code type
           if (scannedText.startsWith("https://app.hackcanada.org/profile/")) {
+            // Regular profile URL
             userId = scannedText.split("/profile/")[1];
           } else {
+            // JSON QR code (for challenges)
             try {
-              userData = JSON.parse(scannedText);
-              userId = userData.userId;
+              const parsed = JSON.parse(scannedText);
+              userId = parsed.userId;
+              challengeId = parsed.challengeId;
             } catch (e) {
-              console.error(e);
+              console.error("Failed to parse QR code JSON:", e);
             }
           }
 
@@ -249,13 +254,17 @@ export const useQRScanner = ({
             return;
           }
 
-          // For our challenge submission
-          if (selectedEvent == "challenge" && !("challengeId" in userData)) {
-            await playSound("error");
-            toast.error("Invalid QR code");
-            setScanResult("error");
-            setTimeout(() => setScanResult(null), 1000);
-            return;
+          // Validate challenge-specific requirements
+          if (selectedEvent === "challenge") {
+            if (!challengeId) {
+              await playSound("error");
+              toast.error(
+                "Please scan the challenge-specific QR code, not the profile QR code",
+              );
+              setScanResult("error");
+              setTimeout(() => setScanResult(null), 1000);
+              return;
+            }
           }
 
           // prevent double scans of the same user
@@ -273,8 +282,11 @@ export const useQRScanner = ({
           setLastUserId(userId);
 
           isProcessing.current = true;
-          if (selectedEvent == "challenge") {
-            await handleChallengeSubmission(userData);
+          if (selectedEvent === "challenge") {
+            await handleChallengeSubmission({
+              userId,
+              challengeId: challengeId!,
+            });
           } else {
             await handleCheckIn(userId);
           }
