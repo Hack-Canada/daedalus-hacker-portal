@@ -1,7 +1,7 @@
-
 import { cache } from "react";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth, { DefaultSession } from "next-auth";
+
 import authConfig from "./auth.config";
 import { db } from "./lib/db";
 import {
@@ -20,7 +20,6 @@ declare module "next-auth" {
   }
 }
 
-
 export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/sign-in",
@@ -37,15 +36,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ account, user }) {
-      
+      // Allow OAuth providers immediately
       if (account?.provider !== "credentials") {
-        // handle OAuth provider errors
         return true;
-      
-
       }
-
-
 
       // From here on: credentials users only
       if (!user.id) return false;
