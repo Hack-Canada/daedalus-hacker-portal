@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {signIn} from "next-auth/react";
 
 type Props = {};
 
@@ -115,7 +116,10 @@ const SignInForm = ({}: Props) => {
           {isPending ? "Signing In..." : "Sign In"}
         </Button>
       </form>
+        <Button variant="auth" className="w-full" onClick={() => signIn("google")}>Sign In With Google</Button>
+      
     </Form>
+    
   );
 };
 
