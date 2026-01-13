@@ -66,16 +66,6 @@ export default async function ChallengesPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="text-lg font-medium">List view</h2>
-        <ChallengesDataTable
-          columns={columns}
-          data={challengesWithStatus}
-          user={currentUser}
-        />
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="text-lg font-medium">Card view</h2>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {challengesWithStatus.map((challenge) => (
             <ChallengeCard

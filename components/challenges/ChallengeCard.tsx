@@ -126,13 +126,6 @@ export function ChallengeCard({
           </AccordionItem>
         </Accordion>
       </CardContent>
-
-      <CardFooter className="mt-auto flex items-center justify-between gap-2">
-        <Button variant="outline" size="sm">
-          Mark as completed
-        </Button>
-        <Button size="sm">Open challenge</Button>
-      </CardFooter>
     </Card>
   );
 }
