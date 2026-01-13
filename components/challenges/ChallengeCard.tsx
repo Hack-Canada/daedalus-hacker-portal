@@ -1,7 +1,6 @@
 // components/challenge-card.tsx
 "use client";
 
-import Image from "next/image";
 import { QRCodeSVG } from "qrcode.react";
 
 import { Challenge } from "@/lib/db/schema";

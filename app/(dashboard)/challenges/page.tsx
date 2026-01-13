@@ -7,10 +7,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { challenges, challengesSubmitted } from "@/lib/db/schema";
 import { ChallengeCard } from "@/components/challenges/ChallengeCard";
-import { ChallengesDataTable } from "@/components/challenges/ChallengeDataTable";
 import { EmptyPage } from "@/components/EmptyPage";
-
-import { columns } from "./columns";
 
 export default async function ChallengesPage() {
   const currentUser = await getCurrentUser();
