@@ -40,10 +40,4 @@ export const navigation = [
     icon: QrCode,
   },
   { name: "Landing Page", href: "https://hackcanada.org", icon: Home },
-  {
-    name: "Admin",
-    href: "/admin",
-    icon: LayoutDashboard,
-    adminOnly: true,
-  },
 ];
