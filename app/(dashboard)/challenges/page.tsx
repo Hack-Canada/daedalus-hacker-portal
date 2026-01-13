@@ -19,16 +19,11 @@ export default async function ChallengesPage() {
     redirect("/sign-in");
   }
 
-  // Fetch all challenges (filter enabled if not admin)
+  // Fetch all challenges which are enabled
   // And fetch this user's submissions to determine status
 
   const [challengesData, submissions] = await Promise.all([
-    db
-      .select()
-      .from(challenges)
-      .where(
-        currentUser.role === "admin" ? undefined : eq(challenges.enabled, true),
-      ),
+    db.select().from(challenges).where(eq(challenges.enabled, true)),
     db
       .select()
       .from(challengesSubmitted)
