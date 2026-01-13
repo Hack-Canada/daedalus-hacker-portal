@@ -110,6 +110,48 @@ export const useQRScanner = ({
     }
   };
 
+  const handleChallengeSubmission = async (userData: {
+    userId: string;
+    challengeId: string;
+  }) => {
+    try {
+      const response = await fetch("/api/challenges/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userData.userId,
+          challengeId: userData.challengeId,
+        }),
+      });
+
+      const data = await response.json();
+      setScanData([]); // Set scan data to nothing as it is a challenge check in
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to submit challenge");
+      }
+
+      setScannedUserName(data.userName || "No name found");
+      await playSound("success");
+      setScanResult("success");
+      toast.success("Challenge submission successful!");
+    } catch (error) {
+      await playSound("error");
+      setScanResult("error");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to process challenge submission",
+      );
+    } finally {
+      stopCamera();
+      isProcessing.current = false;
+      setTimeout(() => setScanResult(null), 500);
+    }
+  };
+
   const handleResetEvent = async (userId?: string, eventName?: string) => {
     const userIdToReset = userId || lastUserId;
     const eventNameToReset = eventName || selectedEvent;
@@ -184,8 +226,25 @@ export const useQRScanner = ({
         ) => {
           if (error || !result || isProcessing.current) return;
 
-          const scannedUrl = result.getText();
-          const userId = scannedUrl.split("/profile/")[1];
+          const scannedText = result.getText();
+          console.log(scannedText);
+          let userId: string | undefined;
+          let challengeId: string | undefined;
+
+          // Determine QR code type
+          if (scannedText.startsWith("https://app.hackcanada.org/profile/")) {
+            // Regular profile URL
+            userId = scannedText.split("/profile/")[1];
+          } else {
+            // JSON QR code (for challenges)
+            try {
+              const parsed = JSON.parse(scannedText);
+              userId = parsed.userId;
+              challengeId = parsed.challengeId;
+            } catch (e) {
+              console.error("Failed to parse QR code JSON:", e);
+            }
+          }
 
           if (!userId) {
             await playSound("error");
@@ -193,6 +252,19 @@ export const useQRScanner = ({
             setScanResult("error");
             setTimeout(() => setScanResult(null), 1000);
             return;
+          }
+
+          // Validate challenge-specific requirements
+          if (selectedEvent === "challenge") {
+            if (!challengeId) {
+              await playSound("error");
+              toast.error(
+                "Please scan the challenge-specific QR code, not the profile QR code",
+              );
+              setScanResult("error");
+              setTimeout(() => setScanResult(null), 1000);
+              return;
+            }
           }
 
           // prevent double scans of the same user
@@ -210,7 +282,14 @@ export const useQRScanner = ({
           setLastUserId(userId);
 
           isProcessing.current = true;
-          await handleCheckIn(userId);
+          if (selectedEvent === "challenge") {
+            await handleChallengeSubmission({
+              userId,
+              challengeId: challengeId!,
+            });
+          } else {
+            await handleCheckIn(userId);
+          }
         },
       );
 

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { auth } from "@/auth";
 
 const authPages = [
   "/sign-in",
@@ -10,16 +11,12 @@ const authPages = [
   "/email-verification/new-code",
 ];
 
-function isAuthenticated(request: NextRequest): boolean {
-  const token = request.cookies.get("authjs.session-token");
-  return !!token;
-}
-
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  const session = await auth();
 
   // If the user is authenticated and trying to access an auth page, redirect to dashboard
-  if (isAuthenticated(req) && authPages.includes(pathname)) {
+  if (session && authPages.includes(pathname)) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
@@ -30,7 +27,7 @@ export async function middleware(req: NextRequest) {
 
   // If the user is not authenticated and trying to access a protected route, redirect to login
   if (
-    !isAuthenticated(req) &&
+    !session &&
     !authPages.includes(pathname) &&
     !pathname.startsWith("/reset-password/")
   ) {
