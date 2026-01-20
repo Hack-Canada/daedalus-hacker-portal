@@ -1,4 +1,4 @@
-import { ScheduleItem } from "@/config/schedule";
+import { Schedule } from "@/lib/db/schema";
 
 export const DAYS = ["Friday", "Saturday", "Sunday"];
 export const TIME_SLOT_HEIGHT = 60; // Height in pixels for each 15-min slot
@@ -32,14 +32,12 @@ export function generateTimeSlots(selectedDay: number) {
 }
 
 export interface EventPosition {
-  event: ScheduleItem;
+  event: Schedule;
   column: number;
   totalColumns: number;
 }
 
-export function calculateEventPositions(
-  events: ScheduleItem[],
-): EventPosition[] {
+export function calculateEventPositions(events: Schedule[]): EventPosition[] {
   const positions: EventPosition[] = [];
   const sortedEvents = [...events].sort(
     (a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
@@ -47,7 +45,7 @@ export function calculateEventPositions(
 
   interface ColumnStatus {
     lastEndTime: number;
-    events: ScheduleItem[];
+    events: Schedule[];
   }
 
   // Keep track of the end time of events in each column
@@ -126,7 +124,7 @@ export function calculateEventPositions(
 }
 
 export function getEventStyle(
-  event: ScheduleItem,
+  event: Schedule,
   position: EventPosition,
   selectedDay: number,
 ) {
@@ -175,7 +173,7 @@ export function getEventStyle(
   };
 }
 
-export function getDayEvents(schedule: ScheduleItem[], selectedDay: number) {
+export function getDayEvents(schedule: Schedule[], selectedDay: number) {
   return schedule.filter((event) => {
     const eventDate = new Date(event.startTime);
     const day = eventDate.getDay(); // 5 = Friday, 6 = Saturday, 0 = Sunday

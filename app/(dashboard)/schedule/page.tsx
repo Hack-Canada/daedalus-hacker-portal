@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth";
 
-import { schedule } from "@/config/schedule";
+import { ScheduleService } from "@/lib/services/schedule";
 import { EmptyPage } from "@/components/EmptyPage";
 import PageWrapper from "@/components/PageWrapper";
 import ScheduleGrid from "@/components/schedule/ScheduleGrid";
@@ -29,11 +29,24 @@ export default async function SchedulePage() {
     );
   }
 
+  // Get schedule data with fallback mechanism
+  const {
+    data: scheduleData,
+    source,
+    error,
+  } = await ScheduleService.getSchedule();
+
+  // Log the data source for debugging
+  console.info(`Schedule loaded from: ${source}`);
+  if (error) {
+    console.error("Schedule service error:", error);
+  }
+
   return (
-    <PageWrapper className="max-w-screen-2xl 3xl:max-w-screen-2xl">
+    <PageWrapper className="3xl:max-w-screen-2xl max-w-screen-2xl">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
-          <div className="w-fit bg-linear-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
+          <div className="from-primary to-primary w-fit bg-linear-to-r via-sky-400 bg-clip-text text-transparent">
             <h1 className="font-rubik text-3xl font-bold">Event Schedule</h1>
           </div>
           <p className="text-textSecondary">
@@ -43,8 +56,8 @@ export default async function SchedulePage() {
         </div>
 
         <ScheduleLegend />
-        <div className="rounded-lg border border-border bg-backgroundMuted p-4">
-          <ScheduleGrid schedule={schedule} />
+        <div className="border-border bg-backgroundMuted rounded-lg border p-4">
+          <ScheduleGrid schedule={scheduleData} />
         </div>
       </div>
     </PageWrapper>

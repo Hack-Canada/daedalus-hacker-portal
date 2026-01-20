@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { ScheduleItem } from "@/config/schedule";
+import type { Schedule } from "@/lib/db/schema";
 
 import { DaySelector } from "./DaySelector";
 import { EventsGrid } from "./EventsGrid";
@@ -14,7 +14,7 @@ import {
 } from "./utils/schedule-utils";
 
 interface ScheduleGridProps {
-  schedule: ScheduleItem[];
+  schedule: Schedule[];
 }
 
 export default function ScheduleGrid({ schedule }: ScheduleGridProps) {
@@ -30,7 +30,7 @@ export default function ScheduleGrid({ schedule }: ScheduleGridProps) {
 
       {/* Grid */}
       <div className="overflow-x-auto">
-        <div className="grid min-w-[600px] grid-cols-[100px_1fr] overflow-hidden rounded-lg border border-border xl:grid-cols-[120px_1fr]">
+        <div className="border-border grid min-w-[600px] grid-cols-[100px_1fr] overflow-hidden rounded-lg border xl:grid-cols-[120px_1fr]">
           {/* Time slots */}
           <TimeSlotsColumn timeSlots={timeSlots} />
 
