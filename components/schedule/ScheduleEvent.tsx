@@ -1,7 +1,14 @@
 "use client";
 
-import { ScheduleItem } from "@/config/schedule";
+import { ScheduleType } from "@/types";
+
+import type { Schedule } from "@/lib/db/schema";
 import { cn } from "@/lib/utils";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 const eventTypeColors = {
   general: "bg-sky-200/75 hover:bg-sky-300",
@@ -12,7 +19,7 @@ const eventTypeColors = {
 };
 
 interface ScheduleEventProps {
-  event: ScheduleItem;
+  event: Schedule;
   style: {
     top: string;
     height: string;
@@ -39,23 +46,34 @@ export default function ScheduleEvent({ event, style }: ScheduleEventProps) {
     event.customTime || `${formatTime(startTime)} - ${formatTime(endTime)}`;
 
   return (
-    <div style={style} className="absolute p-1">
-      <div
-        className={cn(
-          "mx-auto flex h-full w-full flex-col justify-start gap-1 overflow-hidden rounded-md px-2 py-3 transition-all duration-200 hover:shadow-md",
-          eventTypeColors[event.type],
+    <HoverCard>
+      <div style={style} className="group absolute p-1">
+        <HoverCardTrigger
+          className={cn(
+            "mx-auto flex h-full w-full flex-col justify-start gap-1 overflow-hidden rounded-md px-2 py-3 transition-all duration-200 hover:shadow-md",
+            eventTypeColors[event.type as ScheduleType],
+          )}
+        >
+          <h3 className="text-textPrimary truncate text-sm font-medium">
+            {event.eventName}
+          </h3>
+          {event.location && (
+            <p className="text-textSecondary truncate text-xs">
+              {event.location}
+            </p>
+          )}
+          <p className="text-textSecondary mt-auto text-xs">{timeStr}</p>
+        </HoverCardTrigger>
+
+        {event.eventDescription && (
+          <HoverCardContent
+            className="border-border bg-white/10 backdrop-blur-sm"
+            side="bottom"
+          >
+            <p>{event.eventDescription}</p>
+          </HoverCardContent>
         )}
-      >
-        <h3 className="truncate text-sm font-medium text-textPrimary">
-          {event.name}
-        </h3>
-        {event.location && (
-          <p className="truncate text-xs text-textSecondary">
-            {event.location}
-          </p>
-        )}
-        <p className="mt-auto text-xs text-textSecondary">{timeStr}</p>
       </div>
-    </div>
+    </HoverCard>
   );
 }
