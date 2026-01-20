@@ -29,6 +29,8 @@ declare global {
 
   type SubmissionStatus = "draft" | "submitted";
 
+  type ScheduleType = "general" | "meals" | "ceremonies" | "workshops" | "fun";
+
   // type HackerApplication = {
   //   id: string;
   //   userId: string;
@@ -54,4 +56,4 @@ declare global {
   type HackerApplication = typeof hackerApplications.$inferSelect;
 }
 
-export {};
+export { ScheduleType };
