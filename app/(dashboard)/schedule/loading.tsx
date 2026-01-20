@@ -12,121 +12,87 @@ export default function Loading() {
         </div>
 
         {/* Legend */}
-        <div className="flex flex-wrap gap-4 rounded-lg border border-border bg-backgroundMuted p-4">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="flex items-center gap-2">
-              <Skeleton className="h-4 w-4 rounded" />
-              <Skeleton className="h-4 w-16" />
-            </div>
-          ))}
+        <div className="border-border bg-backgroundMuted flex flex-wrap gap-4 rounded-lg border p-4">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-4 w-4 rounded" />
+            <Skeleton className="h-4 w-16" />
+          </div>
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-4 w-4 rounded" />
+            <Skeleton className="h-4 w-16" />
+          </div>
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-4 w-4 rounded" />
+            <Skeleton className="h-4 w-16" />
+          </div>
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-4 w-4 rounded" />
+            <Skeleton className="h-4 w-16" />
+          </div>
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-4 w-4 rounded" />
+            <Skeleton className="h-4 w-16" />
+          </div>
         </div>
 
-        {/* Schedule Grid Container */}
+        {/* Schedule Container */}
         <div className="border-border bg-backgroundMuted rounded-lg border p-4">
           <div className="flex flex-col gap-4">
-            {/* Day Selector Tabs */}
+            {/* Day Selector */}
             <div className="flex gap-2">
-              {[1, 2, 3].map((i) => (
-                <Skeleton key={i} className="h-10 w-20 rounded-lg" />
-              ))}
+              <Skeleton className="h-10 w-20 rounded-lg" />
+              <Skeleton className="h-10 w-20 rounded-lg" />
+              <Skeleton className="h-10 w-20 rounded-lg" />
             </div>
 
-            {/* Schedule Grid */}
-            <div className="overflow-x-auto">
-              <div className="border-border grid min-w-[600px] grid-cols-[100px_1fr] overflow-hidden rounded-lg border xl:grid-cols-[120px_1fr]">
-                {/* Time Slots Column */}
-                <div className="relative bg-white">
-                  {Array.from({ length: 16 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="border-t border-border bg-white"
-                      style={{ height: 60 }}
-                    >
-                      <div className="mt-2 pr-2 text-right">
-                        <Skeleton className="ml-auto h-3 w-12" />
-                      </div>
-                    </div>
-                  ))}
+            {/* Schedule Grid Skeleton */}
+            <div className="border-border space-y-4 rounded-lg border bg-white p-4">
+              <div className="flex gap-4">
+                <Skeleton className="h-16 w-20 shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-3 w-1/2" />
+                  <Skeleton className="h-3 w-1/3" />
                 </div>
-
-                {/* Events Grid */}
-                <div className="border-border relative border-l bg-white">
-                  {/* Time slot grid lines */}
-                  {Array.from({ length: 16 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="border-border bg-backgroundMuted/25 border-t"
-                      style={{ height: 60 }}
-                    />
-                  ))}
-
-                  {/* Sample Event Skeletons */}
-                  <div className="absolute inset-0 p-1">
-                    {/* Event 1 */}
-                    <div
-                      className="absolute p-1"
-                      style={{
-                        top: "60px",
-                        height: "120px",
-                        left: "0%",
-                        width: "100%",
-                      }}
-                    >
-                      <Skeleton className="h-full w-full rounded-md" />
-                    </div>
-
-                    {/* Event 2 */}
-                    <div
-                      className="absolute p-1"
-                      style={{
-                        top: "240px",
-                        height: "90px",
-                        left: "0%",
-                        width: "50%",
-                      }}
-                    >
-                      <Skeleton className="h-full w-full rounded-md" />
-                    </div>
-
-                    {/* Event 3 */}
-                    <div
-                      className="absolute p-1"
-                      style={{
-                        top: "240px",
-                        height: "90px",
-                        left: "50%",
-                        width: "50%",
-                      }}
-                    >
-                      <Skeleton className="h-full w-full rounded-md" />
-                    </div>
-
-                    {/* Event 4 */}
-                    <div
-                      className="absolute p-1"
-                      style={{
-                        top: "420px",
-                        height: "180px",
-                        left: "0%",
-                        width: "100%",
-                      }}
-                    >
-                      <Skeleton className="h-full w-full rounded-md" />
-                    </div>
-
-                    {/* Event 5 */}
-                    <div
-                      className="absolute p-1"
-                      style={{
-                        top: "660px",
-                        height: "60px",
-                        left: "0%",
-                        width: "75%",
-                      }}
-                    >
-                      <Skeleton className="h-full w-full rounded-md" />
-                    </div>
-                  </div>
+              </div>
+              <div className="flex gap-4">
+                <Skeleton className="h-16 w-20 shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-3 w-1/2" />
+                  <Skeleton className="h-3 w-1/3" />
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <Skeleton className="h-16 w-20 shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-3 w-1/2" />
+                  <Skeleton className="h-3 w-1/3" />
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <Skeleton className="h-16 w-20 shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-3 w-1/2" />
+                  <Skeleton className="h-3 w-1/3" />
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <Skeleton className="h-16 w-20 shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-3 w-1/2" />
+                  <Skeleton className="h-3 w-1/3" />
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <Skeleton className="h-16 w-20 shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-3 w-1/2" />
+                  <Skeleton className="h-3 w-1/3" />
                 </div>
               </div>
             </div>
