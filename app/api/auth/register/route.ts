@@ -74,18 +74,18 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
       const { tokenId, code } = await createVerificationToken(email, tx);
 
       // Send verification email
-      // const emailResult = await sendWelcomeEmail({
-      //   name,
-      //   email,
-      //   subject: "Verify your email address for Hack Canada",
-      //   token: tokenId,
-      //   verificationCode: code,
-      // });
-      console.log("By passing send verification email, here it the OTP code:");
-      console.log(code);
-      // if (!emailResult.success) {
-      //   throw new Error("Failed to send verification email.");
-      // }
+      const emailResult = await sendWelcomeEmail({
+        name,
+        email,
+        subject: "Verify your email address for Hack Canada",
+        token: tokenId,
+        verificationCode: code,
+      });
+      // console.log("By passing send verification email, here it the OTP code:");
+      // console.log(code);
+      if (!emailResult.success) {
+        throw new Error("Failed to send verification email.");
+      }
 
       verificationTokenId = tokenId;
     });

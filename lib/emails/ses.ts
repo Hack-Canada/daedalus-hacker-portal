@@ -1,4 +1,4 @@
-import { SendEmailCommandInput, SES } from "@aws-sdk/client-ses";
+import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 import { render } from "@react-email/render";
 
 import ApplicationSubmittedEmail from "@/components/emails/ApplicationSubmittedEmail";
@@ -6,7 +6,7 @@ import HackathonPrepEmail from "@/components/emails/HackathonPrepEmail";
 import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
 import WelcomeEmail from "@/components/emails/WelcomeEmail";
 
-const ses = new SES({
+const ses = new SESClient({
   region: process.env.AWS_SES_REGION,
   credentials: {
     accessKeyId: process.env.AWS_SES_ACCESS_KEY_ID || "",
@@ -25,8 +25,9 @@ export const sendEmail = async (
   body: string,
   from?: string,
 ): Promise<SendEmailResult> => {
-  const params: SendEmailCommandInput = {
-    Source: from || process.env.AWS_SES_VERIFIED_EMAIL || "",
+  console.log("From:", from);
+  const command = new SendEmailCommand({
+    Source: `Hack Canada <${process.env.AWS_SES_NO_REPLY_EMAIL!}>` || "",
     Destination: {
       ToAddresses: [to],
     },
@@ -46,10 +47,10 @@ export const sendEmail = async (
         Data: subject,
       },
     },
-  };
+  });
 
   try {
-    await ses.sendEmail(params);
+    await ses.send(command);
     return { success: true };
   } catch (error) {
     console.error("Error sending email with SES:", error);
@@ -88,7 +89,7 @@ export const sendWelcomeEmail = async (data: WelcomeEmailProps) => {
     body,
     process.env.AWS_SES_NO_REPLY_EMAIL,
   );
-
+  console.log("Email result:", result);
   return result;
 };
 
@@ -215,7 +216,7 @@ export const sendHackathonPrepEmail = async (data: HackathonPrepEmailProps) => {
 
   const textBody = createHackathonPrepTextVersion(name);
 
-  const params: SendEmailCommandInput = {
+  const command = new SendEmailCommand({
     Source: `Hack Canada <${process.env.AWS_SES_NO_REPLY_EMAIL!}>` || "",
     Destination: {
       ToAddresses: [email],
@@ -236,10 +237,10 @@ export const sendHackathonPrepEmail = async (data: HackathonPrepEmailProps) => {
         Data: "Hack Canada Event Details and Check-in Information",
       },
     },
-  };
+  });
 
   try {
-    await ses.sendEmail(params);
+    await ses.send(command);
     return { success: true };
   } catch (error) {
     console.error("Error sending email with SES:", error);
