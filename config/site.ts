@@ -24,6 +24,7 @@ export const siteConfig = {
   ],
 };
 
+export const userRegistrationEnabled: boolean = false;
 export const discordInviteUrl: string = "https://example.com/discord";
 export const hackathonsCanadaDiscordUrl: string = "https://example.com/discord";
 

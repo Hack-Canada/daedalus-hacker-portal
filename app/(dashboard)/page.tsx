@@ -15,6 +15,7 @@ const Home = async () => {
     return <UnauthorizedState />;
   }
 
+
   return <DashboardContent user={user} />;
 };
 
