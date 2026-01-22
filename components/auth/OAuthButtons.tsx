@@ -3,6 +3,9 @@
 import { signIn } from "next-auth/react";
 import { FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "sonner";
+
+import { userRegistrationEnabled } from "@/config/site";
 
 type Props = {
   callbackUrl?: string;
@@ -10,6 +13,10 @@ type Props = {
 
 const OAuthButtons = ({ callbackUrl = "/" }: Props) => {
   const handleOAuthSignIn = (provider: "google" | "github") => {
+    if (!userRegistrationEnabled) {
+      toast.error("User registration is currently disabled.");
+      return;
+    }
     signIn(provider, { callbackUrl });
   };
 

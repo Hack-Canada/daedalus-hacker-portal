@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { AUTH_ERROR_MESSAGES } from "@/lib/auth-errors";
 
+import { AUTH_ERROR_MESSAGES } from "@/lib/auth-errors";
 import { fetcher } from "@/lib/utils";
 import { LoginSchema } from "@/lib/validations/login";
 import { Button } from "@/components/ui/button";
-
 import {
   Form,
   FormControl,
@@ -20,13 +19,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {signIn} from "next-auth/react";
-import OAuthButtons from "../OAuthButtons";
 
+import OAuthButtons from "../OAuthButtons";
 
 type Props = {};
 
-const SignInForm = ({ }: Props) => {
+const SignInForm = ({}: Props) => {
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -36,12 +34,7 @@ const SignInForm = ({ }: Props) => {
   useEffect(() => {
     if (!authError) return;
 
-    toast.error(
-      AUTH_ERROR_MESSAGES[authError] ??
-      AUTH_ERROR_MESSAGES.default
-    );
-
-
+    toast.error(AUTH_ERROR_MESSAGES[authError] ?? AUTH_ERROR_MESSAGES.default);
 
     router.replace("/sign-in");
   }, [authError, router]);
@@ -53,10 +46,6 @@ const SignInForm = ({ }: Props) => {
       password: "",
     },
   });
-
-
-
-
 
   const onSubmit = (values: { email: string; password: string }) => {
     try {
@@ -142,17 +131,14 @@ const SignInForm = ({ }: Props) => {
       <div className="w-full max-w-sm">
         <div className="relative flex items-center gap-2">
           <div className="flex-1" />
-          <span className="shrink-0 px-2 text-xs text-muted-foreground uppercase">
+          <span className="text-muted-foreground shrink-0 px-2 text-xs uppercase">
             OR
           </span>
           <div className="flex-1" />
         </div>
       </div>
       <OAuthButtons callbackUrl="/" />
-
-
     </Form>
-
   );
 };
 
