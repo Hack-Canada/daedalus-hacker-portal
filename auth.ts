@@ -24,6 +24,7 @@ declare module "next-auth" {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/sign-in",
+    error: "/sign-in",
   },
   cookies: {
     sessionToken: {
@@ -36,10 +37,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ account, user }) {
-      // Allow OAuth providers immediately
+      
       if (account?.provider !== "credentials") {
+        // handle OAuth provider errors
         return true;
+      
+
       }
+
+
 
       // From here on: credentials users only
       if (!user.id) return false;

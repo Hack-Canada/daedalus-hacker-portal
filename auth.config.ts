@@ -5,6 +5,7 @@ import Google from "next-auth/providers/google";
 
 import { getUserByEmail } from "./lib/db/queries/user";
 import { LoginSchema } from "./lib/validations/login";
+import GitHub from "next-auth/providers/github"
 
 export default {
   providers: [
@@ -12,6 +13,10 @@ export default {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
+    GitHub({
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    }), 
     Credentials({
       async authorize(credentials) {
         const validatedCredentials = LoginSchema.safeParse(credentials);
@@ -40,4 +45,5 @@ export default {
       },
     }),
   ],
+  
 } satisfies NextAuthConfig;

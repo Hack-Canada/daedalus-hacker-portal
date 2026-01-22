@@ -15,6 +15,8 @@ const Home = async () => {
     return <UnauthorizedState />;
   }
 
+  console.log("Current User:", user);
+
   return <DashboardContent user={user} />;
 };
 
