@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState,useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -18,14 +18,32 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import OAuthButtons from "../OAuthButtons";
+import { AUTH_ERROR_MESSAGES } from "@/lib/auth-errors";
+import { useSearchParams } from "next/navigation";
+
 
 type Props = {};
 
-const SignUpForm = ({}: Props) => {
+const SignUpForm = ({ }: Props) => {
+  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+   const authError = searchParams.get("error");
 
   const router = useRouter();
+    useEffect(() => {
+      if (!authError) return;
+  
+      toast.error(
+        AUTH_ERROR_MESSAGES[authError] ??
+        AUTH_ERROR_MESSAGES.default
+      );
+  
+  
+  
+      router.replace("/sign-in");
+    }, [authError, router]);
 
   const form = useForm({
     resolver: zodResolver(registerSchema),
@@ -142,12 +160,22 @@ const SignUpForm = ({}: Props) => {
         <Button
           variant="auth"
           type="submit"
-          className="w-full"
+          className="w-full cursor-pointer"
           disabled={isPending}
         >
           {isPending ? "Signing Up..." : "Sign Up"}
         </Button>
       </form>
+      <div className="w-full max-w-sm">
+        <div className="relative flex items-center gap-2">
+          <div className="flex-1" />
+          <span className="shrink-0 px-2 text-xs text-muted-foreground uppercase">
+            OR
+          </span>
+          <div className="flex-1" />
+        </div>
+      </div>
+      <OAuthButtons callbackUrl="/" />
     </Form>
   );
 };

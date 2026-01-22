@@ -10,8 +10,7 @@ import { AUTH_ERROR_MESSAGES } from "@/lib/auth-errors";
 import { fetcher } from "@/lib/utils";
 import { LoginSchema } from "@/lib/validations/login";
 import { Button } from "@/components/ui/button";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
+
 import {
   Form,
   FormControl,
@@ -22,6 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {signIn} from "next-auth/react";
+import OAuthButtons from "../OAuthButtons";
 
 
 type Props = {};
@@ -55,9 +55,7 @@ const SignInForm = ({ }: Props) => {
   });
 
 
-  const callOutToOAuthProvider = (provider: "google" | "github") => {
-    signIn(provider, { callbackUrl: "/" });
-  };
+
 
 
   const onSubmit = (values: { email: string; password: string }) => {
@@ -135,32 +133,22 @@ const SignInForm = ({ }: Props) => {
         <Button
           variant="auth"
           type="submit"
-          className="w-full"
+          className="w-full cursor-pointer"
           disabled={isPending}
         >
           {isPending ? "Signing In..." : "Sign In"}
         </Button>
       </form>
-      <div className="flex items-center justify-center gap-4 mt-4">
-        OR
+      <div className="w-full max-w-sm">
+        <div className="relative flex items-center gap-2">
+          <div className="flex-1" />
+          <span className="shrink-0 px-2 text-xs text-muted-foreground uppercase">
+            OR
+          </span>
+          <div className="flex-1" />
+        </div>
       </div>
-      <div className="flex justify-center gap-10  ">
-        <button
-          onClick={() => callOutToOAuthProvider("google")}
-          className="p-3 rounded-full border hover:bg-gray-100 hover:scale-105 transition-transform hover:shadow-md"
-        >
-          <FcGoogle size={24} />
-        </button>
-
-        <button
-          onClick={() => callOutToOAuthProvider("github")}
-          className="p-3 rounded-full border hover:bg-gray-100 hover:scale-105 transition-transform hover:shadow-md"
-        >
-          <FaGithub size={24} />
-
-        </button>
-
-      </div>
+      <OAuthButtons callbackUrl="/" />
 
 
     </Form>
