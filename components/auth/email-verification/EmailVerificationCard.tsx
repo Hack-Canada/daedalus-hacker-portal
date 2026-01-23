@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ export function EmailVerificationCard() {
   const [error, setError] = useState("");
 
   const token = searchParams.get("token");
+  const email = searchParams.get("email");
 
   const handleSubmit = async (code: string) => {
     if (!token) {
@@ -59,15 +61,21 @@ export function EmailVerificationCard() {
   return (
     <AuthCardWrapper>
       <div className="space-y-2 text-center">
-        <h1 className="font-rubik text-2xl font-semibold text-textPrimary md:text-3xl">
+        <h1 className="font-rubik text-textPrimary text-2xl font-semibold md:text-3xl">
           Verify Your Email
         </h1>
         <p className="text-black/50 max-md:text-sm">
-          Enter the 6-digit code sent to your email
+          Enter the 6-digit code sent to{" "}
+          <span className="lowercase">{email}</span>
         </p>
       </div>
       <div className="space-y-6">
-        <InputOTP maxLength={6} onComplete={handleSubmit} disabled={isLoading}>
+        <InputOTP
+          maxLength={6}
+          onComplete={handleSubmit}
+          disabled={isLoading}
+          pattern={REGEXP_ONLY_DIGITS}
+        >
           <InputOTPGroup className="mx-auto">
             {[...Array(6)].map((_, index) => (
               <InputOTPSlot

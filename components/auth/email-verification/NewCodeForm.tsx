@@ -70,7 +70,9 @@ export default function NewCodeForm() {
         const { tokenId } = data;
         form.reset();
         toast.success("New verification code sent!");
-        router.push(`/email-verification?token=${tokenId}`);
+        router.push(
+          `/email-verification?token=${tokenId}&email=${values.email}`,
+        );
       });
     } catch (error) {
       const errorMessage =
@@ -85,8 +87,8 @@ export default function NewCodeForm() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {error && (
-          <div className="rounded-md border border-error/50 bg-error/10 p-2">
-            <p className="text-sm text-error">{error}</p>
+          <div className="border-error/50 bg-error/10 rounded-md border p-2">
+            <p className="text-error text-sm">{error}</p>
           </div>
         )}
 

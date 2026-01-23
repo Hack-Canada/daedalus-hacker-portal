@@ -78,8 +78,8 @@ export const sendWelcomeEmail = async (data: WelcomeEmailProps) => {
       verificationCode,
       verificationUrl:
         process.env.NODE_ENV === "production"
-          ? `https://app.hackcanada.org/email-verification?token=${token}`
-          : `http://localhost:3000/email-verification?token=${token}`,
+          ? `https://app.hackcanada.org/email-verification?token=${token}&email=${email}`
+          : `http://localhost:3000/email-verification?token=${token}&email=${email}`,
     }),
   );
 

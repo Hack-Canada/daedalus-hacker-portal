@@ -56,7 +56,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         );
 
         if (existingToken) {
-          return `/email-verification?token=${existingToken.id}`;
+          return `/email-verification?token=${existingToken.id}&email=${existingUser.email}`;
         }
 
         const { tokenId, code } = await createVerificationToken(
@@ -76,7 +76,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return false;
         }
 
-        return `/email-verification?token=${tokenId}`;
+        return `/email-verification?token=${tokenId}&email=${existingUser.email}`;
       }
 
       return true;
