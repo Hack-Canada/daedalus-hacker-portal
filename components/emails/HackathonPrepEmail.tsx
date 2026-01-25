@@ -13,6 +13,7 @@ import {
   Text,
 } from "@react-email/components";
 import { Tailwind } from "@react-email/tailwind";
+import { hackathonYear } from "@/config/site";
 
 type Props = {
   name: string;
@@ -52,7 +53,7 @@ const HackathonPrepEmail = ({ name, userId }: Props) => {
                 style={{
                   border: "1px solid #60A5FA66",
                 }}
-                className="mt-6 rounded-lg bg-blue-50/75 px-4 pb-3 pt-2"
+                className="mt-6 rounded-lg bg-blue-50/75 px-4 pt-2 pb-3"
               >
                 <Text className="text-lg font-semibold text-zinc-800">
                   📍 Location & Check-in Details
@@ -146,7 +147,7 @@ const HackathonPrepEmail = ({ name, userId }: Props) => {
                 style={{
                   border: "1px solid #60A5FA66",
                 }}
-                className="mt-6 rounded-lg bg-blue-50/50 px-4 pb-4 pt-2"
+                className="mt-6 rounded-lg bg-blue-50/50 px-4 pt-2 pb-4"
               >
                 <Heading className="text-xl font-bold text-[#0A1F44]">
                   🔗 Important Links & Resources
@@ -248,7 +249,7 @@ const HackathonPrepEmail = ({ name, userId }: Props) => {
               <Text className="mt-8 font-semibold text-zinc-800">
                 See you soon!
               </Text>
-              <Text className="mb-8 mt-2 font-semibold text-blue-500">
+              <Text className="mt-2 mb-8 font-semibold text-blue-500">
                 Hack Canada Team 🦫🍁
               </Text>
 
@@ -300,7 +301,7 @@ const HackathonPrepEmail = ({ name, userId }: Props) => {
                   </Link>
                 </div>
                 <Text className="m-2 text-xs text-gray-400">
-                  Copyright © 2025 Hack Canada
+                  Copyright © {hackathonYear} Hack Canada
                 </Text>
                 <Text className="m-2 text-xs text-gray-400">
                   All rights reserved.

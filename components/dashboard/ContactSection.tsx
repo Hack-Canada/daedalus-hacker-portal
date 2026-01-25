@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { hackathonYear } from "@/config/site";
 
 export const ContactSection = () => {
   return (
@@ -20,7 +21,7 @@ export const ContactSection = () => {
         <p className="text-xl font-semibold md:text-2xl">Have questions?</p>
         {/* <p className="font-light text-gray-500 md:text-lg">Too late!</p> */}
         <p className="font-light text-gray-500 md:text-lg">
-          Check back in January 2026 for updates!
+          Check back in January {hackathonYear} for updates!
         </p>
       </div>
 

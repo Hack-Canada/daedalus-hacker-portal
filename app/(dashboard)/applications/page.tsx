@@ -6,6 +6,7 @@ import { applications } from "@/config/applications";
 import { BackButton } from "@/components/ui/back-button";
 import { ApplicationCard } from "@/components/applications/ApplicationCard";
 import PageWrapper from "@/components/PageWrapper";
+import { hackathonYear } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Applications",
@@ -27,7 +28,7 @@ const ApplicationPage = async () => {
           <h1 className="font-rubik text-3xl font-bold">Applications Closed</h1>
         </div>
         <p className="text-textMuted max-md:text-sm">
-          Hack Canada 2025 has concluded. Thank you for your interest!
+          Hack Canada {hackathonYear} has concluded. Thank you for your interest!
         </p>
       </div>
       <div className="flex w-full flex-col gap-6">

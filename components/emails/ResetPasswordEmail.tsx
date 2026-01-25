@@ -13,6 +13,7 @@ import {
   Text,
 } from "@react-email/components";
 import { Tailwind } from "@react-email/tailwind";
+import { hackathonYear } from "@/config/site";
 
 interface ResetPasswordEmailProps {
   name: string;
@@ -49,17 +50,17 @@ const ResetPasswordEmail = ({ name, resetUrl }: ResetPasswordEmailProps) => {
               alt="Hack Canada"
               className="w-full rounded-t-lg"
             />
-            <Section className="rounded-b-lg bg-background p-6 shadow-xs">
-              <Heading className="text-2xl font-semibold text-textPrimary">
+            <Section className="bg-background rounded-b-lg p-6 shadow-xs">
+              <Heading className="text-textPrimary text-2xl font-semibold">
                 Password Reset Request
               </Heading>
-              <Text className="mt-4 text-textPrimary">
+              <Text className="text-textPrimary mt-4">
                 Hi {name}, we received a request to reset your Hack Canada
                 password.
               </Text>
               <Hr className="mb-6 border-gray-200" />
 
-              <Section className="mb-6 rounded-lg border border-blue-500/10 bg-primary/5 p-6 text-center shadow-xs">
+              <Section className="bg-primary/5 mb-6 rounded-lg border border-blue-500/10 p-6 text-center shadow-xs">
                 <div className="text-center">
                   <Text className="text-textSecondary">
                     Click the button below to reset your password:
@@ -73,9 +74,9 @@ const ResetPasswordEmail = ({ name, resetUrl }: ResetPasswordEmailProps) => {
                 </Button>
               </Section>
 
-              <Text className="mt-8 text-center text-sm text-textMuted">
-                ❗ If you didn&apos;t request this password reset, please ignore this
-                email. ❗
+              <Text className="text-textMuted mt-8 text-center text-sm">
+                ❗ If you didn&apos;t request this password reset, please ignore
+                this email. ❗
               </Text>
 
               <Hr className="my-6 border-gray-200" />
@@ -168,7 +169,7 @@ const ResetPasswordEmail = ({ name, resetUrl }: ResetPasswordEmailProps) => {
                     margin: "8px 0",
                   }}
                 >
-                  Copyright © 2025 Hack Canada
+                  Copyright © {hackathonYear} Hack Canada
                 </Text>
                 <Text
                   style={{

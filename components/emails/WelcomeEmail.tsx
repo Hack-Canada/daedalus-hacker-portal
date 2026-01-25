@@ -13,6 +13,7 @@ import {
   Text,
 } from "@react-email/components";
 import { Tailwind } from "@react-email/tailwind";
+import { hackathonYear } from "@/config/site";
 
 interface WelcomeEmailProps {
   name: string;
@@ -191,7 +192,7 @@ const WelcomeEmail = ({
                     margin: "8px 0",
                   }}
                 >
-                  Copyright © 2025 Hack Canada
+                  Copyright © {hackathonYear} Hack Canada
                 </Text>
                 <Text
                   style={{

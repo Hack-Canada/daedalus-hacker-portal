@@ -12,6 +12,7 @@ import {
   Text,
 } from "@react-email/components";
 import { Tailwind } from "@react-email/tailwind";
+import { hackathonYear } from "@/config/site";
 
 interface ApplicationSubmittedEmailProps {
   name: string;
@@ -49,25 +50,25 @@ const ApplicationSubmittedEmail = ({
               alt="Hack Canada"
               className="w-full rounded-t-lg"
             />
-            <Section className="rounded-b-lg bg-background p-6 shadow-xs">
-              <Heading className="text-2xl font-semibold text-textPrimary">
+            <Section className="bg-background rounded-b-lg p-6 shadow-xs">
+              <Heading className="text-textPrimary text-2xl font-semibold">
                 Thanks for applying! 🎉
               </Heading>
-              <Text className="mt-4 text-textPrimary">Hello {name} 🦫</Text>
-              <Text className="mt-2 text-textPrimary">
+              <Text className="text-textPrimary mt-4">Hello {name} 🦫</Text>
+              <Text className="text-textPrimary mt-2">
                 Thank you for applying to Hack Canada! Your hacker application
                 has been successfully submitted.
               </Text>
               <Hr className="my-6 border-gray-200" />
 
-              <Section className="mb-6 rounded-lg border border-blue-500/10 bg-primary/5 p-6">
+              <Section className="bg-primary/5 mb-6 rounded-lg border border-blue-500/10 p-6">
                 <Text className="text-textSecondary">
                   Please note that application decisions will not be sent out
                   until after applications close. Our team is working hard on
                   reviewing all the applications and decisions will be released
                   as soon as possible.
                 </Text>
-                <Text className="mt-4 text-textSecondary">
+                <Text className="text-textSecondary mt-4">
                   Your current application status is also available on your
                   dashboard in the application platform at{" "}
                   <Link
@@ -78,14 +79,14 @@ const ApplicationSubmittedEmail = ({
                   </Link>
                   .
                 </Text>
-                <Text className="mt-4 text-textSecondary">
+                <Text className="text-textSecondary mt-4">
                   In the meantime, keep an eye out on our social media platforms
                   for any updates or changes to the application process or our
                   hackathon schedule.
                 </Text>
               </Section>
 
-              <Text className="mt-6 text-textPrimary">
+              <Text className="text-textPrimary mt-6">
                 If you have any questions or concerns, please email us at{" "}
                 <Link
                   href="mailto:hello@hackcanada.org"
@@ -96,7 +97,7 @@ const ApplicationSubmittedEmail = ({
                 , or reach out via our socials.
               </Text>
 
-              <Text className="mt-2 text-sm text-textMuted">
+              <Text className="text-textMuted mt-2 text-sm">
                 We look forward to seeing you at Hack Canada!
               </Text>
 
@@ -190,7 +191,7 @@ const ApplicationSubmittedEmail = ({
                     margin: "8px 0",
                   }}
                 >
-                  Copyright © 2025 Hack Canada
+                  Copyright © {hackathonYear} Hack Canada
                 </Text>
                 <Text
                   style={{

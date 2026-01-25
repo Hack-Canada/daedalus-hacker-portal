@@ -1,6 +1,8 @@
+export const hackathonYear = 2026;
+
 export const siteConfig = {
   metadataBase: new URL("https://app.hackcanada.org"),
-  title: "Hack Canada 2026",
+  title: `Hack Canada ${hackathonYear}`,
   description:
     "Second edition of the hackathon hosted by Hackathons Canada, the biggest hacker community in Canada of 3000+ members.",
   openGraph: {
@@ -9,7 +11,7 @@ export const siteConfig = {
         url: "/opengraph-image.png",
         width: 1500,
         height: 1000,
-        alt: "Hack Canada 2026",
+        alt: `Hack Canada ${hackathonYear}`,
       },
     ],
   },
@@ -24,7 +26,7 @@ export const siteConfig = {
   ],
 };
 
-export const userRegistrationEnabled: boolean = false;
+export const userRegistrationEnabled: boolean = true;
 export const discordInviteUrl: string = "https://example.com/discord";
 export const hackathonsCanadaDiscordUrl: string = "https://example.com/discord";
 

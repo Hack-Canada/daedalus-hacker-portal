@@ -4,6 +4,7 @@ import { viewProjectsUrl } from "@/config/site";
 
 import { buttonVariants } from "../ui/button";
 import CardDecorativeElements from "./CardDecorativeElements";
+import { hackathonYear } from "@/config/site";
 
 const ProjectsCard = () => {
   return (
@@ -17,7 +18,7 @@ const ProjectsCard = () => {
         </div>
 
         <p className="pb-8 text-textMuted">
-          Explore all the amazing projects submitted during Hack Canada 2025!
+          Explore all the amazing projects submitted during Hack Canada {hackathonYear}!
           See what our talented hackers built and get inspired for future
           hackathons.
         </p>

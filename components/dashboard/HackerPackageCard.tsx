@@ -1,6 +1,6 @@
 import { Download, ExternalLink } from "lucide-react";
 
-import { hackerPackageUrl } from "@/config/site";
+import { hackerPackageUrl, hackathonYear } from "@/config/site";
 
 import { buttonVariants } from "../ui/button";
 import CardDecorativeElements from "./CardDecorativeElements";
@@ -36,7 +36,7 @@ const HackerPackageCard = ({ isLocked }: HackerPackageCardProps) => {
 
         <p className="text-textMuted pb-2">
           Download your hacker package containing essential information,
-          schedule, and resources for Hack Canada 2025.
+          schedule, and resources for Hack Canada {hackathonYear}.
         </p>
 
         <div className="mt-auto flex items-center gap-2">
