@@ -287,9 +287,6 @@ export function getCurrentPhase(now: Date = new Date()): HackathonPhase {
   return "post-event";
 }
 
-/**
- * Checks if a string is a valid hackathon phase
- */
 function isValidPhase(phase: string): phase is HackathonPhase {
   return [
     "pre-registration",
@@ -300,79 +297,48 @@ function isValidPhase(phase: string): phase is HackathonPhase {
   ].includes(phase);
 }
 
-/**
- * Gets the feature flags for a specific phase
- */
 export function getPhaseFeatures(phase: HackathonPhase): PhaseFeatures {
   return phaseFeatures[phase];
 }
 
-/**
- * Gets the feature flags for the current phase
- */
 export function getCurrentPhaseFeatures(): PhaseFeatures {
   const currentPhase = getCurrentPhase();
   return getPhaseFeatures(currentPhase);
 }
 
-/**
- * Checks if a specific feature is enabled in the current phase
- */
 export function isFeatureEnabled(featureName: keyof PhaseFeatures): boolean {
   const features = getCurrentPhaseFeatures();
   return features[featureName] as boolean;
 }
 
-/**
- * Checks if the current phase matches any of the provided phases
- */
+
 export function isPhaseActive(...phases: HackathonPhase[]): boolean {
   const currentPhase = getCurrentPhase();
   return phases.includes(currentPhase);
 }
 
-// ============================================================================
-// Helper Functions
-// ============================================================================
-
-/**
- * Gets the application deadline based on the registration close date
- */
+// Helper functions
 export function getApplicationDeadline(): Date {
   return phaseDates.registrationClose;
 }
 
-/**
- * Gets the event start date
- */
 export function getEventDate(): Date {
   return phaseDates.eventStart;
 }
 
-/**
- * Checks if applications are currently open
- */
 export function areApplicationsOpen(): boolean {
   return isPhaseActive("registration-open");
 }
 
-/**
- * Checks if the event is currently happening
- */
+
 export function isEventActive(): boolean {
   return isPhaseActive("during-event");
 }
 
-/**
- * Checks if the event has concluded
- */
+
 export function isEventConcluded(): boolean {
   return isPhaseActive("post-event");
 }
-
-// ============================================================================
-// Exports
-// ============================================================================
 
 export default {
   phaseDates,

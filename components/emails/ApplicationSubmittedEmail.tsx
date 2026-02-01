@@ -72,8 +72,8 @@ const ApplicationSubmittedEmail = ({
                   Your current application status is also available on your
                   dashboard in the application platform at{" "}
                   <Link
-                    href="mailto:hello@hackcanada.org"
-                    className="text-primary hover:text-primaryDark"
+                    href="https://app.hackcanada.org"
+                    className="text-primary"
                   >
                     https://app.hackcanada.org
                   </Link>
@@ -90,7 +90,7 @@ const ApplicationSubmittedEmail = ({
                 If you have any questions or concerns, please email us at{" "}
                 <Link
                   href="mailto:hello@hackcanada.org"
-                  className="text-primary hover:text-primaryDark"
+                  className="text-primary"
                 >
                   hello@hackcanada.org
                 </Link>
