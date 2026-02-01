@@ -8,6 +8,7 @@ import {
 } from "@/lib/db/queries/application";
 import { sendApplicationSubmittedEmail } from "@/lib/emails/ses";
 import { HackerApplicationSubmissionSchema } from "@/lib/validations/application";
+import { isFeatureEnabled } from "@/config/phases";
 
 export async function POST(
   req: NextRequest,
@@ -29,6 +30,14 @@ export async function POST(
         success: false,
         message:
           "You must not have received a decision to submit an application",
+      });
+    }
+
+    // Check if application submission is allowed based on current phase
+    if (!isFeatureEnabled("applicationSubmission")) {
+      return NextResponse.json({
+        success: false,
+        message: "Application submissions are not available at this time",
       });
     }
 

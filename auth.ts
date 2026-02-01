@@ -3,6 +3,7 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth, { DefaultSession } from "next-auth";
 
 import authConfig from "./auth.config";
+import { isFeatureEnabled } from "./config/phases";
 import { db } from "./lib/db";
 import {
   createVerificationToken,
@@ -36,8 +37,29 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ account, user }) {
-      // Allow OAuth providers immediately
+      // For OAuth providers (Google, GitHub, etc.)
       if (account?.provider !== "credentials") {
+        // Check if this is an existing user or a new OAuth registration
+        if (user.id) {
+          const existingUser = await getUserById(user.id);
+          
+          if (!existingUser) {
+            // New OAuth user - check if registration is open
+            if (!isFeatureEnabled("userRegistration")) {
+              // In production, allow only @hackcanada.org emails when registration is closed
+              if (process.env.NODE_ENV === "production") {
+                if (!user.email?.endsWith("@hackcanada.org")) {
+                  return false; // Block new OAuth registration
+                }
+              } else {
+                // In development, block all new registrations when closed
+                return false;
+              }
+            }
+          }
+        }
+        
+        // Existing user or registration is allowed
         return true;
       }
 

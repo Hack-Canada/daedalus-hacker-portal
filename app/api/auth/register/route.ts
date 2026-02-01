@@ -13,6 +13,7 @@ import { users } from "@/lib/db/schema";
 import { sendWelcomeEmail } from "@/lib/emails/ses";
 import { generateRandomCode } from "@/lib/utils";
 import { registerSchema } from "@/lib/validations/register";
+import { isFeatureEnabled } from "@/config/phases";
 
 export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
   try {
@@ -30,16 +31,23 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
 
     const email = validatedEmail.toLowerCase();
 
-    // If its production, then check if USER_REGISTRATION_ENABLED is true, if false then only allow *@hackcanada.org emails
-    if (
-      process.env.NODE_ENV === "production" &&
-      process.env.USER_REGISTRATION_ENABLED !== "true"
-    ) {
-      if (!email.endsWith("@hackcanada.org")) {
+    // Check if user registration is enabled based on current phase
+    if (!isFeatureEnabled("userRegistration")) {
+      // In production, allow only @hackcanada.org emails when registration is disabled
+      if (process.env.NODE_ENV === "production") {
+        if (!email.endsWith("@hackcanada.org")) {
+          return NextResponse.json({
+            success: false,
+            message:
+              "Registrations are currently disabled. Reach out to support@hackcanada.org if you think this is an error.",
+          });
+        }
+      } else {
+        // In non-production, show friendly message
         return NextResponse.json({
           success: false,
           message:
-            "Registrations are currently disabled. Reach out to support@hackcanada.org if you think this is an error.",
+            "Registrations are not open yet. Please check back later.",
         });
       }
     }

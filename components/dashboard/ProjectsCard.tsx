@@ -1,12 +1,22 @@
+"use client";
+
 import { ExternalLink, Trophy } from "lucide-react";
 
 import { viewProjectsUrl } from "@/config/site";
+import { useHackathonPhase } from "@/hooks/useHackathonPhase";
 
 import { buttonVariants } from "../ui/button";
 import CardDecorativeElements from "./CardDecorativeElements";
 import { hackathonYear } from "@/config/site";
 
 const ProjectsCard = () => {
+  const { isFeatureEnabled } = useHackathonPhase();
+
+  // Only show projects card post-event
+  if (!isFeatureEnabled("showProjectsCard")) {
+    return null;
+  }
+
   return (
     <div className="col-span-1 overflow-hidden lg:col-span-2">
       <div className="group relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-md border border-border bg-backgroundMuted p-6 transition hover:border-primaryLight hover:shadow-lg">

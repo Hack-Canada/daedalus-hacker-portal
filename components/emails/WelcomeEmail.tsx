@@ -28,6 +28,10 @@ const WelcomeEmail = ({
 }: WelcomeEmailProps) => {
   return (
     <Html>
+      <Head />
+      <Preview>
+        {verificationCode} - Your verification code. Welcome to Hack Canada!
+      </Preview>
       <Tailwind
         config={{
           theme: {
@@ -49,10 +53,6 @@ const WelcomeEmail = ({
           },
         }}
       >
-        <Head />
-        <Preview>
-          {verificationCode} - Your verification code. Welcome to Hack Canada!
-        </Preview>
         <Body className="bg-primary/5 rounded-lg">
           <Container className="mx-auto max-w-2xl px-4 py-8">
             <Img

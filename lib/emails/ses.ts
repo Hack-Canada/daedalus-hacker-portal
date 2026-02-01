@@ -25,7 +25,6 @@ export const sendEmail = async (
   body: string,
   from?: string,
 ): Promise<SendEmailResult> => {
-  console.log("From:", from);
   const command = new SendEmailCommand({
     Source: `Hack Canada <${process.env.AWS_SES_NO_REPLY_EMAIL!}>` || "",
     Destination: {

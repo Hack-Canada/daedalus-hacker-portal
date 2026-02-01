@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/auth";
 import { ApiResponse } from "@/types/api";
 import { createOrUpdateApplication } from "@/lib/db/queries/application";
 import { HackerApplicationDraftSchema } from "@/lib/validations/application";
+import { isFeatureEnabled } from "@/config/phases";
 
 export async function POST(
   req: NextRequest,
@@ -25,6 +26,14 @@ export async function POST(
         success: false,
         message:
           "You must not have submitted or been accepted to save an application",
+      });
+    }
+
+    // Check if application saving is allowed based on current phase
+    if (!isFeatureEnabled("applicationSaving")) {
+      return NextResponse.json({
+        success: false,
+        message: "Application saving is not available at this time",
       });
     }
 

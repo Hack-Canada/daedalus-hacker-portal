@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { getCurrentPhase } from "@/config/phases";
 
 interface ApplicationCardStatusProps {
   status: "open" | "closed" | "coming soon";
@@ -9,6 +10,16 @@ export const ApplicationCardStatus = ({
   status,
   deadline,
 }: ApplicationCardStatusProps) => {
+  const phase = getCurrentPhase();
+  
+  // Dynamic message based on phase when status is closed
+  const getClosedMessage = () => {
+    if (phase === "post-event") {
+      return "Hackathon concluded";
+    }
+    return "Applications closed";
+  };
+
   return (
     <div className="flex gap-2 max-sm:flex-col sm:justify-between">
       <div className="flex items-center gap-2">
@@ -33,7 +44,7 @@ export const ApplicationCardStatus = ({
       </div>
       {status === "closed" ? (
         <span className="text-xs text-gray-600 dark:text-gray-400 sm:text-right md:text-sm">
-          Hackathon concluded
+          {getClosedMessage()}
         </span>
       ) : deadline ? (
         <span className="text-xs text-gray-600 dark:text-gray-400 sm:text-right md:text-sm">
