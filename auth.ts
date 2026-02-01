@@ -23,6 +23,7 @@ declare module "next-auth" {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/sign-in",
+    error: "/sign-in",
   },
   cookies: {
     sessionToken: {
@@ -34,10 +35,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: "jwt",
   },
   callbacks: {
-    async signIn({ account, user }): Promise<boolean | string> {
-      if (!user.id) {
-        return false;
+    async signIn({ account, user }) {
+      // Allow OAuth providers immediately
+      if (account?.provider !== "credentials") {
+        return true;
       }
+
+      // From here on: credentials users only
+      if (!user.id) return false;
 
       const existingUser = await getUserById(user.id);
 
@@ -45,9 +50,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return false;
       }
 
-      // Check email verification status after successful authentication
       if (!existingUser.emailVerified) {
-        // Check for existing verification token
         const [existingToken] = await getVerificationTokenByEmail(
           existingUser.email,
         );
@@ -56,7 +59,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return `/email-verification?token=${existingToken.id}`;
         }
 
-        // No valid token exists - create a new one
         const { tokenId, code } = await createVerificationToken(
           existingUser.email,
         );
@@ -71,7 +73,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!result.success) {
           console.error("Error sending verification email:", result.error);
-          return "Failed to send verification email.";
+          return false;
         }
 
         return `/email-verification?token=${tokenId}`;
@@ -79,6 +81,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       return true;
     },
+
     async session({ token, session }) {
       if (session.user) {
         if (token.sub) {

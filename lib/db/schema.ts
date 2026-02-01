@@ -14,6 +14,7 @@ export const users = pgTable("user", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: text("name").notNull(),
+  image: text("image"),
   email: text("email").notNull(),
   emailVerified: timestamp("emailVerified"),
   password: text("password"),
@@ -325,3 +326,25 @@ export const challengesSubmitted = pgTable(
 
 export type ChallengeSubmission = typeof challengesSubmitted.$inferSelect;
 export type NewChallengeSubmission = typeof challengesSubmitted.$inferInsert;
+
+export const schedule = pgTable("schedule", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  eventName: text("eventName").notNull(),
+  eventDescription: text("eventDescription"),
+  type: text("type").notNull(), // "general" | "meals" | "ceremonies" | "workshops" | "fun"
+  location: text("location"),
+  startTime: timestamp("startTime").notNull(),
+  endTime: timestamp("endTime").notNull(),
+  customTime: text("customTime"), // For custom time display like "Starting 8:30 PM"
+  createdAt: timestamp("createdAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updatedAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+});
+
+export type Schedule = typeof schedule.$inferSelect;
+export type NewSchedule = typeof schedule.$inferInsert;

@@ -27,10 +27,6 @@ const WelcomeEmail = ({
 }: WelcomeEmailProps) => {
   return (
     <Html>
-      <Head />
-      <Preview>
-        {verificationCode} - Your verification code. Welcome to Hack Canada!
-      </Preview>
       <Tailwind
         config={{
           theme: {
@@ -52,7 +48,11 @@ const WelcomeEmail = ({
           },
         }}
       >
-        <Body className="rounded-lg bg-primary/5">
+        <Head />
+        <Preview>
+          {verificationCode} - Your verification code. Welcome to Hack Canada!
+        </Preview>
+        <Body className="bg-primary/5 rounded-lg">
           <Container className="mx-auto max-w-2xl px-4 py-8">
             <Img
               src="https://i.imgur.com/OBbPUOD.png"
@@ -60,8 +60,8 @@ const WelcomeEmail = ({
               alt="Hack Canada"
               className="w-full rounded-t-lg"
             />
-            <Section className="rounded-b-lg bg-background/95 p-6 shadow-lg backdrop-blur-xs">
-              <Heading className="text-2xl font-semibold text-textPrimary">
+            <Section className="bg-background/95 rounded-b-lg p-6 shadow-lg backdrop-blur-xs">
+              <Heading className="text-textPrimary text-2xl font-semibold">
                 Welcome, {name}! 🎉
               </Heading>
               <Text
@@ -73,19 +73,19 @@ const WelcomeEmail = ({
               </Text>
               <Hr className="mb-6 border-gray-200" />
 
-              <Section className="mb-4 rounded-lg border border-blue-500/10 bg-primary/5 to-primary/5 p-6 shadow-xs">
+              <Section className="bg-primary/5 to-primary/5 mb-4 rounded-lg border border-blue-500/10 p-6 shadow-xs">
                 <div className="text-center">
                   <Text className="text-textSecondary">
                     🔐 Your verification code is:
                   </Text>
-                  <div className="mt-2 rounded-lg bg-primary/5 px-6 py-4 text-4xl font-bold tracking-wider text-primary">
+                  <div className="bg-primary/5 text-primary mt-2 rounded-lg px-6 py-4 text-4xl font-bold tracking-wider">
                     {verificationCode}
                   </div>
                 </div>
               </Section>
 
               <div className="text-center">
-                <Text className="mb-4 text-textSecondary">
+                <Text className="text-textSecondary mb-4">
                   Click the button below to go to the verification page:
                 </Text>
                 <Button
@@ -96,7 +96,7 @@ const WelcomeEmail = ({
                 </Button>
               </div>
 
-              <Text className="mt-8 text-center text-sm text-textMuted">
+              <Text className="text-textMuted mt-8 text-center text-sm">
                 ❗ If you did not sign up for our platform, please ignore this
                 email. ❗
               </Text>

@@ -30,6 +30,20 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
 
     const email = validatedEmail.toLowerCase();
 
+    // If its production, then check if USER_REGISTRATION_ENABLED is true, if false then only allow *@hackcanada.org emails
+    if (
+      process.env.NODE_ENV === "production" &&
+      process.env.USER_REGISTRATION_ENABLED !== "true"
+    ) {
+      if (!email.endsWith("@hackcanada.org")) {
+        return NextResponse.json({
+          success: false,
+          message:
+            "Registrations are currently disabled. Reach out to support@hackcanada.org if you think this is an error.",
+        });
+      }
+    }
+
     const existingUser = await getUserByEmail(email);
 
     if (existingUser) {
@@ -74,18 +88,18 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
       const { tokenId, code } = await createVerificationToken(email, tx);
 
       // Send verification email
-      // const emailResult = await sendWelcomeEmail({
-      //   name,
-      //   email,
-      //   subject: "Verify your email address for Hack Canada",
-      //   token: tokenId,
-      //   verificationCode: code,
-      // });
-      console.log("By passing send verification email, here it the OTP code:");
-      console.log(code);
-      // if (!emailResult.success) {
-      //   throw new Error("Failed to send verification email.");
-      // }
+      const emailResult = await sendWelcomeEmail({
+        name,
+        email,
+        subject: "Verify your email address for Hack Canada",
+        token: tokenId,
+        verificationCode: code,
+      });
+      // console.log("By passing send verification email, here it the OTP code:");
+      // console.log(code);
+      if (!emailResult.success) {
+        throw new Error("Failed to send verification email.");
+      }
 
       verificationTokenId = tokenId;
     });

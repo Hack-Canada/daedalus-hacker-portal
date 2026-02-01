@@ -17,12 +17,12 @@ export function EventsGrid({
   selectedDay,
 }: EventsGridProps) {
   return (
-    <div className="relative border-l border-border bg-white">
+    <div className="border-border relative border-l bg-white">
       {/* Time slot grid lines */}
       {timeSlots.map((time) => (
         <div
           key={time}
-          className="border-t border-border bg-backgroundMuted/25 transition-colors hover:bg-backgroundMuted"
+          className="border-border bg-backgroundMuted/25 hover:bg-backgroundMuted border-t transition-colors"
           style={{ height: TIME_SLOT_HEIGHT }}
         />
       ))}
@@ -30,7 +30,7 @@ export function EventsGrid({
       {/* Events */}
       {eventPositions.map(({ event, column, totalColumns }) => (
         <ScheduleEvent
-          key={`${event.name}-${event.startTime}`}
+          key={event.id}
           event={event}
           style={getEventStyle(
             event,
