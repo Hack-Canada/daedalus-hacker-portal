@@ -95,4 +95,4 @@ export function usePhaseConfig() {
  * Server-side helper to get the current phase (for use in Server Components)
  * Note: This is not a hook, just exported for convenience
  */
-export { getCurrentPhase, getCurrentPhaseFeatures, isFeatureEnabled as checkFeatureEnabled };
+export { getCurrentPhase, getCurrentPhaseFeatures, checkFeatureEnabled };
