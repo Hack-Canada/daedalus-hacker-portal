@@ -1,9 +1,7 @@
 // components/challenge-card.tsx
-"use client";
 
 import { QRCodeSVG } from "qrcode.react";
 
-import { Challenge } from "@/lib/db/schema";
 import {
   Accordion,
   AccordionContent,
@@ -16,12 +14,15 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  ChallengeStatus,
+  ChallengeWithStatus,
+} from "@/app/(dashboard)/challenges/page";
 
-function StatusBadge({ status }: { status?: string }) {
+function StatusBadge({ status }: { status?: ChallengeStatus }) {
   if (status === "completed") {
     return (
       <Badge className="border-emerald-200 bg-emerald-100 text-emerald-700">
@@ -36,6 +37,7 @@ function StatusBadge({ status }: { status?: string }) {
       </Badge>
     );
   }
+
   return (
     <Badge className="border-slate-200 bg-slate-100 text-slate-700">
       Not Started
@@ -46,12 +48,12 @@ function StatusBadge({ status }: { status?: string }) {
 export function ChallengeCard({
   challenge,
   user,
+  onStartChallenge,
 }: {
-  challenge: Challenge & { status?: string };
+  challenge: ChallengeWithStatus;
   user: User;
+  onStartChallenge: (challenge: ChallengeWithStatus) => void;
 }) {
-  const profileUrl = `https://app.hackcanada.org/profile/${user.id!}`;
-
   return (
     <Card className="flex h-full flex-col">
       <CardHeader className="space-y-1">
@@ -123,6 +125,16 @@ export function ChallengeCard({
               {challenge.submissionInstructions}
             </AccordionContent>
           </AccordionItem>
+
+          {challenge.status == "not_started" && (
+            <Button
+              className="mt-2"
+              variant="outline"
+              onClick={() => onStartChallenge(challenge)}
+            >
+              Start
+            </Button>
+          )}
         </Accordion>
       </CardContent>
     </Card>

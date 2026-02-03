@@ -319,13 +319,33 @@ export const challengesSubmitted = pgTable(
       .notNull()
       .default(sql`CURRENT_TIMESTAMP`),
   },
-  (t) => ({
-    uniq: unique().on(t.userId, t.challengeId),
-  }),
+  (t) => [unique().on(t.userId, t.challengeId)],
 );
 
 export type ChallengeSubmission = typeof challengesSubmitted.$inferSelect;
 export type NewChallengeSubmission = typeof challengesSubmitted.$inferInsert;
+
+export const challengesInProgress = pgTable(
+  "challengesStarted",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    challengeId: text("challengeId")
+      .notNull()
+      .references(() => challenges.id, { onDelete: "cascade" }),
+    submittedAt: timestamp("startedAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+  },
+  (t) => [unique().on(t.userId, t.challengeId)],
+);
+
+export type ChallengeInProgress = typeof challengesInProgress.$inferSelect;
+export type NewChallengeInProgress = typeof challengesInProgress.$inferInsert;
 
 export const schedule = pgTable("schedule", {
   id: text("id")
