@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { hackathonYear } from "@/config/site";
 
 export const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
-  const calculateTimeLeft = () => {
+  const calculateTimeLeft = useCallback(() => {
     const now = new Date();
     const difference = targetDate.getTime() - now.getTime();
 
@@ -21,7 +21,7 @@ export const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
       hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
       minutes: Math.floor((difference / 1000 / 60) % 60),
     };
-  };
+  }, [targetDate]);
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
@@ -31,7 +31,7 @@ export const CountdownTimer = ({ targetDate }: { targetDate: Date }) => {
     }, 5000);
 
     return () => clearInterval(timer);
-  }, [targetDate]);
+  }, [calculateTimeLeft]);
 
   return (
     <div className="from-primary to-primary w-full bg-linear-to-r via-sky-400 bg-clip-text text-transparent max-sm:text-center sm:w-fit">
