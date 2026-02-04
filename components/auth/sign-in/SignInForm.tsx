@@ -86,16 +86,16 @@ const SignInForm = ({}: Props) => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className="text-white font-medium">Email</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   autoFocus={true}
                   placeholder="Enter your email"
-                  className="text-textSecondary placeholder:text-textMuted flex h-10 w-full rounded-sm border border-white/50 bg-white/10 from-white/10 to-white/10 px-3 py-2 lowercase shadow-[0_4px_6px] shadow-black/10 backdrop-blur-xs file:font-medium placeholder:capitalize focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex h-10 w-full rounded-md border border-white/30 bg-white/10 px-3 py-2 lowercase shadow-lg shadow-black/20 backdrop-blur-md text-white placeholder:text-white/50 placeholder:capitalize file:font-medium focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:border-white/50 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 transition-all"
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-300" />
             </FormItem>
           )}
         />
@@ -105,16 +105,16 @@ const SignInForm = ({}: Props) => {
           name="password"
           render={({ field }) => (
             <FormItem className="pb-2">
-              <FormLabel>Password</FormLabel>
+              <FormLabel className="text-white font-medium">Password</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   type="password"
                   placeholder="Enter your password"
-                  className="text-textSecondary placeholder:text-textMuted flex h-10 w-full rounded-sm border border-white/50 bg-white/10 from-white/10 to-white/10 px-3 py-2 shadow-[0_4px_6px] shadow-black/10 backdrop-blur-xs file:font-medium focus-visible:ring-1 focus-visible:ring-white focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex h-10 w-full rounded-md border border-white/30 bg-white/10 px-3 py-2 shadow-lg shadow-black/20 backdrop-blur-md text-white placeholder:text-white/50 file:font-medium focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:border-white/50 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 transition-all"
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-300" />
             </FormItem>
           )}
         />
@@ -130,11 +130,11 @@ const SignInForm = ({}: Props) => {
       </form>
       <div className="w-full max-w-sm">
         <div className="relative flex items-center gap-2">
-          <div className="flex-1" />
-          <span className="text-muted-foreground shrink-0 px-2 text-xs uppercase">
+          <div className="flex-1 h-px bg-white/20" />
+          <span className="shrink-0 px-2 text-xs uppercase text-white/60 font-medium">
             OR
           </span>
-          <div className="flex-1" />
+          <div className="flex-1 h-px bg-white/20" />
         </div>
       </div>
       <OAuthButtons callbackUrl="/" />

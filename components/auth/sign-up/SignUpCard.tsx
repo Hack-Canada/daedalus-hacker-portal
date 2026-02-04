@@ -10,7 +10,7 @@ const SignUpCard = ({}: Props) => {
     <AuthCardWrapper>
       <SignUpHeader />
       <SignUpForm />
-      <hr className="border-gray-400" />
+      <hr className="border-white/20" />
       <AuthFooter
         showResetPassword={false}
         showContactUs={false}

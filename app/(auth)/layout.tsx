@@ -10,22 +10,24 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-linear-to-b from-[#0A1F44] via-slate-200 to-white px-4 pb-12 pt-28 md:pb-20 md:pt-36">
+    <div className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-neutral-900 px-4 pt-28 pb-12 md:pt-36 md:pb-20">
       {/* Aurora background */}
       <Image
         src="/aurora.webp"
         width={1000}
-        height={20}
+        height={40}
         alt="Aurora background"
-        className="pointer-events-none absolute right-0 top-0 w-[90%] animate-aurora object-contain opacity-90"
+        className="animate-aurora pointer-events-none absolute top-0 right-0 w-[100%] object-contain opacity-90"
       />
 
       {/* Snowflakes */}
 
       {/* Additional Animated Snowflakes */}
-      <AnimatedSnowflake className="-left-40 -top-40 scale-75" />
-      <AnimatedSnowflake className="right-0 top-0" />
+      <AnimatedSnowflake className="-top-40 -left-40 scale-75" />
+      <AnimatedSnowflake className="top-0 right-0 scale-150" />
       <AnimatedSnowflake className="inset-x-0 bottom-0 scale-150" />
+      <AnimatedSnowflake className="right-0 bottom-0 scale-150 opacity-50" />
+      <AnimatedSnowflake className="-right-40 -bottom-40 scale-75 opacity-50" />
 
       {/* Grainy texture */}
       <Image
@@ -45,7 +47,7 @@ export default function AuthLayout({
           <Link
             href="https://hackcanada.org"
             target="_blank"
-            className="mx-auto mt-4 text-textMuted transition-colors hover:text-textPrimary"
+            className="text-white/60 hover:text-white mx-auto mt-4 transition-colors text-sm"
           >
             Back to landing page
           </Link>
