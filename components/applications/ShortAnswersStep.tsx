@@ -26,18 +26,17 @@ export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              Are you concerned that AI will take over or impact a career that
-              you were looking forward to pursuing?
+              What&apos;s the coolest project you&apos;ve ever built?
             </FormLabel>
             <FormControl>
               <div className="relative">
                 <Textarea
                   {...field}
-                  placeholder="No, AI should be worried about me taking over its career."
+                  placeholder="Tell us about it! What does it do, and how does it work under the hood? What technologies did you use, and what technical challenges did you overcome? Drop any links (GitHub, demo, video, etc.) so we can check it out..."
                   className="min-h-[150px]"
                 />
-                <span className="absolute bottom-2 right-2 text-sm text-muted-foreground">
-                  {field.value?.length || 0}/1000
+                <span className="text-muted-foreground absolute right-2 bottom-2 text-sm">
+                  {field.value?.length || 0}/2000
                 </span>
               </div>
             </FormControl>
@@ -52,18 +51,18 @@ export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              What inspired you to start participating in hackathons, and what
-              motivates you to dedicate your weekends to them?
+              If you could build absolutely anything, no limits on time, money,
+              or technology, what would you create?
             </FormLabel>
             <FormControl>
               <div className="relative">
                 <Textarea
                   {...field}
-                  placeholder="The free food is always a motivator. But I also want to make a difference and change the world."
+                  placeholder="Dream big. It could be an app, a robot, a mass of spaghetti code that somehow achieves world peace, or something that doesn't even exist yet. We just want to see how your mind works."
                   className="min-h-[150px]"
                 />
-                <span className="absolute bottom-2 right-2 text-sm text-muted-foreground">
-                  {field.value?.length || 0}/1000
+                <span className="text-muted-foreground absolute right-2 bottom-2 text-sm">
+                  {field.value?.length || 0}/2000
                 </span>
               </div>
             </FormControl>

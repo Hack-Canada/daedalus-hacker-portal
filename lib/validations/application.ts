@@ -153,15 +153,15 @@ export const HackerApplicationDraftSchema = z
     shortAnswer1: z
       .string()
       .trim()
-      .max(1000, {
-        message: "Your answer must be 1000 characters or less.",
+      .max(2000, {
+        message: "Your answer must be 2000 characters or less.",
       })
       .optional(),
     shortAnswer2: z
       .string()
       .trim()
-      .max(1000, {
-        message: "Your answer must be 1000 characters or less.",
+      .max(2000, {
+        message: "Your answer must be 2000 characters or less.",
       })
       .optional(),
     technicalInterests: z.string().trim().optional(),
