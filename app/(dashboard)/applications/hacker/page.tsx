@@ -39,7 +39,12 @@ const HackerApplicationPage = async () => {
     redirect("/applications/hacker/review");
   }
 
-  return <HackerApplicationForm existingApplication={existingApplication} />;
+  return (
+    <HackerApplicationForm
+      existingApplication={existingApplication}
+      userEmail={currentUser.email || ""}
+    />
+  );
 };
 
 export default HackerApplicationPage;

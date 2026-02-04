@@ -20,9 +20,13 @@ import { StepNavigation } from "./StepNavigation";
 
 type Props = {
   existingApplication: HackerApplicationsSelectData | null;
+  userEmail: string;
 };
 
-export default function HackerApplicationForm({ existingApplication }: Props) {
+export default function HackerApplicationForm({
+  existingApplication,
+  userEmail,
+}: Props) {
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       e.preventDefault();
@@ -69,6 +73,7 @@ export default function HackerApplicationForm({ existingApplication }: Props) {
                   <GeneralInformationStep
                     control={form.control}
                     watch={form.watch}
+                    userEmail={userEmail}
                   />
                 </StepContentWrapper>
               )}

@@ -71,13 +71,14 @@ export async function POST(
     const major = data.major.customValue || data.major.value;
 
     // Create new application data from validated input
+    // SECURITY: Always use the authenticated user's email, never trust the form input
     const applicationData = {
       userId: currentUser.id,
       firstName: data.firstName,
       lastName: data.lastName,
       age,
       pronouns,
-      email: data.email.toLowerCase(),
+      email: currentUser.email?.toLowerCase() || "",
       github: data.github,
       linkedin: data.linkedin,
       personalWebsite: data.personalWebsite,

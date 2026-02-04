@@ -64,8 +64,10 @@ export async function POST(
       ? parseInt(validationResult.data.graduationYear)
       : null;
 
+    // SECURITY: Always use the authenticated user's email, never trust the form input
     const applicationData = {
       ...validationResult.data,
+      email: currentUser.email?.toLowerCase() || "",
       age,
       graduationYear,
       pronouns:

@@ -21,11 +21,13 @@ import { CountrySelector } from "./CountrySelector";
 interface GeneralInformationStepProps {
   control: Control<THackerApplicationSubmission>;
   watch: UseFormWatch<THackerApplicationSubmission>;
+  userEmail: string;
 }
 
 export function GeneralInformationStep({
   control,
   watch,
+  userEmail,
 }: GeneralInformationStepProps) {
   const pronouns = watch("pronouns");
 
@@ -158,8 +160,9 @@ export function GeneralInformationStep({
                 <Input
                   {...field}
                   type="email"
-                  placeholder="john@example.com"
-                  className="lowercase"
+                  value={userEmail}
+                  disabled
+                  className="lowercase cursor-not-allowed opacity-60"
                 />
               </FormControl>
               <FormMessage />
