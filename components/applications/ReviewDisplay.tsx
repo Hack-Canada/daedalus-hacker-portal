@@ -34,6 +34,7 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
           customValue={values.pronouns.customValue}
         />
         <Field label="Email" value={values.email} />
+        <Field label="Phone Number" value={values.phoneNumber} />
         <Field label="Gender" value={values.gender} />
         <Field label="Race/Ethnicity" value={values.race} />
         <Field label="Country" value={values.country} />

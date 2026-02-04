@@ -2,7 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/auth";
 
 import { ApiResponse } from "@/types/api";
-import { createOrUpdateApplication } from "@/lib/db/queries/application";
+import {
+  checkPhoneNumberExists,
+  createOrUpdateApplication,
+} from "@/lib/db/queries/application";
 import { HackerApplicationDraftSchema } from "@/lib/validations/application";
 import { isFeatureEnabled } from "@/config/phases";
 
@@ -56,6 +59,24 @@ export async function POST(
       );
     }
 
+    // Check if phone number is already in use by another user (only if provided)
+    if (validationResult.data.phoneNumber) {
+      const phoneExists = await checkPhoneNumberExists(
+        validationResult.data.phoneNumber,
+        currentUser.id,
+      );
+      if (phoneExists) {
+        return NextResponse.json(
+          {
+            success: false,
+            message:
+              "This phone number is already registered with another account.",
+          },
+          { status: 400 },
+        );
+      }
+    }
+
     // Convert string fields to numbers
     const age = validationResult.data.age
       ? parseInt(validationResult.data.age)
@@ -68,6 +89,7 @@ export async function POST(
     const applicationData = {
       ...validationResult.data,
       email: currentUser.email?.toLowerCase() || "",
+      phoneNumber: validationResult.data.phoneNumber,
       age,
       graduationYear,
       pronouns:

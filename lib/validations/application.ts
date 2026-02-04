@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
 
 export const HackerApplicationDraftSchema = z
   .object({
@@ -44,6 +45,30 @@ export const HackerApplicationDraftSchema = z
           message: "Invalid email address.",
         },
       ),
+    phoneNumber: z
+      .string()
+      .trim()
+      .optional()
+      .refine(
+        (value) => {
+          if (!value || value === "") return true;
+          // Validate using libphonenumber-js for international format
+          return isValidPhoneNumber(value);
+        },
+        {
+          message: "Please provide a valid phone number in international format.",
+        },
+      )
+      .transform((value) => {
+        // Normalize to E.164 format to prevent duplicates
+        if (!value || value === "") return value;
+        try {
+          const phoneNumber = parsePhoneNumber(value);
+          return phoneNumber ? phoneNumber.number : value;
+        } catch {
+          return value;
+        }
+      }),
     github: z
       .string()
       .trim()
@@ -213,6 +238,28 @@ export const HackerApplicationSubmissionSchema = z
         },
       ),
     email: z.string().trim().email({ message: "Invalid email address" }),
+    phoneNumber: z
+      .string()
+      .trim()
+      .min(1, { message: "Phone number is required" })
+      .refine(
+        (value) => {
+          // Validate using libphonenumber-js for international format
+          return isValidPhoneNumber(value);
+        },
+        {
+          message: "Please provide a valid phone number in international format.",
+        },
+      )
+      .transform((value) => {
+        // Normalize to E.164 format to prevent duplicates (e.g., +12907950000)
+        try {
+          const phoneNumber = parsePhoneNumber(value);
+          return phoneNumber ? phoneNumber.number : value;
+        } catch {
+          return value;
+        }
+      }),
     github: z
       .string()
       .trim()

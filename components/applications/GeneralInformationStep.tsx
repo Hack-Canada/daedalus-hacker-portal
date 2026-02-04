@@ -1,6 +1,7 @@
 "use client";
 
-import { Control, UseFormWatch } from "react-hook-form";
+import { Control, ControllerRenderProps, UseFormWatch } from "react-hook-form";
+import { E164Number } from "libphonenumber-js/core";
 
 import { pronouns as pronounsList } from "@/lib/data/pronouns";
 import { THackerApplicationSubmission } from "@/lib/validations/application";
@@ -12,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 
 import { ethnicities } from "../../lib/data/ethnicities";
 import { genders } from "../../lib/data/genders";
@@ -37,7 +39,14 @@ export function GeneralInformationStep({
         <FormField
           control={control}
           name="firstName"
-          render={({ field }) => (
+          render={({
+            field,
+          }: {
+            field: ControllerRenderProps<
+              THackerApplicationSubmission,
+              "firstName"
+            >;
+          }) => (
             <FormItem>
               <FormLabel>
                 First Name<span className="text-error">*</span>
@@ -52,7 +61,14 @@ export function GeneralInformationStep({
         <FormField
           control={control}
           name="lastName"
-          render={({ field }) => (
+          render={({
+            field,
+          }: {
+            field: ControllerRenderProps<
+              THackerApplicationSubmission,
+              "lastName"
+            >;
+          }) => (
             <FormItem>
               <FormLabel>
                 Last Name<span className="text-error">*</span>
@@ -70,7 +86,11 @@ export function GeneralInformationStep({
         <FormField
           control={control}
           name="age"
-          render={({ field }) => (
+          render={({
+            field,
+          }: {
+            field: ControllerRenderProps<THackerApplicationSubmission, "age">;
+          }) => (
             <FormItem>
               <FormLabel>
                 Age<span className="text-error">*</span>
@@ -86,7 +106,14 @@ export function GeneralInformationStep({
         <FormField
           control={control}
           name="pronouns.value"
-          render={({ field }) => {
+          render={({
+            field,
+          }: {
+            field: ControllerRenderProps<
+              THackerApplicationSubmission,
+              "pronouns.value"
+            >;
+          }) => {
             const loadOptions = (inputValue: string) => {
               return Promise.resolve(
                 pronounsList
@@ -129,7 +156,14 @@ export function GeneralInformationStep({
         <FormField
           control={control}
           name="pronouns.customValue"
-          render={({ field }) => (
+          render={({
+            field,
+          }: {
+            field: ControllerRenderProps<
+              THackerApplicationSubmission,
+              "pronouns.customValue"
+            >;
+          }) => (
             <FormItem>
               <FormLabel>
                 Pronouns (Other)<span className="text-error">*</span>
@@ -151,7 +185,11 @@ export function GeneralInformationStep({
         <FormField
           control={control}
           name="email"
-          render={({ field }) => (
+          render={({
+            field,
+          }: {
+            field: ControllerRenderProps<THackerApplicationSubmission, "email">;
+          }) => (
             <FormItem>
               <FormLabel>
                 Email<span className="text-error">*</span>
@@ -162,7 +200,7 @@ export function GeneralInformationStep({
                   type="email"
                   value={userEmail}
                   disabled
-                  className="lowercase cursor-not-allowed opacity-60"
+                  className="cursor-not-allowed lowercase opacity-60"
                 />
               </FormControl>
               <FormMessage />
@@ -171,8 +209,48 @@ export function GeneralInformationStep({
         />
         <FormField
           control={control}
+          name="phoneNumber"
+          render={({
+            field,
+          }: {
+            field: ControllerRenderProps<
+              THackerApplicationSubmission,
+              "phoneNumber"
+            >;
+          }) => (
+            <FormItem>
+              <FormLabel>
+                Phone Number<span className="text-error">*</span>
+              </FormLabel>
+              <FormControl>
+                <PhoneInput
+                  {...field}
+                  defaultCountry="CA"
+                  placeholder="Enter phone number"
+                  onChange={(value) => {
+                    field.onChange(value || "");
+                  }}
+                  value={field.value as E164Number}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <FormField
+          control={control}
           name="gender"
-          render={({ field }) => {
+          render={({
+            field,
+          }: {
+            field: ControllerRenderProps<
+              THackerApplicationSubmission,
+              "gender"
+            >;
+          }) => {
             const loadOptions = (inputValue: string) => {
               return Promise.resolve(
                 genders
@@ -212,7 +290,11 @@ export function GeneralInformationStep({
         <FormField
           control={control}
           name="race"
-          render={({ field }) => {
+          render={({
+            field,
+          }: {
+            field: ControllerRenderProps<THackerApplicationSubmission, "race">;
+          }) => {
             const loadOptions = (inputValue: string) => {
               return Promise.resolve(
                 ethnicities

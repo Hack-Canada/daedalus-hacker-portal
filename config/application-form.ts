@@ -14,6 +14,7 @@ export const DEFAULT_FORM_VALUES = {
     customValue: "",
   },
   email: "",
+  phoneNumber: "",
   github: "",
   linkedin: "",
   personalWebsite: "",

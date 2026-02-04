@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/auth";
 
 import { ApiResponse } from "@/types/api";
 import {
+  checkPhoneNumberExists,
   createOrUpdateApplication,
   submitApplication,
 } from "@/lib/db/queries/application";
@@ -61,6 +62,21 @@ export async function POST(
 
     const { data } = validatedFields;
 
+    // Check if phone number is already in use by another user
+    const phoneExists = await checkPhoneNumberExists(
+      data.phoneNumber,
+      currentUser.id,
+    );
+    if (phoneExists) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "This phone number is already registered with another account.",
+        },
+        { status: 400 },
+      );
+    }
+
     // Convert string fields to numbers
     const age = parseInt(data.age);
     const graduationYear = parseInt(data.graduationYear);
@@ -79,6 +95,7 @@ export async function POST(
       age,
       pronouns,
       email: currentUser.email?.toLowerCase() || "",
+      phoneNumber: data.phoneNumber,
       github: data.github,
       linkedin: data.linkedin,
       personalWebsite: data.personalWebsite,

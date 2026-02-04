@@ -31,6 +31,7 @@ function getDefaultValues(
       customValue: "",
     },
     email: existingApplication.email || "",
+    phoneNumber: existingApplication.phoneNumber || "",
     github: existingApplication.github || "",
     linkedin: existingApplication.linkedin || "",
     personalWebsite: existingApplication.personalWebsite || "",

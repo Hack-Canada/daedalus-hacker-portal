@@ -1,4 +1,4 @@
-import { eq, sql } from "drizzle-orm";
+import { and, eq, ne, sql } from "drizzle-orm";
 
 import { db } from "..";
 import {
@@ -44,6 +44,31 @@ export const createOrUpdateApplication = async (
   } catch (error) {
     console.error("Error in createOrUpdateApplication:", error);
     return { success: false, errors: [error] };
+  }
+};
+
+export const checkPhoneNumberExists = async (
+  phoneNumber: string,
+  excludeUserId?: string,
+) => {
+  try {
+    const conditions = excludeUserId
+      ? and(
+          eq(hackerApplications.phoneNumber, phoneNumber),
+          ne(hackerApplications.userId, excludeUserId),
+        )
+      : eq(hackerApplications.phoneNumber, phoneNumber);
+
+    const [existingApplication] = await db
+      .select()
+      .from(hackerApplications)
+      .where(conditions)
+      .limit(1);
+
+    return !!existingApplication;
+  } catch (error) {
+    console.error("Error checking phone number:", error);
+    return false;
   }
 };
 

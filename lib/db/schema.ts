@@ -158,6 +158,7 @@ export const hackerApplications = pgTable("hackerApplication", {
   age: integer("age"),
   pronouns: text("pronouns"),
   email: text("email"),
+  phoneNumber: text("phoneNumber"),
   github: text("github"),
   linkedin: text("linkedin"),
   personalWebsite: text("personalWebsite"),
