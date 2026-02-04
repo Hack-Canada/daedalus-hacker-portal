@@ -28,9 +28,9 @@ const HackathonPrepEmail = ({ name, userId }: Props) => {
 
   return (
     <Html>
-      <Head />
       <Preview>🚀 Hack Canada Event Details and Check-in Information</Preview>
       <Tailwind>
+        <Head />
         <Body className="bg-gray-50 py-8">
           <Container className="mx-auto max-w-2xl">
             <Img
@@ -102,12 +102,12 @@ const HackathonPrepEmail = ({ name, userId }: Props) => {
                 <Text className="mt-2 text-zinc-700">
                   This QR code is your digital key to the hackathon experience:
                   <div className="my-3">
-                    <div className="mt-2 space-y-1.5">
-                      <div>
+                    <div className="mt-2">
+                      <div style={{ marginBottom: "6px" }}>
                         • Use it for hackathon check-in and meal check-ins
                       </div>
-                      <div>• Connect with other hackers during the event</div>
-                      <div>
+                      <div style={{ marginBottom: "6px" }}>• Connect with other hackers during the event</div>
+                      <div style={{ marginBottom: "6px" }}>
                         • Access it anytime through your dashboard at
                         app.hackcanada.org
                       </div>
@@ -115,15 +115,15 @@ const HackathonPrepEmail = ({ name, userId }: Props) => {
                   </div>
                   <div className="my-3">
                     <strong>Important Notes:</strong>
-                    <div className="mt-2 space-y-1.5">
-                      <div>
+                    <div className="mt-2">
+                      <div style={{ marginBottom: "6px" }}>
                         • Your badge must be worn at all times during the event
                       </div>
-                      <div>
+                      <div style={{ marginBottom: "6px" }}>
                         • High school students must bring a signed letter from
                         their guardian permitting attendance
                       </div>
-                      <div>
+                      <div style={{ marginBottom: "6px" }}>
                         • If you lose your badge, find an event organizer
                         immediately
                       </div>
@@ -218,17 +218,17 @@ const HackathonPrepEmail = ({ name, userId }: Props) => {
                 <Heading className="text-xl font-bold text-[#0A1F44]">
                   🎒 What to Bring
                 </Heading>
-                <div className="mt-2 space-y-0 text-zinc-700">
-                  <Text>📸 Valid Photo ID (required for check-in)</Text>
-                  <Text>💻 Laptop & charger</Text>
-                  <Text>🔧 Any other devices or hardware you plan to use</Text>
-                  <Text>🧴 Toiletries & any medication you need</Text>
-                  <Text>
+                <div className="mt-2 text-zinc-700">
+                  <Text style={{ margin: 0 }}>📸 Valid Photo ID (required for check-in)</Text>
+                  <Text style={{ margin: 0 }}>💻 Laptop & charger</Text>
+                  <Text style={{ margin: 0 }}>🔧 Any other devices or hardware you plan to use</Text>
+                  <Text style={{ margin: 0 }}>🧴 Toiletries & any medication you need</Text>
+                  <Text style={{ margin: 0 }}>
                     👕 Comfortable clothes and a light jacket (temperature
                     varies)
                   </Text>
-                  <Text>🛏️ Sleeping bag/blanket if you plan to rest</Text>
-                  <Text>🚰 Water bottle to stay hydrated</Text>
+                  <Text style={{ margin: 0 }}>🛏️ Sleeping bag/blanket if you plan to rest</Text>
+                  <Text style={{ margin: 0 }}>🚰 Water bottle to stay hydrated</Text>
                 </div>
               </Section>
 
