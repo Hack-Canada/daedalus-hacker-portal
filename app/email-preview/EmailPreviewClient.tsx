@@ -1,46 +1,30 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { 
-  Monitor, 
-  Smartphone, 
-  Code, 
-  Copy, 
+import { useEffect, useState } from "react";
+import {
   Check,
+  ChevronRight,
+  Code,
+  Copy,
   Mail,
-  ChevronRight
+  Monitor,
+  RefreshCw,
+  Smartphone,
 } from "lucide-react";
 
-const emailTemplates = [
-  {
-    id: "welcome",
-    name: "Welcome Email",
-    description: "User signup verification",
-  },
-  {
-    id: "application-submitted",
-    name: "Application Submitted",
-    description: "Hacker application confirmation",
-  },
-  {
-    id: "reset-password",
-    name: "Reset Password",
-    description: "Password reset request",
-  },
-  {
-    id: "hackathon-prep",
-    name: "Hackathon Prep",
-    description: "Pre-event preparation",
-  },
-];
+import { emailTemplates } from "@/lib/emails/templates";
 
 type ViewMode = "desktop" | "mobile" | "html";
 
 export default function EmailPreviewClient() {
-  const [selectedTemplate, setSelectedTemplate] = useState(emailTemplates[0].id);
+  const [selectedTemplate, setSelectedTemplate] = useState(
+    emailTemplates[0].id,
+  );
   const [viewMode, setViewMode] = useState<ViewMode>("desktop");
   const [htmlSource, setHtmlSource] = useState<string>("");
   const [copied, setCopied] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Fetch HTML source when template changes or viewing HTML mode
   useEffect(() => {
@@ -66,6 +50,30 @@ export default function EmailPreviewClient() {
     }
   };
 
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setRefreshKey((prev) => prev + 1);
+    
+    // Re-fetch HTML source if in HTML mode
+    if (viewMode === "html") {
+      fetch(`/api/email-preview?template=${selectedTemplate}&format=source`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.html) {
+            setHtmlSource(data.html);
+          }
+          setIsRefreshing(false);
+        })
+        .catch((err) => {
+          console.error(err);
+          setIsRefreshing(false);
+        });
+    } else {
+      // For iframe views, just reset the refreshing state after a brief delay
+      setTimeout(() => setIsRefreshing(false), 500);
+    }
+  };
+
   const currentTemplate = emailTemplates.find((t) => t.id === selectedTemplate);
 
   return (
@@ -80,7 +88,7 @@ export default function EmailPreviewClient() {
 
         {/* Template List */}
         <nav className="flex-1 overflow-y-auto p-2">
-          <div className="mb-2 px-2 text-xs font-medium uppercase tracking-wider text-[#666]">
+          <div className="mb-2 px-2 text-xs font-medium tracking-wider text-[#666] uppercase">
             Templates
           </div>
           {emailTemplates.map((template) => (
@@ -112,9 +120,7 @@ export default function EmailPreviewClient() {
 
         {/* Footer */}
         <div className="border-t border-[#333] p-4">
-          <div className="text-xs text-[#666]">
-            Development Mode Only
-          </div>
+          <div className="text-xs text-[#666]">Development Mode Only</div>
         </div>
       </aside>
 
@@ -167,6 +173,17 @@ export default function EmailPreviewClient() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
+            <button
+              onClick={handleRefresh}
+              disabled={isRefreshing}
+              className="flex items-center gap-1.5 rounded-md bg-[#222] px-3 py-1.5 text-xs font-medium text-[#888] transition-colors hover:bg-[#333] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Refresh preview"
+            >
+              <RefreshCw
+                className={`h-3.5 w-3.5 ${isRefreshing ? "animate-spin" : ""}`}
+              />
+              Refresh
+            </button>
             {viewMode === "html" && (
               <button
                 onClick={handleCopyHtml}
@@ -208,11 +225,11 @@ export default function EmailPreviewClient() {
             >
               {/* Device Frame for Mobile */}
               {viewMode === "mobile" && (
-                <div className="absolute left-1/2 top-2 h-6 w-20 -translate-x-1/2 rounded-full bg-black" />
+                <div className="absolute top-2 left-1/2 h-6 w-20 -translate-x-1/2 rounded-full bg-black" />
               )}
-              
+
               <iframe
-                key={selectedTemplate}
+                key={`${selectedTemplate}-${refreshKey}`}
                 src={`/api/email-preview?template=${selectedTemplate}`}
                 className="h-full w-full border-0"
                 title={`${currentTemplate?.name} Preview`}
