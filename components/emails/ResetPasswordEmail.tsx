@@ -61,7 +61,7 @@ const ResetPasswordEmail = ({ name, resetUrl }: ResetPasswordEmailProps) => {
           >
             {/* Header Image */}
             <Img
-              src="https://hackcanada.orgemail-headers/email-headers/hack_canada_password_reset_header.png"
+              src="https://hackcanada.org/email-headers/hack_canada_password_reset_header.png"
               width="600"
               alt="Password Reset - Hack Canada"
               style={{

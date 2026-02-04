@@ -16,7 +16,7 @@ export const HackathonConclusion = ({ role }: HackathonConclusionProps) => {
       </h2>
       <p className="text-textPrimary/70 mb-6">
         {role === "hacker" &&
-          `Thank you for participating in Hack Canada ${hackathonYear}! Your projects and enthusiasm made this event truly special. We hope you gained valuable experience, made lasting connections, and will join us again for Hack Canad a ${hackathonYear + 1} next year!`}
+          `Thank you for participating in Hack Canada ${hackathonYear}! Your projects and enthusiasm made this event truly special. We hope you gained valuable experience, made lasting connections, and will join us again for Hack Canada ${hackathonYear + 1} next year!`}
         {(role === "organizer" || role === "admin") &&
           `Congratulations on successfully organizing Hack Canada ${hackathonYear}! Your hard work and dedication made this event possible. Time to start planning for an even bigger and better Hack Canada ${hackathonYear + 1} next year!`}
         {role === "volunteer" &&
