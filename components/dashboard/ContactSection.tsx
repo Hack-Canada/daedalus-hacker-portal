@@ -27,7 +27,7 @@ export const ContactSection = () => {
         sizes="200px"
       />
 
-      <span className="absolute left-2 top-2 text-5xl font-light text-black/25 md:text-6xl">
+      <span className="absolute top-2 left-2 text-5xl font-light text-black/25 md:text-6xl">
         ?
       </span>
 
@@ -47,7 +47,7 @@ export const ContactSection = () => {
           FAQs
         </Link>
         <Link
-          href="mailto:hello@hackcanada.org"
+          href="mailto:hi@hackcanada.org"
           target="_blank"
           className="block w-full rounded-full border-2 border-zinc-500 px-3 py-2 text-center font-medium transition-all hover:border-black hover:bg-white/25 hover:tracking-widest md:text-lg"
         >

@@ -323,7 +323,7 @@ const ResetPasswordEmail = ({ name, resetUrl }: ResetPasswordEmailProps) => {
                   </Link>
                   <span style={{ color: "#D1D5DB" }}>•</span>
                   <Link
-                    href="mailto:hello@hackcanada.org"
+                    href="mailto:hi@hackcanada.org"
                     style={{
                       color: "#9CA3AF",
                       fontSize: "12px",

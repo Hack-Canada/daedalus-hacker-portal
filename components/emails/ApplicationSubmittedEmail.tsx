@@ -254,13 +254,13 @@ const ApplicationSubmittedEmail = ({
               >
                 Reach out to us at{" "}
                 <Link
-                  href="mailto:hello@hackcanada.org"
+                  href="mailto:hi@hackcanada.org"
                   style={{
                     color: "#7C3AED",
                     textDecoration: "underline",
                   }}
                 >
-                  hello@hackcanada.org
+                  hi@hackcanada.org
                 </Link>
               </Text>
 
@@ -344,7 +344,7 @@ const ApplicationSubmittedEmail = ({
                   </Link>
                   <span style={{ color: "#D1D5DB" }}>•</span>
                   <Link
-                    href="mailto:hello@hackcanada.org"
+                    href="mailto:hi@hackcanada.org"
                     style={{
                       color: "#9CA3AF",
                       fontSize: "12px",

@@ -13,6 +13,7 @@ import {
   Text,
 } from "@react-email/components";
 import { Tailwind } from "@react-email/tailwind";
+
 import { hackathonYear } from "@/config/site";
 
 type Props = {
@@ -106,7 +107,9 @@ const HackathonPrepEmail = ({ name, userId }: Props) => {
                       <div style={{ marginBottom: "6px" }}>
                         • Use it for hackathon check-in and meal check-ins
                       </div>
-                      <div style={{ marginBottom: "6px" }}>• Connect with other hackers during the event</div>
+                      <div style={{ marginBottom: "6px" }}>
+                        • Connect with other hackers during the event
+                      </div>
                       <div style={{ marginBottom: "6px" }}>
                         • Access it anytime through your dashboard at
                         app.hackcanada.org
@@ -219,16 +222,26 @@ const HackathonPrepEmail = ({ name, userId }: Props) => {
                   🎒 What to Bring
                 </Heading>
                 <div className="mt-2 text-zinc-700">
-                  <Text style={{ margin: 0 }}>📸 Valid Photo ID (required for check-in)</Text>
+                  <Text style={{ margin: 0 }}>
+                    📸 Valid Photo ID (required for check-in)
+                  </Text>
                   <Text style={{ margin: 0 }}>💻 Laptop & charger</Text>
-                  <Text style={{ margin: 0 }}>🔧 Any other devices or hardware you plan to use</Text>
-                  <Text style={{ margin: 0 }}>🧴 Toiletries & any medication you need</Text>
+                  <Text style={{ margin: 0 }}>
+                    🔧 Any other devices or hardware you plan to use
+                  </Text>
+                  <Text style={{ margin: 0 }}>
+                    🧴 Toiletries & any medication you need
+                  </Text>
                   <Text style={{ margin: 0 }}>
                     👕 Comfortable clothes and a light jacket (temperature
                     varies)
                   </Text>
-                  <Text style={{ margin: 0 }}>🛏️ Sleeping bag/blanket if you plan to rest</Text>
-                  <Text style={{ margin: 0 }}>🚰 Water bottle to stay hydrated</Text>
+                  <Text style={{ margin: 0 }}>
+                    🛏️ Sleeping bag/blanket if you plan to rest
+                  </Text>
+                  <Text style={{ margin: 0 }}>
+                    🚰 Water bottle to stay hydrated
+                  </Text>
                 </div>
               </Section>
 
@@ -238,10 +251,10 @@ const HackathonPrepEmail = ({ name, userId }: Props) => {
                 If you have any questions before the event, feel free to reach
                 out to us at{" "}
                 <a
-                  href="mailto:hello@hackcanada.org"
+                  href="mailto:hi@hackcanada.org"
                   className="text-zinc-800 underline"
                 >
-                  hello@hackcanada.org
+                  hi@hackcanada.org
                 </a>{" "}
                 or message us on Discord.
               </Text>
@@ -295,7 +308,7 @@ const HackathonPrepEmail = ({ name, userId }: Props) => {
                   <span className="mx-3 text-gray-400">|</span>
                   <Link
                     className="text-xs text-gray-400 no-underline"
-                    href="mailto:hello@hackcanada.org"
+                    href="mailto:hi@hackcanada.org"
                   >
                     Email
                   </Link>

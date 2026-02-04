@@ -193,7 +193,7 @@ IMPORTANT LINKS:
 - Hacker Dashboard: https://app.hackcanada.org
 - Project Submissions: https://dorahacks.io/hackathon/hackcanada/detail
 
-Questions? Email us at hello@hackcanada.org or message us on Discord.
+Questions? Email us at hi@hackcanada.org or message us on Discord.
 
 See you soon!
 - Hack Canada Team
