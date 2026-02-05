@@ -42,7 +42,7 @@ export default function SubmissionSuccess() {
             </div>
           </div>
           <p className="text-sm text-white/50 sm:text-base md:text-lg xl:text-xl">
-            Your application is in! We're so excited to review it. Keep an eye on your inbox — exciting news is on the way! ✨
+            Your application is in! We&apos;re so excited to review it. Keep an eye on your inbox — exciting news is on the way!
           </p>
         </div>
 

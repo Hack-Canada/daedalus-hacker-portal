@@ -44,7 +44,7 @@ const ProfileCard = ({ isLocked, userId }: ProfileCardProps) => {
         </div>
 
         <p className="relative z-10 text-white/60 pb-8">
-          Make your profile pop! Share your skills, interests, and what makes you unique. Let fellow hackers know who they're collaborating with!
+          Make your profile pop! Share your skills, interests, and what makes you unique. Let fellow hackers know who they&apos;re collaborating with!
         </p>
 
         <div className="relative z-10 mt-auto flex items-center gap-2">

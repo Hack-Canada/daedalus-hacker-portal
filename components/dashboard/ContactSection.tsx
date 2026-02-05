@@ -35,7 +35,7 @@ export const ContactSection = () => {
 
       <div className="relative z-10 space-y-2 px-4">
         <p className="text-xl font-semibold text-white md:text-2xl">
-          Got Questions? We've Got Answers!
+          Got Questions? We&apos;ve Got Answers!
         </p>
         <p className="font-light text-white/60 md:text-lg">
           {messages[contactMessage]}
