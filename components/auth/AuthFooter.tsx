@@ -18,22 +18,22 @@ const AuthFooter = ({
   return (
     <div className="flex flex-col space-y-3">
       {showSignIn && (
-        <p className="text-center text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-center text-sm">
           {customSignInLabel || "Already have an account?"}{" "}
           <Link
             href="/sign-in"
-            className="font-medium text-primary transition-all hover:text-primary/80 hover:underline"
+            className="text-primary hover:text-primary/80 font-medium transition-all hover:underline"
           >
             Sign In
           </Link>
         </p>
       )}
       {showSignUp && (
-        <p className="text-center text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-center text-sm">
           New to Hack Canada?{" "}
           <Link
             href="/sign-up"
-            className="font-medium text-primary transition-all hover:text-primary/80 hover:underline"
+            className="text-primary hover:text-primary/80 font-medium transition-all hover:underline"
           >
             Sign Up
           </Link>
@@ -43,16 +43,16 @@ const AuthFooter = ({
         {showResetPassword && (
           <Link
             href="/forgot-password"
-            className="text-center text-sm font-medium text-primary transition-all hover:text-primary/80 hover:underline"
+            className="text-primary hover:text-primary/80 text-center text-sm font-medium transition-all hover:underline"
           >
             Forgot your password?
           </Link>
         )}
         {showContactUs && (
           <Link
-            href="mailto:hello@hackcanada.org"
+            href="mailto:hi@hackcanada.org"
             target="_blank"
-            className="text-right text-sm font-medium text-primary transition-all hover:text-primary/80 hover:underline"
+            className="text-primary hover:text-primary/80 text-right text-sm font-medium transition-all hover:underline"
           >
             Having trouble?
           </Link>

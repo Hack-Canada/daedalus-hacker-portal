@@ -7,10 +7,10 @@ import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
 import WelcomeEmail from "@/components/emails/WelcomeEmail";
 
 const ses = new SESClient({
-  region: process.env.AWS_SES_REGION,
+  region: process.env.AWS_REGION,
   credentials: {
-    accessKeyId: process.env.AWS_SES_ACCESS_KEY_ID || "",
-    secretAccessKey: process.env.AWS_SES_SECRET_ACCESS_KEY || "",
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
   },
 });
 
@@ -25,7 +25,6 @@ export const sendEmail = async (
   body: string,
   from?: string,
 ): Promise<SendEmailResult> => {
-  console.log("From:", from);
   const command = new SendEmailCommand({
     Source: `Hack Canada <${process.env.AWS_SES_NO_REPLY_EMAIL!}>` || "",
     Destination: {
@@ -78,8 +77,8 @@ export const sendWelcomeEmail = async (data: WelcomeEmailProps) => {
       verificationCode,
       verificationUrl:
         process.env.NODE_ENV === "production"
-          ? `https://app.hackcanada.org/email-verification?token=${token}`
-          : `http://localhost:3000/email-verification?token=${token}`,
+          ? `https://app.hackcanada.org/email-verification?token=${token}&code=${verificationCode}&email=${email}`
+          : `http://localhost:3000/email-verification?token=${token}&code=${verificationCode}&email=${email}`,
     }),
   );
 
@@ -194,7 +193,7 @@ IMPORTANT LINKS:
 - Hacker Dashboard: https://app.hackcanada.org
 - Project Submissions: https://dorahacks.io/hackathon/hackcanada/detail
 
-Questions? Email us at hello@hackcanada.org or message us on Discord.
+Questions? Email us at hi@hackcanada.org or message us on Discord.
 
 See you soon!
 - Hack Canada Team

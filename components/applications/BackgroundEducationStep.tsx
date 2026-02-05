@@ -20,6 +20,7 @@ import { AdvancedSelect } from "../ui/advanced-select";
 import { Checkbox } from "../ui/checkbox";
 import { EmojiDisplay } from "./EmojiDisplay";
 import { UploadResume } from "./UploadResume";
+import { hackathonYear } from "@/config/site";
 
 interface BackgroundEducationStepProps {
   control: Control<THackerApplicationSubmission>;
@@ -159,7 +160,7 @@ export function BackgroundEducationStep({
                 Graduation Year<span className="text-error">*</span>
               </FormLabel>
               <FormControl>
-                <Input type="number" placeholder="2025" {...field} />
+                <Input type="number" placeholder={`${hackathonYear}`} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -240,7 +241,7 @@ export function BackgroundEducationStep({
                     />
                     <label
                       htmlFor={field}
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     >
                       {field}
                     </label>
@@ -265,7 +266,7 @@ export function BackgroundEducationStep({
               <div className="relative">
                 <Input type="number" placeholder="0" {...field} />
                 {field.value && (
-                  <div className="absolute right-3 top-2 md:right-8 md:top-1.5">
+                  <div className="absolute top-2 right-3 md:top-1.5 md:right-8">
                     <EmojiDisplay count={parseInt(field.value)} />
                   </div>
                 )}

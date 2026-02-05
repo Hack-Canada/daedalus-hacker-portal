@@ -13,6 +13,8 @@ import {
 } from "@react-email/components";
 import { Tailwind } from "@react-email/tailwind";
 
+import { hackathonYear } from "@/config/site";
+
 interface ApplicationSubmittedEmailProps {
   name: string;
 }
@@ -22,8 +24,9 @@ const ApplicationSubmittedEmail = ({
 }: ApplicationSubmittedEmailProps) => {
   return (
     <Html>
-      <Head />
-      <Preview>Thanks for applying to Hack Canada!</Preview>
+      <Preview>
+        Thanks for applying to Hack Canada! Stay tuned for updates.
+      </Preview>
       <Tailwind
         config={{
           theme: {
@@ -41,168 +44,352 @@ const ApplicationSubmittedEmail = ({
           },
         }}
       >
-        <Body className="bg-backgroundMuted">
-          <Container className="mx-auto max-w-2xl px-3 py-6">
+        <Head />
+        <Body
+          style={{
+            backgroundColor: "#F5F3FF",
+            margin: 0,
+            padding: 0,
+            fontFamily:
+              '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          }}
+        >
+          <Container
+            style={{
+              maxWidth: "600px",
+              margin: "0 auto",
+              padding: "20px 0",
+            }}
+          >
+            {/* Header Image - Updated dimensions for 1500x700 */}
             <Img
-              src="https://i.imgur.com/pjSy91v.png"
-              width={500}
-              alt="Hack Canada"
-              className="w-full rounded-t-lg"
+              src="https://hackcanada.org/email-headers/hack_canada_thanks_for_applying_header.png"
+              width="600"
+              alt="Thanks for applying to Hack Canada"
+              style={{
+                width: "100%",
+                maxWidth: "600px",
+                height: "auto",
+                display: "block",
+                borderRadius: "12px 12px 0 0",
+              }}
             />
-            <Section className="rounded-b-lg bg-background p-6 shadow-xs">
-              <Heading className="text-2xl font-semibold text-textPrimary">
-                Thanks for applying! 🎉
-              </Heading>
-              <Text className="mt-4 text-textPrimary">Hello {name} 🦫</Text>
-              <Text className="mt-2 text-textPrimary">
-                Thank you for applying to Hack Canada! Your hacker application
-                has been successfully submitted.
-              </Text>
-              <Hr className="my-6 border-gray-200" />
 
-              <Section className="mb-6 rounded-lg border border-blue-500/10 bg-primary/5 p-6">
-                <Text className="text-textSecondary">
-                  Please note that application decisions will not be sent out
-                  until after applications close. Our team is working hard on
-                  reviewing all the applications and decisions will be released
-                  as soon as possible.
+            {/* Main Content Section */}
+            <Section
+              style={{
+                backgroundColor: "#FFFFFF",
+                borderRadius: "0 0 12px 12px",
+                padding: "40px 32px",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              {/* Greeting */}
+              <Heading
+                style={{
+                  color: "#5B21B6",
+                  fontSize: "28px",
+                  fontWeight: "700",
+                  margin: "0 0 16px 0",
+                  textAlign: "center",
+                }}
+              >
+                Application Submitted! 🎉
+              </Heading>
+
+              <Text
+                style={{
+                  color: "#4B5563",
+                  fontSize: "16px",
+                  lineHeight: "24px",
+                  margin: "0 0 8px 0",
+                  textAlign: "center",
+                }}
+              >
+                Hey <strong style={{ color: "#374151" }}>{name}</strong> 🦫
+              </Text>
+
+              <Text
+                style={{
+                  color: "#4B5563",
+                  fontSize: "16px",
+                  lineHeight: "24px",
+                  margin: "0 0 32px 0",
+                  textAlign: "center",
+                }}
+              >
+                Thank you for applying to Hack Canada! Your hacker application
+                has been successfully submitted and is now under review.
+              </Text>
+
+              {/* Info Box - Purple theme matching header */}
+              <Section
+                style={{
+                  background:
+                    "linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%)",
+                  border: "2px solid #DDD6FE",
+                  borderRadius: "12px",
+                  padding: "32px 24px",
+                  margin: "0 0 32px 0",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#5B21B6",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    margin: "0 0 20px 0",
+                    textAlign: "center",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.5px",
+                  }}
+                >
+                  ⭐ What Happens Next?
                 </Text>
-                <Text className="mt-4 text-textSecondary">
-                  Your current application status is also available on your
-                  dashboard in the application platform at{" "}
+
+                <Text
+                  style={{
+                    color: "#4B5563",
+                    fontSize: "15px",
+                    lineHeight: "24px",
+                    margin: "0 0 16px 0",
+                  }}
+                >
+                  <strong style={{ color: "#6B21A8" }}>
+                    📋 Application Review:
+                  </strong>
+                  <br />
+                  Our team is carefully reviewing all applications. Decisions
+                  will be sent out after the application period closes.
+                </Text>
+
+                <Text
+                  style={{
+                    color: "#4B5563",
+                    fontSize: "15px",
+                    lineHeight: "24px",
+                    margin: "0 0 16px 0",
+                  }}
+                >
+                  <strong style={{ color: "#6B21A8" }}>
+                    📊 Check Your Status:
+                  </strong>
+                  <br />
+                  Track your application status anytime on your dashboard at{" "}
                   <Link
-                    href="mailto:hello@hackcanada.org"
-                    className="text-primary hover:text-primaryDark"
+                    href="https://app.hackcanada.org"
+                    style={{
+                      color: "#7C3AED",
+                      textDecoration: "underline",
+                    }}
                   >
-                    https://app.hackcanada.org
+                    app.hackcanada.org
                   </Link>
-                  .
                 </Text>
-                <Text className="mt-4 text-textSecondary">
-                  In the meantime, keep an eye out on our social media platforms
-                  for any updates or changes to the application process or our
-                  hackathon schedule.
+
+                <Text
+                  style={{
+                    color: "#4B5563",
+                    fontSize: "15px",
+                    lineHeight: "24px",
+                    margin: "0",
+                  }}
+                >
+                  <strong style={{ color: "#6B21A8" }}>
+                    📱 Stay Connected:
+                  </strong>
+                  <br />
+                  Follow us on social media for updates, announcements, and
+                  sneak peeks of what&apos;s coming!
                 </Text>
               </Section>
 
-              <Text className="mt-6 text-textPrimary">
-                If you have any questions or concerns, please email us at{" "}
-                <Link
-                  href="mailto:hello@hackcanada.org"
-                  className="text-primary hover:text-primaryDark"
+              {/* Encouragement Box */}
+              <Section
+                style={{
+                  background:
+                    "linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%)",
+                  border: "2px solid #BFDBFE",
+                  borderRadius: "12px",
+                  padding: "24px",
+                  margin: "0 0 32px 0",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#1E40AF",
+                    fontSize: "15px",
+                    lineHeight: "24px",
+                    margin: 0,
+                    textAlign: "center",
+                    fontWeight: "500",
+                  }}
                 >
-                  hello@hackcanada.org
+                  ✨ We&apos;re excited about your application and can&apos;t
+                  wait to potentially see you at Hack Canada {hackathonYear}!
+                </Text>
+              </Section>
+
+              {/* Contact Info */}
+              <Text
+                style={{
+                  color: "#6B7280",
+                  fontSize: "15px",
+                  lineHeight: "24px",
+                  margin: "0 0 8px 0",
+                  textAlign: "center",
+                }}
+              >
+                Have questions or need to update your application?
+              </Text>
+
+              <Text
+                style={{
+                  color: "#6B7280",
+                  fontSize: "15px",
+                  lineHeight: "24px",
+                  margin: "0 0 32px 0",
+                  textAlign: "center",
+                }}
+              >
+                Reach out to us at{" "}
+                <Link
+                  href="mailto:hi@hackcanada.org"
+                  style={{
+                    color: "#7C3AED",
+                    textDecoration: "underline",
+                  }}
+                >
+                  hi@hackcanada.org
                 </Link>
-                , or reach out via our socials.
               </Text>
 
-              <Text className="mt-2 text-sm text-textMuted">
-                We look forward to seeing you at Hack Canada!
-              </Text>
-
-              <Hr className="my-6 border-gray-200" />
+              <Hr
+                style={{
+                  border: "none",
+                  borderTop: "1px solid #E5E7EB",
+                  margin: "32px 0",
+                }}
+              />
 
               {/* Footer */}
               <div style={{ textAlign: "center" }}>
-                <div style={{ marginBottom: "16px" }}>
+                {/* Social Links */}
+                <div style={{ marginBottom: "20px" }}>
                   <Link
-                    style={{
-                      color: "#9CA3AF",
-                      fontSize: "12px",
-                      textDecoration: "none",
-                    }}
                     href="https://hackcanada.org"
                     target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Hack Canada
-                  </Link>
-                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-                  <Link
                     style={{
                       color: "#9CA3AF",
                       fontSize: "12px",
                       textDecoration: "none",
+                      margin: "0 8px",
                     }}
+                  >
+                    Website
+                  </Link>
+                  <span style={{ color: "#D1D5DB" }}>•</span>
+                  <Link
                     href="https://app.hackcanada.org"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    style={{
+                      color: "#9CA3AF",
+                      fontSize: "12px",
+                      textDecoration: "none",
+                      margin: "0 8px",
+                    }}
                   >
                     Dashboard
                   </Link>
-                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                  <span style={{ color: "#D1D5DB" }}>•</span>
                   <Link
+                    href="https://discord.gg/wp42amwcWy"
+                    target="_blank"
                     style={{
                       color: "#9CA3AF",
                       fontSize: "12px",
                       textDecoration: "none",
+                      margin: "0 8px",
                     }}
-                    href="https://discord.gg/wp42amwcWy"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
                     Discord
                   </Link>
-                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                  <span style={{ color: "#D1D5DB" }}>•</span>
                   <Link
+                    href="https://www.instagram.com/hackcanada/"
+                    target="_blank"
                     style={{
                       color: "#9CA3AF",
                       fontSize: "12px",
                       textDecoration: "none",
+                      margin: "0 8px",
                     }}
-                    href="https://www.instagram.com/hackcanada/"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
                     Instagram
                   </Link>
-                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                </div>
+
+                <div style={{ marginBottom: "20px" }}>
                   <Link
+                    href="https://www.linkedin.com/company/hack-canada"
+                    target="_blank"
                     style={{
                       color: "#9CA3AF",
                       fontSize: "12px",
                       textDecoration: "none",
+                      margin: "0 8px",
                     }}
-                    href="https://www.linkedin.com/company/hack-canada"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
                     LinkedIn
                   </Link>
-                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                  <span style={{ color: "#D1D5DB" }}>•</span>
                   <Link
+                    href="mailto:hi@hackcanada.org"
                     style={{
                       color: "#9CA3AF",
                       fontSize: "12px",
                       textDecoration: "none",
+                      margin: "0 8px",
                     }}
-                    href="mailto:hello@hackcanada.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
-                    Email
+                    Contact Us
                   </Link>
                 </div>
+
                 <Text
                   style={{
                     color: "#9CA3AF",
                     fontSize: "12px",
+                    lineHeight: "18px",
                     margin: "8px 0",
                   }}
                 >
-                  Copyright © 2025 Hack Canada
+                  © {hackathonYear} Hack Canada. All rights reserved.
                 </Text>
+
                 <Text
                   style={{
-                    color: "#9CA3AF",
-                    fontSize: "12px",
-                    margin: "8px 0",
+                    color: "#D1D5DB",
+                    fontSize: "11px",
+                    lineHeight: "16px",
+                    margin: "8px 0 0 0",
                   }}
                 >
-                  All rights reserved.
+                  Building the future, one hack at a time 🍁
                 </Text>
               </div>
             </Section>
+
+            {/* Bottom Gradient Accent - Purple theme matching header */}
+            <div
+              style={{
+                height: "4px",
+                background:
+                  "linear-gradient(90deg, #A78BFA 0%, #C084FC 33%, #F472B6 66%, #FB923C 100%)",
+                borderRadius: "0 0 12px 12px",
+                marginTop: "-4px",
+              }}
+            />
           </Container>
         </Body>
       </Tailwind>

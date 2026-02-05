@@ -3,6 +3,7 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth, { DefaultSession } from "next-auth";
 
 import authConfig from "./auth.config";
+import { isFeatureEnabled } from "./config/phases";
 import { db } from "./lib/db";
 import {
   createVerificationToken,
@@ -36,8 +37,32 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ account, user }) {
-      // Allow OAuth providers immediately
+      // For OAuth providers (Google, GitHub, etc.)
       if (account?.provider !== "credentials") {
+        // Check if this is an existing user or a new OAuth registration
+        let isExistingUser = false;
+        
+        if (user.id) {
+          const existingUser = await getUserById(user.id);
+          isExistingUser = !!existingUser;
+        }
+        
+        // If not an existing user, check if registration is open
+        if (!isExistingUser) {
+          if (!isFeatureEnabled("userRegistration")) {
+            // In production, allow only @hackcanada.org emails when registration is closed
+            if (process.env.NODE_ENV === "production") {
+              if (!user.email?.endsWith("@hackcanada.org")) {
+                return false; // Block new OAuth registration
+              }
+            } else {
+              // In development, block all new registrations when closed
+              return false;
+            }
+          }
+        }
+        
+        // Existing user or registration is allowed
         return true;
       }
 
@@ -56,7 +81,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         );
 
         if (existingToken) {
-          return `/email-verification?token=${existingToken.id}`;
+          return `/email-verification?token=${existingToken.id}&email=${existingUser.email}`;
         }
 
         const { tokenId, code } = await createVerificationToken(
@@ -76,7 +101,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return false;
         }
 
-        return `/email-verification?token=${tokenId}`;
+        return `/email-verification?token=${tokenId}&email=${existingUser.email}`;
       }
 
       return true;
