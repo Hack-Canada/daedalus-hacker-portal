@@ -8,7 +8,6 @@ import {
   getCurrentPhase,
   getCurrentPhaseFeatures,
   isFeatureEnabled as checkFeatureEnabled,
-  isPhaseActive as checkPhaseActive,
   areApplicationsOpen,
   isEventActive,
   isEventConcluded,

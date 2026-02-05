@@ -18,7 +18,6 @@ const OAuthButtons = ({ callbackUrl = "/" }: Props) => {
     provider: "google" | "github",
   ) => {
     e.preventDefault();
-    console.log("handleOAuthSignIn", provider);
     // block oauth signin if user registration is disabled
     if (!isFeatureEnabled("userRegistration")) {
       toast.error("User registration is currently disabled.");

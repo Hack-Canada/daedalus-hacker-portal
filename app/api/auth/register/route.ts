@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
 import { ApiResponse } from "@/types/api";
+import { isFeatureEnabled } from "@/config/phases";
 import { db } from "@/lib/db";
 import {
   createVerificationToken,
@@ -13,7 +14,6 @@ import { users } from "@/lib/db/schema";
 import { sendWelcomeEmail } from "@/lib/emails/ses";
 import { generateRandomCode } from "@/lib/utils";
 import { registerSchema } from "@/lib/validations/register";
-import { isFeatureEnabled } from "@/config/phases";
 
 export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
   try {
@@ -39,15 +39,14 @@ export async function POST(req: Request): Promise<NextResponse<ApiResponse>> {
           return NextResponse.json({
             success: false,
             message:
-              "Registrations are currently disabled. Reach out to support@hackcanada.org if you think this is an error.",
+              "Registrations are currently disabled. Reach out to hi@hackcanada.org if you think this is an error.",
           });
         }
       } else {
         // In non-production, show friendly message
         return NextResponse.json({
           success: false,
-          message:
-            "Registrations are not open yet. Please check back later.",
+          message: "Registrations are not open yet. Please check back later.",
         });
       }
     }

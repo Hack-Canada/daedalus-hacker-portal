@@ -12,7 +12,7 @@ export const ContactSection = () => {
 
   // Phase-specific messages
   const messages = {
-    "pre-event": `Check back in January ${hackathonYear} for updates!`,
+    "pre-event": `Check back soon for updates about the ${hackathonYear} Hackathon!`,
     "during-event": "Need help? Reach out to organizers!",
     "post-event": "Thanks for participating! Stay tuned for next year!",
   };
