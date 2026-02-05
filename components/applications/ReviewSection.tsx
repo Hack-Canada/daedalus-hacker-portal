@@ -15,7 +15,7 @@ export function ReviewSection({
   columns = "2",
 }: ReviewSectionProps) {
   return (
-    <div>
+    <div className="rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm md:p-6">
       <ReviewSectionHeader title={title} />
       <ReviewGrid columns={columns}>{children}</ReviewGrid>
     </div>
