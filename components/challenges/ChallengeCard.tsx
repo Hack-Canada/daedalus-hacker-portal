@@ -38,6 +38,22 @@ function StatusBadge({ status }: { status?: ChallengeStatus }) {
     );
   }
 
+  if (status === "deadline_passed") {
+    return (
+      <Badge className="border-red-200 bg-red-100 text-red-700">
+        Deadline Passed
+      </Badge>
+    );
+  }
+
+  if (status === "not_yet_available") {
+    return (
+      <Badge className="border-orange-200 bg-orange-100 text-orange-700">
+        Not Yet Available
+      </Badge>
+    );
+  }
+
   return (
     <Badge className="border-slate-200 bg-slate-100 text-slate-700">
       Not Started

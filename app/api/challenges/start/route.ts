@@ -24,6 +24,7 @@ const challengeSchema: z.ZodType<ChallengeStartRequest> = z.object({
   challengeId: z.string().uuid(),
 });
 
+// TODO: Add verification for wether or not the challenge has fallen into deadlines (doesn't affect anything besides perhaps skewing user stats)
 export async function POST(
   req: NextRequest,
 ): Promise<NextResponse<ApiResponse<ChallengeInProgress>>> {

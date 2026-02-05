@@ -299,6 +299,9 @@ export const challenges = pgTable("challenges", {
   submissionInstructions: text("submissionInstructions").notNull(),
   maxCompletions: integer("maxCompletions"),
   enabled: boolean("enabled").notNull().default(true),
+  deadlineStart: timestamp("deadlineStart"),
+  deadlineEnd: timestamp("deadlineEnd"),
+  showTime: timestamp("showTime"),
 });
 
 export type Challenge = typeof challenges.$inferSelect;
