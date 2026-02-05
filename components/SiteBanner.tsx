@@ -10,6 +10,16 @@ import { Banner } from "@/lib/db/schema";
 
 const DISMISSED_BANNERS_KEY = "dismissed-banners";
 
+const getDismissedBannerIds = (): string[] => {
+  if (typeof window === "undefined") return [];
+  try {
+    const stored = localStorage.getItem(DISMISSED_BANNERS_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
 const bannerVariants = cva(
   "relative flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium",
   {
@@ -46,16 +56,6 @@ export function SiteBanner({ banners }: SiteBannerProps) {
     const filtered = banners.filter((b) => !dismissedIds.includes(b.id));
     setVisibleBanners(filtered);
   }, [banners]);
-
-  const getDismissedBannerIds = (): string[] => {
-    if (typeof window === "undefined") return [];
-    try {
-      const stored = localStorage.getItem(DISMISSED_BANNERS_KEY);
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  };
 
   const dismissBanner = (id: string) => {
     const dismissedIds = getDismissedBannerIds();
