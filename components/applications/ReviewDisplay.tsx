@@ -1,6 +1,7 @@
 "use client";
 
 import { UseFormReturn } from "react-hook-form";
+import { AlertCircle } from "lucide-react";
 
 import { getResumeUrl } from "@/lib/utils";
 import { THackerApplicationSubmission } from "@/lib/validations/application";
@@ -17,12 +18,18 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
   const values = form.watch();
 
   return (
-    <div className="space-y-8 xl:space-y-12">
-      <p className="-mt-3 text-white/50 max-md:text-sm md:-mt-6">
-        Please review your application carefully before submitting. Note that
-        you will not be able to make changes or resubmit your application once
-        it has been submitted.
-      </p>
+    <div className="space-y-6 md:space-y-8">
+      {/* Warning banner */}
+      <div className="flex items-start gap-3 rounded-lg border border-warning/30 bg-warning/10 p-4">
+        <AlertCircle className="mt-0.5 size-5 shrink-0 text-warning" />
+        <p className="text-sm leading-relaxed text-white/70">
+          Please review your application carefully before submitting.{" "}
+          <span className="font-medium text-warning">
+            You will not be able to make changes or resubmit
+          </span>{" "}
+          once it has been submitted.
+        </p>
+      </div>
 
       <ReviewSection title="General Information">
         <Field label="First Name" value={values.firstName} />
@@ -64,7 +71,7 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
         />
         <Field
           label="Share resume with sponsors/recruiters"
-          value={values.shareResume ? "True" : "False"}
+          value={values.shareResume ? "Yes" : "No"}
         />
       </ReviewSection>
 
@@ -72,6 +79,7 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
         <Field
           label="Every project has a story. What problem were you trying to solve, and how does your creation tackle it? Take us behind the scenes, what technologies power it, what obstacles did you face, and what 'aha' moments got you through? Share your links (GitHub, demo, video, etc.) so we can see it in action"
           value={values.shortAnswer1}
+          isLongText
         />
         <Field
           label="What would help you most in continuing your project after the hackathon? (e.g., one-on-one meetings with sponsors, mentorship, cloud credits, introductions to investors or partners, additional prizes, incubator access, or technical support)"

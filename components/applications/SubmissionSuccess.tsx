@@ -114,17 +114,17 @@ export default function SubmissionSuccess() {
       {/* Background decorative elements */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute -left-32 -top-32 size-64 rounded-full bg-orange-500/10 blur-3xl"
+          className="absolute -left-32 -top-32 size-64 rounded-full bg-primary/10 blur-3xl"
           animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
           transition={{ duration: 5, repeat: Infinity }}
         />
         <motion.div
-          className="absolute -bottom-32 -right-32 size-64 rounded-full bg-violet-500/10 blur-3xl"
+          className="absolute -bottom-32 -right-32 size-64 rounded-full bg-sky-400/10 blur-3xl"
           animate={{ scale: [1.2, 1, 1.2], opacity: [0.5, 0.3, 0.5] }}
           transition={{ duration: 5, repeat: Infinity }}
         />
         <motion.div
-          className="absolute right-1/4 top-1/4 size-48 rounded-full bg-rose-500/5 blur-3xl"
+          className="absolute right-1/4 top-1/4 size-48 rounded-full bg-primaryLight/5 blur-3xl"
           animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
           transition={{ duration: 7, repeat: Infinity }}
         />
@@ -162,14 +162,14 @@ export default function SubmissionSuccess() {
                   transition: { ...floatAnimation.transition, delay: 0.5 },
                 }}
               >
-                <Sparkles className="size-6 text-violet-500 drop-shadow-lg sm:size-8" />
+                <Sparkles className="size-6 text-primary drop-shadow-lg sm:size-8" />
               </motion.div>
             </div>
           </motion.div>
 
           {/* Title */}
           <motion.div variants={itemVariants} className="mb-4">
-            <h1 className="bg-gradient-to-r from-orange-500 via-rose-500 to-violet-600 bg-clip-text font-rubik text-4xl font-bold text-transparent sm:text-5xl md:text-6xl">
+            <h1 className="bg-gradient-to-r from-primary via-sky-400 to-primaryLight bg-clip-text font-rubik text-4xl font-bold text-transparent sm:text-5xl md:text-6xl">
               Application Submitted!
             </h1>
           </motion.div>
@@ -177,7 +177,7 @@ export default function SubmissionSuccess() {
           {/* Subtitle */}
           <motion.p
             variants={itemVariants}
-            className="max-w-lg text-base text-zinc-500 dark:text-zinc-400 sm:text-lg md:text-xl"
+            className="max-w-lg text-base text-white/60 sm:text-lg md:text-xl"
           >
             You&apos;re one step closer to joining Hack Canada! We&apos;ve
             received your application and can&apos;t wait to review it.
@@ -202,9 +202,9 @@ export default function SubmissionSuccess() {
         {/* What's Next Timeline */}
         <motion.div
           variants={itemVariants}
-          className="w-full max-w-2xl rounded-2xl border border-zinc-200/50 bg-white p-6 shadow-2xl dark:border-zinc-700 dark:bg-zinc-800 sm:p-8"
+          className="w-full max-w-2xl rounded-2xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-primary/5 backdrop-blur-sm sm:p-8"
         >
-          <h2 className="mb-6 text-center text-lg font-semibold text-zinc-800 dark:text-zinc-100 sm:text-xl">
+          <h2 className="mb-6 text-center text-lg font-semibold text-white sm:text-xl">
             What Happens Next?
           </h2>
 
@@ -214,10 +214,10 @@ export default function SubmissionSuccess() {
                 key={step.title}
                 className={`group relative flex items-start gap-4 rounded-xl p-3 transition-all duration-300 sm:p-4 ${
                   step.status === "done"
-                    ? "bg-green-50 dark:bg-green-900/30"
+                    ? "bg-green-500/10"
                     : step.status === "current"
-                      ? "bg-orange-50 dark:bg-orange-900/20"
-                      : "hover:bg-zinc-100 dark:hover:bg-zinc-700/50"
+                      ? "bg-primary/10"
+                      : "hover:bg-white/5"
                 }`}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -228,10 +228,10 @@ export default function SubmissionSuccess() {
                 <div
                   className={`flex size-10 shrink-0 items-center justify-center rounded-full transition-colors sm:size-12 ${
                     step.status === "done"
-                      ? "bg-green-500 text-white"
+                      ? "bg-green-500 text-white shadow-[0_0_15px_rgba(34,197,94,0.3)]"
                       : step.status === "current"
-                        ? "bg-orange-500 text-white"
-                        : "bg-zinc-200 text-zinc-500 dark:bg-zinc-600 dark:text-zinc-300"
+                        ? "bg-primary text-white shadow-[0_0_15px_rgba(30,144,255,0.3)]"
+                        : "bg-white/10 text-white/50"
                   }`}
                 >
                   <step.icon className="size-5 sm:size-6" />
@@ -243,10 +243,10 @@ export default function SubmissionSuccess() {
                     <h3
                       className={`font-medium sm:text-lg ${
                         step.status === "done"
-                          ? "text-green-700 dark:text-green-400"
+                          ? "text-green-400"
                           : step.status === "current"
-                            ? "text-orange-600 dark:text-orange-400"
-                            : "text-zinc-600 dark:text-zinc-300"
+                            ? "text-primary"
+                            : "text-white/70"
                       }`}
                     >
                       {step.title}
@@ -256,7 +256,7 @@ export default function SubmissionSuccess() {
                     )}
                     {step.status === "current" && (
                       <motion.span
-                        className="rounded-full bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-600 dark:bg-orange-900/50 dark:text-orange-400"
+                        className="rounded-full border border-primary/30 bg-primary/20 px-2 py-0.5 text-xs font-medium text-primary"
                         animate={{ opacity: [1, 0.5, 1] }}
                         transition={{ duration: 1.5, repeat: Infinity }}
                       >
@@ -264,14 +264,14 @@ export default function SubmissionSuccess() {
                       </motion.span>
                     )}
                   </div>
-                  <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                  <p className="mt-1 text-sm text-white/50">
                     {step.description}
                   </p>
                 </div>
 
                 {/* Connecting line */}
                 {index < timelineSteps.length - 1 && (
-                  <div className="absolute bottom-0 left-[1.4rem] h-4 w-0.5 translate-y-full bg-zinc-300 dark:bg-zinc-600 sm:left-[1.65rem]" />
+                  <div className="absolute bottom-0 left-[1.4rem] h-4 w-0.5 translate-y-full bg-white/10 sm:left-[1.65rem]" />
                 )}
               </motion.div>
             ))}
@@ -285,7 +285,7 @@ export default function SubmissionSuccess() {
         >
           <motion.a
             href="/"
-            className="group flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 via-rose-500 to-violet-600 px-8 py-3 font-medium text-white shadow-lg shadow-orange-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-rose-500/30 sm:w-auto sm:px-10 sm:py-4"
+            className="group flex w-full items-center justify-center gap-2 rounded-full bg-primary px-8 py-3 font-medium text-white shadow-lg shadow-primary/25 transition-all duration-300 hover:bg-blue-400 hover:shadow-[0_0_25px_rgba(30,144,255,0.4)] sm:w-auto sm:px-10 sm:py-4"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -296,7 +296,7 @@ export default function SubmissionSuccess() {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
             <Link
               href="/applications/hacker/review"
-              className="flex w-full items-center justify-center gap-2 rounded-full border border-zinc-300 bg-white px-6 py-3 font-medium text-zinc-600 transition-all duration-300 hover:border-orange-500 hover:text-orange-600 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-orange-500 dark:hover:text-orange-400 sm:w-auto sm:px-8 sm:py-4"
+              className="flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3 font-medium text-white/80 transition-all duration-300 hover:border-primary/50 hover:bg-white/10 hover:text-primary hover:shadow-[0_0_15px_rgba(30,144,255,0.2)] sm:w-auto sm:px-8 sm:py-4"
             >
               <ExternalLink className="size-5" />
               <span>Review Application</span>
@@ -307,12 +307,12 @@ export default function SubmissionSuccess() {
         {/* Pro tip */}
         <motion.div
           variants={itemVariants}
-          className="flex items-center gap-3 rounded-full bg-amber-50 px-5 py-3 text-sm text-amber-800 dark:bg-amber-950/30 dark:text-amber-200"
+          className="flex items-center gap-3 rounded-full border border-primary/20 bg-primary/10 px-5 py-3 text-sm text-white/80"
         >
-          <Sparkles className="size-4 shrink-0" />
+          <Sparkles className="size-4 shrink-0 text-primary" />
           <span>
-            <strong>Pro tip:</strong> Add{" "}
-            <span className="font-medium">no-reply@hackcanada.org</span> to your
+            <strong className="text-primary">Pro tip:</strong> Add{" "}
+            <span className="font-medium text-primaryLight">no-reply@hackcanada.org</span> to your
             contacts to avoid missing updates!
           </span>
         </motion.div>
