@@ -6,9 +6,7 @@ const SignInHeader = ({}: Props) => {
       <h1 className="font-rubik text-2xl font-bold text-white md:text-3xl">
         Sign In
       </h1>
-      <p className="text-sm text-white/60 md:text-base">
-        to continue to Hack Canada
-      </p>
+      <p className="text-white/60 text-sm md:text-base">to continue to Hack Canada</p>
     </div>
   );
 };

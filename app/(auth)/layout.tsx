@@ -9,7 +9,7 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-neutral-900 p-6">
+    <div className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-neutral-900 p-6 md:justify-start md:pl-16 lg:pl-24 xl:pl-32">
       {/* Aurora background */}
       <Image
         src="/aurora.webp"
@@ -27,7 +27,7 @@ export default function AuthLayout({
       <AnimatedSnowflake className="-top-40 -left-40 scale-75" />
       <AnimatedSnowflake className="top-0 right-0 scale-150" />
       <AnimatedSnowflake className="inset-x-0 bottom-0 scale-150" />
-      {/* <AnimatedSnowflake className="right-0 bottom-0 scale-150 opacity-50" /> */}
+      <AnimatedSnowflake className="right-0 bottom-0 scale-150 opacity-50" />
       <AnimatedSnowflake className="-right-40 -bottom-40 scale-75 opacity-50" />
 
       {/* Grainy texture */}
