@@ -144,7 +144,7 @@ export function SocialLinkCard({ integrations }: SocialLinkCardProps) {
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
-              "group/card flex flex-col items-center gap-4 rounded-xl border-2 border-white/25 bg-white/50 p-5 hover:border-white/75",
+              "group/card flex cursor-pointer flex-col items-center gap-4 rounded-xl border-2 border-white/25 bg-white/50 p-5 hover:border-white/75",
               "text-textSecondary shadow-md backdrop-blur-md",
               "transition-all duration-500 hover:-translate-y-1 hover:shadow-lg",
               "animate-fadeIn",

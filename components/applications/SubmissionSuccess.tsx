@@ -37,11 +37,11 @@ export default function SubmissionSuccess() {
 
         <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:gap-4 md:mb-10 xl:mb-12">
           <div className="text-4xl font-bold md:text-5xl xl:text-6xl">
-            <div className="bg-linear-to-r from-blue-400 via-sky-400 to-primary/70 bg-clip-text text-transparent md:w-fit">
+            <div className="bg-linear-to-r from-blue-400 via-sky-400 to-primaryLight bg-clip-text text-transparent md:w-fit">
               <h1 className="font-rubik">Submitted!</h1>
             </div>
           </div>
-          <p className="text-sm text-textMuted sm:text-base md:text-lg xl:text-xl">
+          <p className="text-sm text-white/50 sm:text-base md:text-lg xl:text-xl">
             Your response has been saved, keep an eye out on your emails in the
             coming weeks for updates.
           </p>
@@ -50,14 +50,14 @@ export default function SubmissionSuccess() {
         <div className="flex w-full flex-col items-center gap-3 sm:gap-4 md:w-fit md:items-start xl:w-fit">
           <a
             href="/"
-            className="group flex w-full items-center justify-center gap-2 rounded-full border border-zinc-700 px-4 py-2 text-sm transition-all duration-200 hover:bg-primary hover:text-white hover:shadow-lg sm:w-fit sm:px-6 sm:py-2 sm:text-base md:px-8 md:text-lg xl:px-10 xl:py-3"
+            className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm text-white transition-all duration-200 hover:border-primary/50 hover:bg-primary hover:shadow-[0_0_20px_rgba(30,144,255,0.3)] sm:w-fit sm:px-6 sm:py-2 sm:text-base md:px-8 md:text-lg xl:px-10 xl:py-3"
           >
             <span>Dashboard</span>
             <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1 xl:size-5" />
           </a>
           <Link
             href="/applications/hacker/review"
-            className="flex w-full items-center justify-center gap-2 text-textMuted transition-colors duration-200 hover:text-textPrimary max-md:text-sm sm:w-fit xl:mx-auto"
+            className="flex w-full cursor-pointer items-center justify-center gap-2 text-white/50 transition-colors duration-200 hover:text-white max-md:text-sm sm:w-fit xl:mx-auto"
           >
             <ExternalLink className="size-4 xl:size-5" />
             <span>Review Application</span>

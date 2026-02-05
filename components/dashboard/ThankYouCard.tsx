@@ -20,18 +20,18 @@ export const ThankYouCard = ({ role }: ThankYouCardProps) => {
   };
 
   return (
-    <div className="border-primary/30 from-primary/5 via-info/5 to-primaryLight/5 relative rounded-md border bg-gradient-to-br p-6 md:p-8">
+    <div className="relative overflow-hidden rounded-xl border border-primary/30 bg-gradient-to-br from-primary/10 via-info/5 to-primaryLight/10 p-6 backdrop-blur-sm md:p-8">
       <div className="flex items-start gap-4">
         <Heart
           className="text-error size-8 animate-pulse"
           fill="currentColor"
         />
         <div className="flex-1">
-          <h3 className="text-textPrimary mb-2 text-xl font-semibold">
+          <h3 className="text-white mb-2 text-xl font-semibold">
             Thank You!
           </h3>
-          <p className="text-textMuted">{messages[role]}</p>
-          <div className="text-textMuted mt-4 flex items-center gap-2 text-sm">
+          <p className="text-white/60">{messages[role]}</p>
+          <div className="text-white/60 mt-4 flex items-center gap-2 text-sm">
             <Star className="text-warning size-4" fill="currentColor" />
             <span>See you at Hack Canada {hackathonYear + 1}!</span>
           </div>

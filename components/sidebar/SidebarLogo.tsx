@@ -5,13 +5,14 @@ import Link from "next/link";
 type Props = {
   className?: string;
   mobile?: boolean;
+  dark?: boolean;
 };
 
-const SidebarLogo = ({ className, mobile }: Props) => {
+const SidebarLogo = ({ className, mobile, dark = true }: Props) => {
   return (
     <Link
       href={"/"}
-      className={`flex w-fit items-center space-x-2 ${className}`}
+      className={`flex w-fit cursor-pointer items-center space-x-2 ${className}`}
     >
       <Image
         src={"/logo-circle.png"}
@@ -21,10 +22,10 @@ const SidebarLogo = ({ className, mobile }: Props) => {
         className={mobile ? "translate-y-1" : ""}
       />
       <span className="flex max-lg:space-x-1 lg:flex-col lg:-space-y-1">
-        <span className="text-xl font-bold text-[#071632] lg:text-lg">
+        <span className={`text-xl font-bold lg:text-lg ${dark ? "text-white" : "text-[#071632]"}`}>
           Hack
         </span>
-        <span className="text-xl font-bold text-[#071632] lg:text-lg">
+        <span className={`text-xl font-bold lg:text-lg ${dark ? "text-white" : "text-[#071632]"}`}>
           Canada
         </span>
       </span>

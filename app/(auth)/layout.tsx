@@ -44,7 +44,7 @@ export default function AuthLayout({
           <Link
             href="https://hackcanada.org"
             target="_blank"
-            className="text-white/60 hover:text-white transition-colors text-sm"
+            className="text-sm text-white/60 transition-colors hover:text-white"
           >
             Back to landing page
           </Link>

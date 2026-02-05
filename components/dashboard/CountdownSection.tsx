@@ -17,7 +17,7 @@ export const CountdownSection = () => {
   }
 
   return (
-    <div className="relative overflow-hidden rounded-md border border-gray-300 p-4 shadow-xs md:p-8 lg:col-span-2 xl:p-12">
+    <div className="relative overflow-hidden rounded-xl border border-white/10 bg-white/5 p-4 shadow-lg backdrop-blur-sm md:p-8 lg:col-span-2 xl:p-12">
       <Snowflakes />
 
       <div className="relative z-10 flex h-full flex-col justify-between gap-8">
@@ -35,11 +35,11 @@ export const CountdownSection = () => {
             />
           </div>
           <div className="text-center sm:text-left">
-            <p className="font-rubik font-bold text-textPrimary md:text-lg">
+            <p className="font-rubik font-bold text-white md:text-lg">
               The countdown ends!
             </p>
             <p className="md:text-lg">
-              <span className="text-textSecondary">
+              <span className="text-white/60">
                 Hope to see you next year!
               </span>{" "}
               ⛰

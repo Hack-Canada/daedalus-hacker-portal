@@ -12,10 +12,10 @@ export function DaySelector({ selectedDay, onDayChange }: DaySelectorProps) {
         <button
           key={day}
           onClick={() => onDayChange(index)}
-          className={`rounded-lg px-4 py-2 font-medium transition-colors ${
+          className={`cursor-pointer rounded-lg px-4 py-2 font-medium transition-all ${
             selectedDay === index
-              ? "bg-sky-200 text-sky-950"
-              : "text-textSecondary hover:bg-gray-100"
+              ? "bg-primary/20 text-primary border border-primary/30"
+              : "text-white/60 border border-white/10 hover:bg-white/10 hover:text-white"
           }`}
         >
           {day}

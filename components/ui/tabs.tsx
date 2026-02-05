@@ -31,7 +31,7 @@ export function Tabs() {
       <Link
         href="/sign-in"
         className={cn(
-          "relative z-10 px-5 py-2 text-sm font-medium transition-colors duration-200 md:px-6 md:text-base",
+          "relative z-10 cursor-pointer px-5 py-2 text-sm font-medium transition-colors duration-200 md:px-6 md:text-base",
           isSignIn ? "text-textPrimary" : "text-white/60 hover:text-white/80",
         )}
       >
@@ -40,7 +40,7 @@ export function Tabs() {
       <Link
         href="/sign-up"
         className={cn(
-          "relative z-10 px-5 py-2 text-sm font-medium transition-colors duration-200 md:px-6 md:text-base",
+          "relative z-10 cursor-pointer px-5 py-2 text-sm font-medium transition-colors duration-200 md:px-6 md:text-base",
           isSignUp ? "text-textPrimary" : "text-white/60 hover:text-white/80",
         )}
       >

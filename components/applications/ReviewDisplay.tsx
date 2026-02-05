@@ -18,7 +18,7 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
 
   return (
     <div className="space-y-8 xl:space-y-12">
-      <p className="-mt-3 text-textMuted max-md:text-sm md:-mt-6">
+      <p className="-mt-3 text-white/50 max-md:text-sm md:-mt-6">
         Please review your application carefully before submitting. Note that
         you will not be able to make changes or resubmit your application once
         it has been submitted.

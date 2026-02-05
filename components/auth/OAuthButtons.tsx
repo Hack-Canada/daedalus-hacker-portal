@@ -35,7 +35,7 @@ const OAuthButtons = ({ callbackUrl = "/" }: Props) => {
         type="button"
         onClick={(e) => handleOAuthSignIn(e, "google")}
         className={cn(
-          "flex w-full items-center justify-center gap-3 rounded-lg border border-white/20 bg-white/5 px-4 py-3 font-medium text-white backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/30 disabled:cursor-not-allowed disabled:opacity-50",
+          "flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border border-white/20 bg-white/5 px-4 py-3 font-medium text-white backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/30 disabled:cursor-not-allowed disabled:opacity-50",
           !isOAuthEnabled && "cursor-not-allowed opacity-50",
         )}
         aria-label="Continue with Google"
@@ -49,7 +49,7 @@ const OAuthButtons = ({ callbackUrl = "/" }: Props) => {
         type="button"
         onClick={(e) => handleOAuthSignIn(e, "github")}
         className={cn(
-          "flex w-full items-center justify-center gap-3 rounded-lg border border-white/20 bg-white/5 px-4 py-3 font-medium text-white backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/30 disabled:cursor-not-allowed disabled:opacity-50",
+          "flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border border-white/20 bg-white/5 px-4 py-3 font-medium text-white backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/30 disabled:cursor-not-allowed disabled:opacity-50",
           !isOAuthEnabled && "cursor-not-allowed opacity-50",
         )}
         aria-label="Continue with GitHub"
