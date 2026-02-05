@@ -10,30 +10,38 @@ interface ThankYouCardProps {
 
 export const ThankYouCard = ({ role }: ThankYouCardProps) => {
   const messages: Record<UserRole, string> = {
-    hacker: `Your creativity and innovation made Hack Canada ${hackathonYear} unforgettable!`,
-    organizer: "Your leadership made this event possible!",
-    volunteer: "Your dedication kept everything running smoothly!",
-    admin: "Your oversight ensured a successful event!",
-    unassigned: "Thank you for your interest in Hack Canada!",
-    mentor: "Your guidance helped hackers succeed!",
-    judge: "Your expertise made the judging process fair and accurate!",
+    hacker: `Your creativity, passion, and late-night coding sessions made Hack Canada ${hackathonYear} absolutely EPIC! 🔥`,
+    organizer:
+      "You turned a vision into reality! This event wouldn't exist without your amazing leadership! 🌟",
+    volunteer:
+      "You're the real MVPs! Your energy and dedication kept the magic alive all weekend! 💪",
+    admin:
+      "The wizard behind the curtain! Your work ensured everything ran flawlessly! 🎩",
+    unassigned:
+      "Thanks for being part of the Hack Canada community! We can't wait to have you next year! 🍁",
+    mentor:
+      "Your wisdom and patience helped hackers level up and achieve the impossible! 🧙‍♂️",
+    judge:
+      "Your sharp eyes and fair judgment crowned our champions! Thanks for being awesome! ⚖️",
   };
 
   return (
-    <div className="border-primary/30 from-primary/5 via-info/5 to-primaryLight/5 relative rounded-md border bg-gradient-to-br p-6 md:p-8">
+    <div className="border-primary/30 from-primary/10 via-info/5 to-primaryLight/10 relative overflow-hidden rounded-xl border bg-gradient-to-br p-6 backdrop-blur-sm md:p-8">
       <div className="flex items-start gap-4">
         <Heart
           className="text-error size-8 animate-pulse"
           fill="currentColor"
         />
         <div className="flex-1">
-          <h3 className="text-textPrimary mb-2 text-xl font-semibold">
-            Thank You!
+          <h3 className="mb-2 text-xl font-semibold text-white">
+            You&apos;re Amazing! 💖
           </h3>
-          <p className="text-textMuted">{messages[role]}</p>
-          <div className="text-textMuted mt-4 flex items-center gap-2 text-sm">
+          <p className="text-white/60">{messages[role]}</p>
+          <div className="mt-4 flex items-center gap-2 text-sm text-white/60">
             <Star className="text-warning size-4" fill="currentColor" />
-            <span>See you at Hack Canada {hackathonYear + 1}!</span>
+            <span>
+              The adventure continues at Hack Canada {hackathonYear + 1}!
+            </span>
           </div>
         </div>
       </div>

@@ -19,7 +19,7 @@ export function ReviewApplication({ application }: ReviewApplicationProps) {
         title="Review your application"
         className="space-y-2 md:space-y-2 xl:space-y-2"
       >
-        <p className="text-textMuted max-md:text-sm">
+        <p className="text-white/50 max-md:text-sm">
           An overview of your submitted application is below. You can no longer
           make any changes since the application was already submitted.
         </p>
@@ -77,10 +77,10 @@ export function ReviewApplication({ application }: ReviewApplicationProps) {
         />
       </ReviewSection>
 
-      <hr />
+      <hr className="border-white/10" />
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium md:text-xl">
+        <h3 className="text-lg font-medium text-white md:text-xl">
           Interested in anything else?
         </h3>
         <div className="flex gap-2.5 max-xs:flex-col xs:items-center">

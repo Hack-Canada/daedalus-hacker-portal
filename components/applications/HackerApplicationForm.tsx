@@ -90,7 +90,7 @@ export default function HackerApplicationForm({
                   title="Short Answers"
                   className="space-y-0 md:space-y-0 xl:space-y-0"
                 >
-                  <p className="text-textMuted pt-1 pb-4 max-md:text-sm md:pt-2 md:pb-8">
+                  <p className="text-white/50 pt-1 pb-4 max-md:text-sm md:pt-2 md:pb-8">
                     Please answer both of the following questions. Max length of
                     2000 characters, minimum length of 32 characters for each
                     question.
@@ -108,7 +108,7 @@ export default function HackerApplicationForm({
               <FormErrors saveErrors errors={validationErrors} />
             </div>
 
-            <hr className="mb-6 md:mb-8" />
+            <hr className="mb-6 border-white/10 md:mb-8" />
 
             <FormNavigation
               currentStep={currentStep}

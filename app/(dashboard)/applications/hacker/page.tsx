@@ -8,7 +8,15 @@ import HackerApplicationForm from "@/components/applications/HackerApplicationFo
 import { EmptyPage } from "@/components/EmptyPage";
 
 export const metadata: Metadata = {
-  title: "Hacker Application",
+  title: "Hacker Application - Apply to Hack Canada",
+  description: "Submit your official Hack Canada hacker application. Join 500+ student developers at Canada's premier hackathon. Apply now through the HC hacker portal.",
+  keywords: [
+    "Hack Canada hacker application",
+    "HC hacker application",
+    "apply as hacker",
+    "hackathon participant application",
+    "Hack Canada student application",
+  ],
 };
 
 const HackerApplicationPage = async () => {

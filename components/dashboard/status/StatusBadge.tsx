@@ -8,13 +8,13 @@ interface StatusBadgeProps {
 }
 
 const badgeStyles = {
-  not_applied: "bg-primaryDark text-white",
-  pending: "bg-primaryDark text-white",
-  accepted: "bg-green-400 text-black",
-  rejected: "bg-error text-white",
-  waitlisted: "bg-warning text-black",
-  coming_soon: "bg-primaryDark text-white",
-  cancelled: "bg-error text-white",
+  not_applied: "bg-primary/20 text-primary border border-primary/30",
+  pending: "bg-primary/20 text-primary border border-primary/30",
+  accepted: "bg-green-500/20 text-green-400 border border-green-500/30",
+  rejected: "bg-error/20 text-red-400 border border-error/30",
+  waitlisted: "bg-warning/20 text-amber-400 border border-warning/30",
+  coming_soon: "bg-primary/20 text-primary border border-primary/30",
+  cancelled: "bg-error/20 text-red-400 border border-error/30",
 };
 
 export const StatusBadge = ({
@@ -25,7 +25,7 @@ export const StatusBadge = ({
   return (
     <span
       className={cn(
-        "w-fit rounded-sm px-1 py-0.5 text-[10px] font-medium md:text-xs",
+        "w-fit rounded-md px-2 py-1 text-[10px] font-medium md:text-xs",
         badgeStyles[status],
         className,
       )}

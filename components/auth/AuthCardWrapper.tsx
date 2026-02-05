@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { Snowflake } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { Tabs } from "@/components/ui/tabs";
 
 type Props = {
   children: React.ReactNode;
   className?: string;
+  showTabs?: boolean;
 };
 
 type SnowflakeData = {
@@ -19,7 +21,7 @@ type SnowflakeData = {
   isLarge: boolean;
 };
 
-const AuthCardWrapper = ({ children, className }: Props) => {
+const AuthCardWrapper = ({ children, className, showTabs = true }: Props) => {
   const [snowflakes, setSnowflakes] = useState<SnowflakeData[]>([]);
 
   useEffect(() => {
@@ -39,20 +41,40 @@ const AuthCardWrapper = ({ children, className }: Props) => {
   return (
     <div
       className={cn(
-        "relative w-full space-y-4 rounded-md border border-white/50 bg-linear-to-b from-white/50 to-white/50 p-4 shadow-md backdrop-blur-xs md:space-y-6 md:to-[#0A1F44]/10 md:p-8 xl:p-10",
+        "relative w-full rounded-2xl p-8 shadow-2xl md:p-10",
+        // Fixed height for auth pages with tabs to prevent layout shift
+        showTabs && "min-h-[620px] md:min-h-[640px]",
+        // Glassmorphism effect
+        "bg-gradient-to-br from-white/10 via-white/5 to-transparent",
+        "backdrop-blur-xl backdrop-saturate-150",
+        // Border with gradient
+        "border border-white/20",
+        "before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/10 before:to-transparent before:opacity-50 before:pointer-events-none",
+        // Shadow and glow
+        "shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]",
         className,
       )}
     >
-      {children}
+      {/* Dark overlay for better text contrast */}
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-black/40 via-black/30 to-black/50 pointer-events-none -z-10" />
+      
+      {/* Content with proper text color */}
+      <div className="relative z-10 flex flex-col gap-6 text-white">
+        {showTabs && <Tabs />}
+        {children}
+      </div>
+      
+      {/* Floating snowflakes */}
       {snowflakes.map((flake) => (
         <Snowflake
           key={flake.i}
-          className={`absolute animate-snow-float text-white/20 ${flake.isLarge ? "h-4 w-4" : "h-3 w-3"}`}
+          className={`animate-snow-float absolute text-white/15 pointer-events-none ${flake.isLarge ? "h-4 w-4" : "h-3 w-3"}`}
           style={{
             top: `${flake.top}%`,
             left: `${flake.left}%`,
             animationDuration: `${flake.duration}s`,
             animationDelay: `${flake.delay}s`,
+            zIndex: 0,
           }}
         />
       ))}

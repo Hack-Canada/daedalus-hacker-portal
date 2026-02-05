@@ -10,7 +10,24 @@ import { ApplicationCard } from "@/components/applications/ApplicationCard";
 import PageWrapper from "@/components/PageWrapper";
 
 export const metadata: Metadata = {
-  title: "Applications",
+  title: "Applications - Apply to Hack Canada",
+  description: `Apply to Hack Canada ${hackathonYear}! Submit your hacker application, mentor application, or judge application. Official HC applications portal for Canada's premier student hackathon.`,
+  openGraph: {
+    title: `Hack Canada ${hackathonYear} Applications | HC Apps Portal`,
+    description: "Apply now to join 500+ hackers at Hack Canada! Submit your application for hacker, mentor, or judge positions through the official portal.",
+  },
+  keywords: [
+    "Hack Canada applications",
+    "HC applications",
+    "Hack Canada apply",
+    "hackathon application",
+    "apply Hack Canada",
+    "HC apply",
+    "Hack Canada hacker application",
+    "Hack Canada registration",
+    "hackathon registration Canada",
+    `Hack Canada ${hackathonYear} apply`,
+  ],
 };
 
 const ApplicationPage = async () => {
@@ -21,7 +38,7 @@ const ApplicationPage = async () => {
   }
 
   const alreadyApplied = user.status !== "not_applied";
-  
+
   // Get phase-aware applications and current phase
   const applications = getApplications();
   const currentPhase = getCurrentPhase();
@@ -33,7 +50,7 @@ const ApplicationPage = async () => {
       ) : (
         <ApplicationsClosedHeader phase={currentPhase} />
       )}
-      <div className="flex w-full flex-col gap-6">
+      <main className="flex w-full flex-col gap-6" role="main" aria-label="Hack Canada Applications">
         {applications.map((application) => (
           <ApplicationCard
             key={application.title}
@@ -43,7 +60,7 @@ const ApplicationPage = async () => {
             }
           />
         ))}
-      </div>
+      </main>
       <BackButton />
     </PageWrapper>
   );
@@ -51,17 +68,18 @@ const ApplicationPage = async () => {
 
 const ApplicationsOpenHeader = () => {
   return (
-    <>
-      <div className="mb-8 space-y-2">
-        <div className="from-primary to-primary w-fit bg-linear-to-r via-sky-400 bg-clip-text text-transparent">
-          <h1 className="font-rubik text-3xl font-bold">Applications Open</h1>
-        </div>
-        <p className="text-textMuted max-md:text-sm">
-          Hack Canada {hackathonYear} is now open for applications. Submit your
-          application before the deadline.
-        </p>
+    <header className="mb-8 space-y-2">
+      <div className="from-primary to-primary w-fit bg-linear-to-r via-sky-400 bg-clip-text text-transparent">
+        <h1 className="font-rubik text-3xl font-bold">
+          Your Journey Starts Here! 🚀
+        </h1>
       </div>
-    </>
+      <p className="text-white/60 max-md:text-sm">
+        Hack Canada {hackathonYear} applications are live! Don&apos;t miss
+        your chance to join 500+ hackers for an epic weekend of innovation and
+        fun.
+      </p>
+    </header>
   );
 };
 
@@ -71,28 +89,28 @@ const ApplicationsClosedHeader = ({ phase }: { phase: string }) => {
     switch (phase) {
       case "pre-registration":
         return {
-          title: "Applications Coming Soon",
-          message: `Applications for Hack Canada ${hackathonYear} will open soon. Check back in mid-January!`,
+          title: "Something Big is Coming! ✨",
+          message: `Hack Canada ${hackathonYear} applications are opening soon! Get ready to join the most exciting hackathon in Canada.`,
         };
       case "pre-event":
         return {
-          title: "Applications Closed",
-          message: `Applications for Hack Canada ${hackathonYear} have closed. Accepted hackers can view their status on the dashboard.`,
+          title: "The Countdown is On! ⏰",
+          message: `Applications are closed, but the excitement is just beginning! Accepted hackers, check your dashboard for updates.`,
         };
       case "during-event":
         return {
-          title: "Applications Closed",
-          message: `Hack Canada ${hackathonYear} is currently underway! Applications are closed, but stay tuned for next year.`,
+          title: "We're Live! 🔥",
+          message: `Hack Canada ${hackathonYear} is happening RIGHT NOW! The energy is incredible. See you next year!`,
         };
       case "post-event":
         return {
-          title: "Hackathon Concluded",
-          message: `Hack Canada ${hackathonYear} has concluded. Thank you for your interest! Check back next year for Hack Canada ${hackathonYear + 1}.`,
+          title: "What a Journey! 🎉",
+          message: `Hack Canada ${hackathonYear} was absolutely legendary! Thanks for being part of it. Can't wait to see you at Hack Canada ${hackathonYear + 1}!`,
         };
       default:
         return {
-          title: "Applications Closed",
-          message: `Applications for Hack Canada ${hackathonYear} are currently closed.`,
+          title: "Stay Tuned! 📣",
+          message: `Applications for Hack Canada ${hackathonYear} are currently closed. Follow us for updates!`,
         };
     }
   };
@@ -100,12 +118,12 @@ const ApplicationsClosedHeader = ({ phase }: { phase: string }) => {
   const { title, message } = getHeaderContent();
 
   return (
-    <div className="mb-8 space-y-2">
+    <header className="mb-8 space-y-2">
       <div className="from-primary to-primary w-fit bg-linear-to-r via-sky-400 bg-clip-text text-transparent">
         <h1 className="font-rubik text-3xl font-bold">{title}</h1>
       </div>
-      <p className="text-textMuted max-md:text-sm">{message}</p>
-    </div>
+      <p className="text-white/60 max-md:text-sm">{message}</p>
+    </header>
   );
 };
 

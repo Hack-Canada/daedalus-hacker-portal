@@ -36,6 +36,7 @@ export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
               <div className="relative">
                 <Textarea
                   {...field}
+                  placeholder="Tell us about it! What does it do, and how does it work under the hood? What technologies did you use, and what technical challenges did you overcome? Drop any links (GitHub, demo, video, etc.) so we can check it out..."
                   className="min-h-[150px]"
                 />
                 <span className="text-muted-foreground absolute right-2 bottom-2 text-sm">
@@ -63,6 +64,7 @@ export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
               <div className="relative">
                 <Textarea
                   {...field}
+                  placeholder="Think about what resources, connections, or support would make the biggest impact on your project's future..."
                   className="min-h-[150px]"
                 />
                 <span className="text-muted-foreground absolute right-2 bottom-2 text-sm">
@@ -90,6 +92,7 @@ export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
               <div className="relative">
                 <Textarea
                   {...field}
+                  placeholder="Everyone has their own unique approach to building. What's yours?"
                   className="min-h-[150px]"
                 />
                 <span className="text-muted-foreground absolute right-2 bottom-2 text-sm">

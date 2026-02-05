@@ -9,6 +9,7 @@ interface SidebarNavLinkProps {
   href: string;
   icon: LucideIcon;
   setIsOpen?: (open: boolean) => void;
+  dark?: boolean;
 }
 
 const SidebarNavLink = ({
@@ -16,6 +17,7 @@ const SidebarNavLink = ({
   href,
   icon: Icon,
   setIsOpen,
+  dark = true,
 }: SidebarNavLinkProps) => {
   const pathname = usePathname();
   const isActive = pathname === href;
@@ -25,10 +27,14 @@ const SidebarNavLink = ({
       href={href}
       target={href.includes("http") ? "_blank" : "_self"}
       className={cn(
-        "group flex items-center space-x-4 rounded-md p-2 transition-colors duration-300",
-        isActive
-          ? "bg-primary/10 text-primary"
-          : "text-textSecondary hover:bg-backgroundMuted",
+        "group flex cursor-pointer items-center space-x-4 rounded-lg p-2.5 transition-all duration-300",
+        dark
+          ? isActive
+            ? "bg-white/10 text-white"
+            : "text-white/60 hover:bg-white/10 hover:text-white"
+          : isActive
+            ? "bg-primary/10 text-primary"
+            : "text-textSecondary hover:bg-backgroundMuted",
       )}
       onClick={() => setTimeout(() => setIsOpen?.(false), 300)}
     >

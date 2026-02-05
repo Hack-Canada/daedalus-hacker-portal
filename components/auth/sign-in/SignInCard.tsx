@@ -10,7 +10,6 @@ const SignInCard = ({}: Props) => {
     <AuthCardWrapper>
       <SignInHeader />
       <SignInForm />
-      <hr className="border-gray-400" />
       <AuthFooter showSignIn={false} />
     </AuthCardWrapper>
   );
