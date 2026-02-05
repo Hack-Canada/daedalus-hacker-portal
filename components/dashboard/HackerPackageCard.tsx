@@ -29,7 +29,7 @@ const HackerPackageCard = ({ isLocked }: HackerPackageCardProps) => {
 
         <div className="relative z-10 flex items-center justify-between">
           <h2 className="text-white text-2xl font-medium">
-            Hacker Package
+            Your Survival Kit! 📦
           </h2>
           <div className="bg-primary/20 flex size-8 items-center justify-center rounded-full">
             <Download
@@ -39,8 +39,7 @@ const HackerPackageCard = ({ isLocked }: HackerPackageCardProps) => {
         </div>
 
         <p className="relative z-10 text-white/60 pb-2">
-          Download your hacker package containing essential information,
-          schedule, and resources for Hack Canada {hackathonYear}.
+          Everything you need to crush it at Hack Canada {hackathonYear}! Maps, schedules, WiFi info, and all the insider tips to make your experience legendary 🗺️
         </p>
 
         <div className="relative z-10 mt-auto flex items-center gap-2">
@@ -54,7 +53,7 @@ const HackerPackageCard = ({ isLocked }: HackerPackageCardProps) => {
               className: `inline-flex items-center gap-2 ${isDisabled ? "pointer-events-none cursor-not-allowed text-white/30! opacity-40 hover:bg-transparent" : ""}`,
             })}
           >
-            Get Package
+            Grab It!
             <ExternalLink className="size-4" />
           </a>
         </div>

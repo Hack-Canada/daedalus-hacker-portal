@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 
+import { getEventDate } from "@/config/phases";
 import { useHackathonPhase } from "@/hooks/useHackathonPhase";
 
 import { CountdownTimer } from "../ui/CountdownTimer";
 import { Snowflakes } from "../ui/Snowflakes";
-import { getEventDate } from "@/config/phases";
 
 export const CountdownSection = () => {
   const { isFeatureEnabled } = useHackathonPhase();
@@ -36,11 +36,11 @@ export const CountdownSection = () => {
           </div>
           <div className="text-center sm:text-left">
             <p className="font-rubik font-bold text-white md:text-lg">
-              The countdown ends!
+              The Magic Begins Soon! ✨
             </p>
             <p className="md:text-lg">
               <span className="text-white/60">
-                Hope to see you next year!
+                Get ready to hack, create, and innovate!
               </span>{" "}
               ⛰
             </p>

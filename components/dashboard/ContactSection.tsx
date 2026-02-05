@@ -12,9 +12,11 @@ export const ContactSection = () => {
 
   // Phase-specific messages
   const messages = {
-    "pre-event": `Check back in January ${hackathonYear} for updates!`,
-    "during-event": "Need help? Reach out to organizers!",
-    "post-event": "Thanks for participating! Stay tuned for next year!",
+    "pre-event": `Big things are coming in January ${hackathonYear}! Stay tuned for exciting updates 🎉`,
+    "during-event":
+      "We're here to help! Reach out anytime — our team's got your back! 💪",
+    "post-event":
+      "What an incredible journey! Thanks for being part of the magic. See you next year! ✨",
   };
 
   return (
@@ -32,7 +34,9 @@ export const ContactSection = () => {
       </span>
 
       <div className="relative z-10 space-y-2 px-4">
-        <p className="text-xl font-semibold text-white md:text-2xl">Have questions?</p>
+        <p className="text-xl font-semibold text-white md:text-2xl">
+          Got Questions? We've Got Answers!
+        </p>
         <p className="font-light text-white/60 md:text-lg">
           {messages[contactMessage]}
         </p>
@@ -40,16 +44,16 @@ export const ContactSection = () => {
 
       <div className="relative z-10 mt-6 space-y-2.5">
         <Link
-          href="https://hackcanada.org"
+          href="https://hackcanada.org/#faq"
           target="_blank"
-          className="block w-full cursor-pointer rounded-full border-2 border-white/30 px-3 py-2 text-center font-medium text-white transition-all hover:border-primary hover:bg-primary/20 hover:tracking-widest md:text-lg"
+          className="hover:border-primary hover:bg-primary/20 block w-full cursor-pointer rounded-full border-2 border-white/30 px-3 py-2 text-center font-medium text-white transition-all hover:tracking-widest md:text-lg"
         >
           FAQs
         </Link>
         <Link
           href="mailto:hi@hackcanada.org"
           target="_blank"
-          className="block w-full cursor-pointer rounded-full border-2 border-white/30 px-3 py-2 text-center font-medium text-white transition-all hover:border-primary hover:bg-primary/20 hover:tracking-widest md:text-lg"
+          className="hover:border-primary hover:bg-primary/20 block w-full cursor-pointer rounded-full border-2 border-white/30 px-3 py-2 text-center font-medium text-white transition-all hover:tracking-widest md:text-lg"
         >
           Get in touch
         </Link>

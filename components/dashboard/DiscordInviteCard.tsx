@@ -18,9 +18,9 @@ const DiscordInviteCard = ({ isLocked }: DiscordInviteCardProps) => {
     <div className="col-span-1 overflow-hidden lg:col-span-2">
       <div
         className={`group relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-xl border bg-white/5 p-6 backdrop-blur-sm transition-all duration-300 ${
-          isDisabled 
-            ? "border-white/10" 
-            : "border-white/10 hover:border-primary/40 hover:shadow-[0_0_30px_rgba(30,144,255,0.15)]"
+          isDisabled
+            ? "border-white/10"
+            : "hover:border-primary/40 border-white/10 hover:shadow-[0_0_30px_rgba(30,144,255,0.15)]"
         }`}
       >
         {isDisabled && (
@@ -28,8 +28,8 @@ const DiscordInviteCard = ({ isLocked }: DiscordInviteCardProps) => {
         )}
 
         <div className="relative z-10 flex items-center justify-between">
-          <h2 className="text-white text-2xl font-medium">
-            Discord Community
+          <h2 className="text-2xl font-medium text-white">
+            Join the Squad! 💬
           </h2>
           {/* Discord SVG Icon */}
           <svg
@@ -45,9 +45,9 @@ const DiscordInviteCard = ({ isLocked }: DiscordInviteCardProps) => {
           </svg>
         </div>
 
-        <p className="relative z-10 text-white/60 pb-2">
-          Join our Discord server to connect with other hackers and get
-          important updates and announcements!
+        <p className="relative z-10 pb-2 text-white/60">
+          Connect with fellow hackers, find teammates, get hyped, and stay in
+          the loop with all the exciting updates!
         </p>
 
         <div className="relative z-10 mt-auto flex items-center gap-2">
@@ -61,7 +61,7 @@ const DiscordInviteCard = ({ isLocked }: DiscordInviteCardProps) => {
               className: `inline-flex items-center gap-2 ${isDisabled ? "pointer-events-none cursor-not-allowed text-white/30! opacity-40 hover:bg-transparent" : ""}`,
             })}
           >
-            Join Server
+            Let&apos;s Chat!
             <ExternalLink className="size-4" />
           </a>
         </div>

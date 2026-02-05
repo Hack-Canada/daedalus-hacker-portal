@@ -40,14 +40,13 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
 
         <div className="relative z-10 mb-4 flex items-center justify-between">
           <h2 className="text-2xl font-medium text-white">
-            Your QR Code
+            Your VIP Pass! 🎫
           </h2>
           <QrCode className="size-8 text-white/70 transition-all duration-500 group-hover:text-primary md:size-8" />
         </div>
 
         <p className="relative z-10 pb-8 text-white/60">
-          Access your unique QR code for event check-ins and sharing your public
-          profile!
+          Your golden ticket to the hackathon! Use it for speedy check-ins and to share your awesome profile with new friends.
         </p>
 
         <div className="relative z-10 mt-auto flex items-center gap-2">
@@ -62,7 +61,7 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
                     : ""
                 }`}
               >
-                View QR Code
+                Show My Pass
                 <QrCode className="size-4" />
               </Button>
             </DialogTrigger>
@@ -76,7 +75,7 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
                 <ScanQrCode className="absolute -bottom-2 -right-2 size-16 -rotate-[12deg] text-white opacity-30 transition-transform duration-500 group-hover:-rotate-[30deg]" />
               </div>
               <DialogHeader>
-                <DialogTitle className="text-white md:text-xl">Your QR Code</DialogTitle>
+                <DialogTitle className="text-white md:text-xl">Your VIP Pass 🎫</DialogTitle>
               </DialogHeader>
               <div className="relative z-50 mt-4 rounded-lg border border-white/20 bg-white p-2.5 shadow-xl shadow-primary/25 sm:p-4">
                 <QRCodeSVG
@@ -92,7 +91,7 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
                 />
               </div>
               <p className="mt-4 text-balance text-center text-sm text-white/60">
-                Use this QR code for check-ins and sharing your public profile!
+                Flash this at check-in for express entry! Share it to connect with fellow hackers ✨
               </p>
             </DialogContent>
           </Dialog>

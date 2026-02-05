@@ -38,12 +38,11 @@ export default function SubmissionSuccess() {
         <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:gap-4 md:mb-10 xl:mb-12">
           <div className="text-4xl font-bold md:text-5xl xl:text-6xl">
             <div className="bg-linear-to-r from-blue-400 via-sky-400 to-primaryLight bg-clip-text text-transparent md:w-fit">
-              <h1 className="font-rubik">Submitted!</h1>
+              <h1 className="font-rubik">You Did It! 🎉</h1>
             </div>
           </div>
           <p className="text-sm text-white/50 sm:text-base md:text-lg xl:text-xl">
-            Your response has been saved, keep an eye out on your emails in the
-            coming weeks for updates.
+            Your application is in! We're so excited to review it. Keep an eye on your inbox — exciting news is on the way! ✨
           </p>
         </div>
 
@@ -52,7 +51,7 @@ export default function SubmissionSuccess() {
             href="/"
             className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm text-white transition-all duration-200 hover:border-primary/50 hover:bg-primary hover:shadow-[0_0_20px_rgba(30,144,255,0.3)] sm:w-fit sm:px-6 sm:py-2 sm:text-base md:px-8 md:text-lg xl:px-10 xl:py-3"
           >
-            <span>Dashboard</span>
+            <span>Back to Home</span>
             <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1 xl:size-5" />
           </a>
           <Link

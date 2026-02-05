@@ -38,14 +38,13 @@ const ProfileCard = ({ isLocked, userId }: ProfileCardProps) => {
 
         <div className="relative z-10 mb-4 flex items-center justify-between">
           <h2 className="text-white text-2xl font-medium">
-            Your Profile
+            Show Off Your Style! 🎨
           </h2>
           <User className="size-8 text-white/70 transition-transform duration-500 group-hover:text-primary md:size-8" />
         </div>
 
         <p className="relative z-10 text-white/60 pb-8">
-          Customize your public profile, share your interests, and connect with
-          others through your unique profile page.
+          Make your profile pop! Share your skills, interests, and what makes you unique. Let fellow hackers know who they're collaborating with!
         </p>
 
         <div className="relative z-10 mt-auto flex items-center gap-2">
@@ -61,7 +60,7 @@ const ProfileCard = ({ isLocked, userId }: ProfileCardProps) => {
               }`,
             })}
           >
-            My Profile
+            Check It Out
             <User className="size-4" />
           </Link>
         </div>

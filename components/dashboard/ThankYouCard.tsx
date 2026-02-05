@@ -10,13 +10,13 @@ interface ThankYouCardProps {
 
 export const ThankYouCard = ({ role }: ThankYouCardProps) => {
   const messages: Record<UserRole, string> = {
-    hacker: `Your creativity and innovation made Hack Canada ${hackathonYear} unforgettable!`,
-    organizer: "Your leadership made this event possible!",
-    volunteer: "Your dedication kept everything running smoothly!",
-    admin: "Your oversight ensured a successful event!",
-    unassigned: "Thank you for your interest in Hack Canada!",
-    mentor: "Your guidance helped hackers succeed!",
-    judge: "Your expertise made the judging process fair and accurate!",
+    hacker: `Your creativity, passion, and late-night coding sessions made Hack Canada ${hackathonYear} absolutely EPIC! 🔥`,
+    organizer: "You turned a vision into reality! This event wouldn't exist without your amazing leadership! 🌟",
+    volunteer: "You're the real MVPs! Your energy and dedication kept the magic alive all weekend! 💪",
+    admin: "The wizard behind the curtain! Your work ensured everything ran flawlessly! 🎩",
+    unassigned: "Thanks for being part of the Hack Canada community! We can't wait to have you next year! 🍁",
+    mentor: "Your wisdom and patience helped hackers level up and achieve the impossible! 🧙‍♂️",
+    judge: "Your sharp eyes and fair judgment crowned our champions! Thanks for being awesome! ⚖️",
   };
 
   return (
@@ -28,12 +28,12 @@ export const ThankYouCard = ({ role }: ThankYouCardProps) => {
         />
         <div className="flex-1">
           <h3 className="text-white mb-2 text-xl font-semibold">
-            Thank You!
+            You're Amazing! 💖
           </h3>
           <p className="text-white/60">{messages[role]}</p>
           <div className="text-white/60 mt-4 flex items-center gap-2 text-sm">
             <Star className="text-warning size-4" fill="currentColor" />
-            <span>See you at Hack Canada {hackathonYear + 1}!</span>
+            <span>The adventure continues at Hack Canada {hackathonYear + 1}! 🚀</span>
           </div>
         </div>
       </div>
