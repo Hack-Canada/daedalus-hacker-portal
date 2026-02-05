@@ -7,6 +7,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 
@@ -57,7 +58,7 @@ export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
                 <span className="text-muted-foreground absolute right-2 bottom-2 text-sm">
                   {field.value?.length || 0}/2000
                 </span>
-                <label className="text-base font-medium leading-relaxed text-white/90 md:text-lg">
+                <label className="text-base leading-relaxed font-medium text-white/90 md:text-lg">
                   {q.question}
                 </label>
               </div>
