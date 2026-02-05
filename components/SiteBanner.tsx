@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { cva, type VariantProps } from "class-variance-authority";
 import { X, Info, AlertTriangle, CheckCircle, AlertCircle } from "lucide-react";
@@ -10,7 +10,7 @@ import { Banner } from "@/lib/db/schema";
 
 const DISMISSED_BANNERS_KEY = "dismissed-banners";
 
-const getDismissedBannerIds = (): string[] => {
+const getStoredDismissedIds = (): string[] => {
   if (typeof window === "undefined") return [];
   try {
     const stored = localStorage.getItem(DISMISSED_BANNERS_KEY);
@@ -49,21 +49,19 @@ interface SiteBannerProps extends VariantProps<typeof bannerVariants> {
 }
 
 export function SiteBanner({ banners }: SiteBannerProps) {
-  const [visibleBanners, setVisibleBanners] = useState<Banner[]>([]);
+  // Track dismissed IDs in state, initialized lazily from localStorage
+  const [dismissedIds, setDismissedIds] = useState<string[]>(getStoredDismissedIds);
 
-  useEffect(() => {
-    const dismissedIds = getDismissedBannerIds();
-    const filtered = banners.filter((b) => !dismissedIds.includes(b.id));
-    setVisibleBanners(filtered);
-  }, [banners]);
+  // Compute visible banners from props and dismissed state
+  const visibleBanners = useMemo(
+    () => banners.filter((b) => !dismissedIds.includes(b.id)),
+    [banners, dismissedIds]
+  );
 
   const dismissBanner = (id: string) => {
-    const dismissedIds = getDismissedBannerIds();
-    if (!dismissedIds.includes(id)) {
-      dismissedIds.push(id);
-      localStorage.setItem(DISMISSED_BANNERS_KEY, JSON.stringify(dismissedIds));
-    }
-    setVisibleBanners((prev) => prev.filter((b) => b.id !== id));
+    const updated = [...dismissedIds, id];
+    localStorage.setItem(DISMISSED_BANNERS_KEY, JSON.stringify(updated));
+    setDismissedIds(updated);
   };
 
   if (visibleBanners.length === 0) return null;
