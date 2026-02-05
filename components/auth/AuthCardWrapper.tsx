@@ -55,8 +55,6 @@ const AuthCardWrapper = ({ children, className, showTabs = true }: Props) => {
         className,
       )}
     >
-      {/* Dark overlay for better text contrast */}
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-black/40 via-black/30 to-black/50 pointer-events-none -z-10" />
       
       {/* Content with proper text color */}
       <div className="relative z-10 flex flex-col gap-6 text-white">
