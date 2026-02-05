@@ -17,22 +17,6 @@ interface ShortAnswersStepProps {
   control: Control<THackerApplicationSubmission>;
 }
 
-const questions = [
-  {
-    name: "shortAnswer1" as const,
-    question: "What's the coolest project you've ever built?",
-    placeholder:
-      "Tell us about it! What does it do, and how does it work under the hood? What technologies did you use, and what technical challenges did you overcome? Drop any links (GitHub, demo, video, etc.) so we can check it out...",
-  },
-  {
-    name: "shortAnswer2" as const,
-    question:
-      "If you could build absolutely anything, no limits on time, money, or technology, what would you create?",
-    placeholder:
-      "Dream big. It could be an app, a robot, a mass of spaghetti code that somehow achieves world peace, or something that doesn't even exist yet. We just want to see how your mind works.",
-  },
-];
-
 export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
   return (
     <div className="space-y-4">
@@ -58,9 +42,6 @@ export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
                 <span className="text-muted-foreground absolute right-2 bottom-2 text-sm">
                   {field.value?.length || 0}/2000
                 </span>
-                <label className="text-base leading-relaxed font-medium text-white/90 md:text-lg">
-                  {q.question}
-                </label>
               </div>
             </FormControl>
             <FormMessage />
