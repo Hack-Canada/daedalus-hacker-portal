@@ -71,24 +71,8 @@ type WelcomeEmailProps = {
 export const sendWelcomeEmail = async (data: WelcomeEmailProps) => {
   const { name, email, subject, verificationCode, token } = data;
 
-  // #region agent log
-  console.log('[DEBUG] sendWelcomeEmail - Environment:', {
-    NODE_ENV: process.env.NODE_ENV,
-    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-    VERCEL_ENV: process.env.VERCEL_ENV,
-  });
-  // #endregion
-
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
   const verificationUrl = `${baseUrl}/email-verification?token=${token}&code=${verificationCode}&email=${email}`;
-
-  // #region agent log
-  console.log('[DEBUG] Generated verification URL:', {
-    baseUrl,
-    verificationUrl,
-    emailPrefix: email.substring(0, 3),
-  });
-  // #endregion
 
   const body = await render(
     WelcomeEmail({
