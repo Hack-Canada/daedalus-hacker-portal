@@ -20,7 +20,6 @@ export const metadata: Metadata = {
   openGraph: siteConfig.openGraph,
   keywords: siteConfig.keywords,
   robots: siteConfig.robots,
-  verification: siteConfig.verification,
   alternates: {
     canonical: "https://app.hackcanada.org",
   },
