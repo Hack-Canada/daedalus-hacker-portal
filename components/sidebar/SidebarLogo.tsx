@@ -14,7 +14,7 @@ const SidebarLogo = ({ className, mobile }: Props) => {
       className={`flex w-fit items-center space-x-2 ${className}`}
     >
       <Image
-        src={"/beaver-wave.webp"}
+        src={"/logo-circle.png"}
         alt="Hack Canada Logo"
         width={48}
         height={48}

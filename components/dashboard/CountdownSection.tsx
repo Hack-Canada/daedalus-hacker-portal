@@ -2,18 +2,26 @@
 
 import Image from "next/image";
 
-import { eventDate } from "@/config/site";
+import { useHackathonPhase } from "@/hooks/useHackathonPhase";
 
 import { CountdownTimer } from "../ui/CountdownTimer";
 import { Snowflakes } from "../ui/Snowflakes";
+import { getEventDate } from "@/config/phases";
 
 export const CountdownSection = () => {
+  const { isFeatureEnabled } = useHackathonPhase();
+
+  // Hide countdown during and after the event
+  if (!isFeatureEnabled("showCountdown")) {
+    return null;
+  }
+
   return (
     <div className="relative overflow-hidden rounded-md border border-gray-300 p-4 shadow-xs md:p-8 lg:col-span-2 xl:p-12">
       <Snowflakes />
 
       <div className="relative z-10 flex h-full flex-col justify-between gap-8">
-        <CountdownTimer targetDate={eventDate} />
+        <CountdownTimer targetDate={getEventDate()} />
 
         {/* Bottom left decorative section */}
         <div className="flex flex-col items-center gap-4 sm:flex-row">

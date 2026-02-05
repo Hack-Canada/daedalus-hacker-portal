@@ -2,8 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/auth";
 
 import { ApiResponse } from "@/types/api";
-import { createOrUpdateApplication } from "@/lib/db/queries/application";
+import {
+  checkPhoneNumberExists,
+  createOrUpdateApplication,
+} from "@/lib/db/queries/application";
 import { HackerApplicationDraftSchema } from "@/lib/validations/application";
+import { isFeatureEnabled } from "@/config/phases";
 
 export async function POST(
   req: NextRequest,
@@ -28,6 +32,14 @@ export async function POST(
       });
     }
 
+    // Check if application saving is allowed based on current phase
+    if (!isFeatureEnabled("applicationSaving")) {
+      return NextResponse.json({
+        success: false,
+        message: "Application saving is not available at this time",
+      });
+    }
+
     const validationResult = HackerApplicationDraftSchema.safeParse(body);
     if (!validationResult.success) {
       console.error("Invalid application data", validationResult.error);
@@ -47,6 +59,24 @@ export async function POST(
       );
     }
 
+    // Check if phone number is already in use by another user (only if provided)
+    if (validationResult.data.phoneNumber) {
+      const phoneExists = await checkPhoneNumberExists(
+        validationResult.data.phoneNumber,
+        currentUser.id,
+      );
+      if (phoneExists) {
+        return NextResponse.json(
+          {
+            success: false,
+            message:
+              "This phone number is already registered with another account.",
+          },
+          { status: 400 },
+        );
+      }
+    }
+
     // Convert string fields to numbers
     const age = validationResult.data.age
       ? parseInt(validationResult.data.age)
@@ -55,8 +85,11 @@ export async function POST(
       ? parseInt(validationResult.data.graduationYear)
       : null;
 
+    // SECURITY: Always use the authenticated user's email, never trust the form input
     const applicationData = {
       ...validationResult.data,
+      email: currentUser.email?.toLowerCase() || "",
+      phoneNumber: validationResult.data.phoneNumber,
       age,
       graduationYear,
       pronouns:
@@ -68,6 +101,9 @@ export async function POST(
       major:
         validationResult.data.major.customValue ||
         validationResult.data.major.value,
+      shortAnswer1: validationResult.data.shortAnswer1,
+      shortAnswer2: validationResult.data.shortAnswer2,
+      shortAnswer3: validationResult.data.shortAnswer3,
       userId: currentUser.id,
       submissionStatus: "draft",
     };

@@ -7,6 +7,7 @@ import { getUserById } from "@/lib/db/queries/user";
 import { rsvp, users } from "@/lib/db/schema";
 import { sendHackathonPrepEmail } from "@/lib/emails/ses";
 import { RsvpFormSchema } from "@/lib/validations/rsvp-form";
+import { isFeatureEnabled } from "@/config/phases";
 
 type RsvpResponse = {
   success?: boolean;
@@ -25,6 +26,13 @@ export async function POST(req: Request) {
     }
 
     const userId = currentUser.id;
+
+    // Check if RSVP is allowed based on current phase
+    if (!isFeatureEnabled("rsvpAccess")) {
+      return NextResponse.json<RsvpResponse>({
+        error: "RSVP is not available at this time.",
+      });
+    }
 
     const body = await req.json();
     const validatedFields = RsvpFormSchema.safeParse(body);

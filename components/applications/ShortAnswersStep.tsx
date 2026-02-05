@@ -26,18 +26,20 @@ export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              Are you concerned that AI will take over or impact a career that
-              you were looking forward to pursuing?
+              Every project has a story. What problem were you trying to solve,
+              and how does your creation tackle it? Take us behind the scenes,
+              what technologies power it, what obstacles did you face, and what
+              &apos;aha&apos; moments got you through? Share your links (GitHub,
+              demo, video, etc.) so we can see it in action
             </FormLabel>
             <FormControl>
               <div className="relative">
                 <Textarea
                   {...field}
-                  placeholder="No, AI should be worried about me taking over its career."
                   className="min-h-[150px]"
                 />
-                <span className="absolute bottom-2 right-2 text-sm text-muted-foreground">
-                  {field.value?.length || 0}/1000
+                <span className="text-muted-foreground absolute right-2 bottom-2 text-sm">
+                  {field.value?.length || 0}/2000
                 </span>
               </div>
             </FormControl>
@@ -52,18 +54,46 @@ export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              What inspired you to start participating in hackathons, and what
-              motivates you to dedicate your weekends to them?
+              What would help you most in continuing your project after the
+              hackathon? (e.g., one-on-one meetings with sponsors, mentorship,
+              cloud credits, introductions to investors or partners, additional
+              prizes, incubator access, or technical support)
             </FormLabel>
             <FormControl>
               <div className="relative">
                 <Textarea
                   {...field}
-                  placeholder="The free food is always a motivator. But I also want to make a difference and change the world."
                   className="min-h-[150px]"
                 />
-                <span className="absolute bottom-2 right-2 text-sm text-muted-foreground">
-                  {field.value?.length || 0}/1000
+                <span className="text-muted-foreground absolute right-2 bottom-2 text-sm">
+                  {field.value?.length || 0}/555
+                </span>
+              </div>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="shortAnswer3"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>
+              How would you describe your &quot;builder style&quot;? (e.g., The
+              Architect who structures the logic, The Sprinter who writes the
+              code, The Strategist who connects the project to the ecosystem, or
+              The Polymath who fills the gaps)
+            </FormLabel>
+            <FormControl>
+              <div className="relative">
+                <Textarea
+                  {...field}
+                  className="min-h-[150px]"
+                />
+                <span className="text-muted-foreground absolute right-2 bottom-2 text-sm">
+                  {field.value?.length || 0}/555
                 </span>
               </div>
             </FormControl>

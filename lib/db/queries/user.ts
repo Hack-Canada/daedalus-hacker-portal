@@ -57,3 +57,22 @@ export const updateUserHackerApplicationStatus = async (
     return null;
   }
 };
+
+export const isUserEmailVerified = async (email: string) => {
+  try {
+    const [user] = await db
+      .select({ emailVerified: users.emailVerified })
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+
+    if (!user) {
+      return false;
+    }
+
+    return user.emailVerified !== null;
+  } catch (error) {
+    console.error("Error checking email verification status: ", error);
+    return false;
+  }
+};

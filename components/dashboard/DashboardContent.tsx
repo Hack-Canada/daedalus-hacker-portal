@@ -1,6 +1,10 @@
+"use client";
+
 import { cn } from "@/lib/utils";
+import { isPhaseActive } from "@/config/phases";
 
 import PageWrapper from "../PageWrapper";
+import { PhaseGuard } from "../phase/PhaseGuard";
 import { BackButton } from "../ui/back-button";
 import { ApplicationStatus } from "./ApplicationStatus";
 import { ContactSection } from "./ContactSection";
@@ -11,6 +15,7 @@ import { HackathonConclusion } from "./HackathonConclusion";
 import HackathonsCanadaDiscord from "./HackathonsCanadaDiscord";
 import ProfileCard from "./ProfileCard";
 import ProjectsCard from "./ProjectsCard";
+import { ThankYouCard } from "./ThankYouCard";
 
 interface DashboardContentProps {
   user: User;
@@ -28,10 +33,21 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
           "flex-col-reverse": user.role === "hacker",
         })}
       >
-        {/* Application Status commented out post-hackathon */}
-        <ApplicationStatus status={user.status} role={user.role} />
+        {/* Application Status - shown during pre-registration, registration and pre-event phases */}
+        <PhaseGuard phases={["pre-registration", "registration-open", "pre-event"]}>
+          <ApplicationStatus 
+            status={isPhaseActive("pre-registration") ? "coming_soon" : user.status} 
+            role={user.role} 
+          />
+        </PhaseGuard>
 
-        {/* <HackathonConclusion role={user.role} /> */}
+        {/* Post-Event Content */}
+        <PhaseGuard phases={["post-event"]}>
+          <div className="space-y-6 md:space-y-8 lg:space-y-10">
+            <HackathonConclusion role={user.role} />
+            <ThankYouCard role={user.role} />
+          </div>
+        </PhaseGuard>
 
         {/* Main Grid Sections */}
         <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-4 lg:gap-10">

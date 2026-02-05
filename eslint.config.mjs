@@ -1,6 +1,5 @@
 import { defineConfig } from "eslint/config";
 import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
-import tailwindcss from "eslint-plugin-tailwindcss";
 import tsParser from "@typescript-eslint/parser";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -19,19 +18,9 @@ export default defineConfig([{
     extends: [
         ...nextCoreWebVitals,
         ...compat.extends("prettier"),
-        ...compat.extends("plugin:tailwindcss/recommended")
     ],
 
-    plugins: {
-        tailwindcss,
-    },
-
     settings: {
-        tailwindcss: {
-            callees: ["cn"],
-            config: "tailwind.config.ts",
-        },
-
         next: {
             rootDir: true,
         },
@@ -40,12 +29,6 @@ export default defineConfig([{
     rules: {
         "@next/next/no-html-link-for-pages": "off",
         "react/jsx-key": "off",
-        "tailwindcss/no-custom-classname": "off",
-        "tailwindcss/classnames-order": "error",
-        "tailwindcss/enforces-shorthand": "off",
-        "tailwindcss/enforces-negative-arbitrary-values": "off",
-        "tailwindcss/no-unnecessary-arbitrary-value": "off",
-        "tailwindcss/migration-from-tailwind-2": "off",
     },
 }, {
     files: ["**/*.ts", "**/*.tsx"],
