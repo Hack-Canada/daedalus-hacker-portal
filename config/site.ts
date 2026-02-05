@@ -1,10 +1,14 @@
-import { isFeatureEnabled, getEventDate, getApplicationDeadline } from "./phases";
+import {
+  getApplicationDeadline,
+  getEventDate,
+  isFeatureEnabled,
+} from "./phases";
 
 export const hackathonYear = 2026;
 
 export const siteConfig = {
   metadataBase: new URL("https://app.hackcanada.org"),
-  title: `Hack Canada ${hackathonYear} - Hacker Portal`,
+  title: `Hack Canada ${hackathonYear}`,
   description:
     "Official Hack Canada Hacker Portal - Apply to Canada's premier hackathon, manage your application, access your hacker package, and join 500+ innovators. HC Hacker Portal for Hack Canada applications, RSVP, and event registration.",
   openGraph: {
@@ -30,7 +34,7 @@ export const siteConfig = {
     "HC Hacker Portal",
     "Hack Canada Portal",
     "HackCanada",
-    
+
     // Application-focused keywords
     "Hack Canada applications",
     "Hack Canada apps",
@@ -39,7 +43,7 @@ export const siteConfig = {
     "Hack Canada sign up",
     "HC applications",
     "HC apply",
-    
+
     // Hackathon + location keywords
     "hackathon Canada",
     "Canadian hackathon",
@@ -49,21 +53,21 @@ export const siteConfig = {
     "hackathon Toronto",
     "Waterloo hackathon",
     "Toronto hackathon",
-    
+
     // University-specific keywords
     "Wilfrid Laurier hackathon",
     "Laurier hackathon",
     "WLU hackathon",
     "university hackathon Canada",
     "student hackathon Canada",
-    
+
     // MLH keywords
     "MLH hackathon",
     "MLH hackathon Canada",
     "MLH Canada",
     "Major League Hacking Canada",
     "MLH member event",
-    
+
     // General hackathon keywords
     "hackathon",
     "canada",
@@ -77,7 +81,7 @@ export const siteConfig = {
     "programming competition",
     "tech hackathon",
     "innovation challenge",
-    
+
     // Activity keywords
     "hackathon registration",
     "hackathon application",
@@ -85,12 +89,12 @@ export const siteConfig = {
     "join hackathon",
     "hackathon portal",
     "hacker dashboard",
-    
+
     // Community keywords
     "Hackathons Canada",
     "Canadian hacker community",
     "student developers Canada",
-    
+
     // Year-specific
     `Hack Canada ${hackathonYear}`,
     `hackathon ${hackathonYear}`,
@@ -111,14 +115,16 @@ export const siteConfig = {
 
 // Phase-aware configuration values
 // These are computed based on the current hackathon phase
-export const userRegistrationEnabled: boolean = isFeatureEnabled("userRegistration");
+export const userRegistrationEnabled: boolean =
+  isFeatureEnabled("userRegistration");
 
 // URLs and external links
 export const discordInviteUrl: string = "https://example.com/discord";
 export const hackathonsCanadaDiscordUrl: string = "https://example.com/discord";
 export const viewProjectsUrl: string = "https://example.com/projects";
 export const hackerPackageUrl: string = "https://example.com/hacker-package";
-export const eventGalleryUrl: string = process.env.NEXT_PUBLIC_GALLERY_URL || "";
+export const eventGalleryUrl: string =
+  process.env.NEXT_PUBLIC_GALLERY_URL || "";
 
 // Date-based configuration (now sourced from phases.ts)
 // Re-export for backwards compatibility

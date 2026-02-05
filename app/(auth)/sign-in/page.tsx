@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import SignInCard from "@/components/auth/sign-in/SignInCard";
 
 export const metadata: Metadata = {
-  title: "Sign In - Hack Canada Hacker Portal",
+  title: "Sign In",
   description: "Sign in to your Hack Canada Hacker Portal account. Access your dashboard, manage applications, and connect with the HC community.",
   keywords: [
     "Hack Canada login",
