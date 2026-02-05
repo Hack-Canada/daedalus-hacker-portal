@@ -99,7 +99,7 @@ export const statusConfig: Record<
     },
   },
   pending: {
-    heading: "You're in the Running! 🎯",
+    heading: "You're in the Running!",
     description:
       "Awesome work submitting your application! Our team is reviewing it with care. Hang tight — exciting news is on its way to your inbox soon!",
     primaryAction: {

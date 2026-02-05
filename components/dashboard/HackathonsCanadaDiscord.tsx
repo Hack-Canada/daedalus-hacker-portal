@@ -29,8 +29,7 @@ const HackathonsCanadaDiscord = () => {
 
         <p className="relative z-10 pb-8 text-white/60">
           Be part of Canada&apos;s largest hackathon community! Connect with
-          thousands of hackers, discover exciting events, find teammates, and
-          level up your skills together
+          thousands of hackers and level up your skills together
         </p>
 
         <div className="relative z-10 mt-auto flex items-center gap-2">
