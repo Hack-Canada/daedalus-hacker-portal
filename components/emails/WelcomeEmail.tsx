@@ -114,10 +114,10 @@ const WelcomeEmail = ({
               {/* Verification Code Box */}
               <Section
                 style={{
-                  background:
-                    "linear-gradient(135deg, #FFE5EC 0%, #FFF0F5 100%)",
-                  border: "2px solid #F8BBD0",
-                  borderRadius: "12px",
+                  // background:
+                  // "linear-gradient(135deg, #FFE5EC 0%, #FFF0F5 100%)",
+                  // border: "2px solid #F8BBD0",
+                  // borderRadius: "12px",
                   padding: "32px 24px",
                   margin: "0 0 32px 0",
                   textAlign: "center",
@@ -193,9 +193,9 @@ const WelcomeEmail = ({
               {/* Disclaimer */}
               <Section
                 style={{
-                  backgroundColor: "#FFF9E6",
-                  border: "1px solid #FFE082",
-                  borderRadius: "8px",
+                  // backgroundColor: "#FFF9E6",
+                  // border: "1px solid #FFE082",
+                  // borderRadius: "8px",
                   padding: "16px",
                   margin: "0 0 32px 0",
                 }}

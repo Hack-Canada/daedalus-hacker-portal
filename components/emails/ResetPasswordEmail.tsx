@@ -112,9 +112,9 @@ const ResetPasswordEmail = ({ name, resetUrl }: ResetPasswordEmailProps) => {
               {/* Reset Button Box */}
               <Section
                 style={{
-                  background:
-                    "linear-gradient(135deg, #E0F2FE 0%, #DBEAFE 100%)",
-                  border: "2px solid #BAE6FD",
+                  // background:
+                  //   "linear-gradient(135deg, #E0F2FE 0%, #DBEAFE 100%)",
+                  // border: "2px solid #BAE6FD",
                   borderRadius: "12px",
                   padding: "32px 24px",
                   margin: "0 0 32px 0",
@@ -169,7 +169,7 @@ const ResetPasswordEmail = ({ name, resetUrl }: ResetPasswordEmailProps) => {
                 style={{
                   background:
                     "linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%)",
-                  border: "2px solid #FCD34D",
+                  // border: "2px solid #FCD34D",
                   borderRadius: "12px",
                   padding: "24px",
                   margin: "0 0 32px 0",

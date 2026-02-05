@@ -125,10 +125,10 @@ const ApplicationSubmittedEmail = ({
               {/* Info Box - Purple theme matching header */}
               <Section
                 style={{
-                  background:
-                    "linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%)",
-                  border: "2px solid #DDD6FE",
-                  borderRadius: "12px",
+                  // background:
+                  //   "linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%)",
+                  // border: "2px solid #DDD6FE",
+                  // borderRadius: "12px",
                   padding: "32px 24px",
                   margin: "0 0 32px 0",
                 }}
