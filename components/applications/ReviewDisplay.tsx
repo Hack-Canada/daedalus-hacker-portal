@@ -1,6 +1,7 @@
 "use client";
 
 import { UseFormReturn } from "react-hook-form";
+import { AlertCircle } from "lucide-react";
 
 import { getResumeUrl } from "@/lib/utils";
 import { THackerApplicationSubmission } from "@/lib/validations/application";
@@ -17,12 +18,18 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
   const values = form.watch();
 
   return (
-    <div className="space-y-8 xl:space-y-12">
-      <p className="-mt-3 text-white/50 max-md:text-sm md:-mt-6">
-        Please review your application carefully before submitting. Note that
-        you will not be able to make changes or resubmit your application once
-        it has been submitted.
-      </p>
+    <div className="space-y-6 md:space-y-8">
+      {/* Warning banner */}
+      <div className="flex items-start gap-3 rounded-lg border border-warning/30 bg-warning/10 p-4">
+        <AlertCircle className="mt-0.5 size-5 shrink-0 text-warning" />
+        <p className="text-sm leading-relaxed text-white/70">
+          Please review your application carefully before submitting.{" "}
+          <span className="font-medium text-warning">
+            You will not be able to make changes or resubmit
+          </span>{" "}
+          once it has been submitted.
+        </p>
+      </div>
 
       <ReviewSection title="General Information">
         <Field label="First Name" value={values.firstName} />
@@ -64,18 +71,20 @@ export function ReviewDisplay({ form }: ReviewDisplayProps) {
         />
         <Field
           label="Share resume with sponsors/recruiters"
-          value={values.shareResume ? "True" : "False"}
+          value={values.shareResume ? "Yes" : "No"}
         />
       </ReviewSection>
 
       <ReviewSection title="Short Answers" columns="1">
         <Field
-          label="Are you concerned that AI will take over or impact a career that you were looking forward to pursuing? Why or why not?"
+          label="What's the coolest project you've ever built?"
           value={values.shortAnswer1}
+          isLongText
         />
         <Field
-          label="What inspired you to start participating in hackathons, and what motivates you to dedicate your weekends to them?"
+          label="If you could build absolutely anything, no limits on time, money, or technology, what would you create?"
           value={values.shortAnswer2}
+          isLongText
         />
       </ReviewSection>
 
