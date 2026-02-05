@@ -8,40 +8,43 @@ import { cn } from "@/lib/utils";
 
 export function Tabs() {
   const pathname = usePathname();
+  const isSignIn = pathname?.includes("sign-in");
+  const isSignUp = pathname?.includes("sign-up");
 
   return (
-    <div className="absolute left-1/2 top-16 flex w-fit -translate-x-1/2 gap-4 rounded-full border-2 border-white bg-white/50 p-1 backdrop-blur-xs md:top-20">
+    <div className="relative flex w-fit rounded-full border border-white/30 bg-white/10 p-1 backdrop-blur-sm">
+      {/* Animated background indicator */}
+      <motion.div
+        className="absolute top-1 bottom-1 rounded-full bg-white"
+        initial={false}
+        animate={{
+          left: isSignUp ? "50%" : "4px",
+          right: isSignUp ? "4px" : "50%",
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 400,
+          damping: 30,
+        }}
+      />
+      
       <Link
         href="/sign-in"
         className={cn(
-          "relative px-3 py-1 text-sm font-medium transition-colors hover:text-textSecondary md:px-4 md:py-1.5 md:text-base",
-          pathname?.includes("sign-in") ? "text-textPrimary" : "text-zinc-500",
+          "relative z-10 px-5 py-2 text-sm font-medium transition-colors duration-200 md:px-6 md:text-base",
+          isSignIn ? "text-textPrimary" : "text-white/60 hover:text-white/80",
         )}
       >
-        {pathname?.includes("sign-in") && (
-          <motion.div
-            layoutId="background"
-            className="absolute inset-0 rounded-full bg-white/75"
-            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-          />
-        )}
-        <span className="relative">Sign In</span>
+        Sign In
       </Link>
       <Link
         href="/sign-up"
         className={cn(
-          "relative px-3 py-1 text-sm font-medium transition-colors hover:text-textSecondary md:px-4 md:py-1.5 md:text-base",
-          pathname?.includes("sign-up") ? "text-textPrimary" : "text-zinc-500",
+          "relative z-10 px-5 py-2 text-sm font-medium transition-colors duration-200 md:px-6 md:text-base",
+          isSignUp ? "text-textPrimary" : "text-white/60 hover:text-white/80",
         )}
       >
-        {pathname?.includes("sign-up") && (
-          <motion.div
-            layoutId="background"
-            className="absolute inset-0 rounded-full bg-white/75"
-            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-          />
-        )}
-        <span className="relative">Sign Up</span>
+        Sign Up
       </Link>
     </div>
   );

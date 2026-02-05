@@ -5,10 +5,9 @@ import ResetPasswordHeader from "./ResetPasswordHeader";
 
 const ResetPasswordCard = ({ token }: { token: string }) => {
   return (
-    <AuthCardWrapper>
+    <AuthCardWrapper showTabs={false}>
       <ResetPasswordHeader />
       <ResetPasswordForm token={token} />
-      <hr className="border-gray-400" />
       <AuthFooter showResetPassword={false} />
     </AuthCardWrapper>
   );

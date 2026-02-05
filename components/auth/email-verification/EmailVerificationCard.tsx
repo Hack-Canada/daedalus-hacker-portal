@@ -59,14 +59,14 @@ export function EmailVerificationCard() {
   };
 
   return (
-    <AuthCardWrapper>
+    <AuthCardWrapper showTabs={false}>
       <div className="space-y-2 text-center">
-        <h1 className="font-rubik text-textPrimary text-2xl font-semibold md:text-3xl">
+        <h1 className="font-rubik text-white text-2xl font-bold md:text-3xl">
           Verify Your Email
         </h1>
-        <p className="text-black/50 max-md:text-sm">
+        <p className="text-white/60 text-sm md:text-base">
           Enter the 6-digit code sent to{" "}
-          <span className="lowercase">{email}</span>
+          <span className="lowercase text-white/80">{email}</span>
         </p>
       </div>
       <div className="space-y-6">
@@ -81,22 +81,21 @@ export function EmailVerificationCard() {
               <InputOTPSlot
                 key={index}
                 index={index}
-                className="border-textSecondary/70"
+                className="border-white/30 bg-white/10 text-white"
               />
             ))}
           </InputOTPGroup>
         </InputOTP>
-        {error && <p className="text-center text-sm text-red-500">{error}</p>}
+        {error && <p className="text-center text-sm text-red-300">{error}</p>}
         <Button
           variant="auth"
-          className="w-full text-sm"
+          className="h-11 w-full text-base font-semibold"
           onClick={() => router.push("/email-verification/new-code")}
           disabled={isLoading}
         >
           Need a new code?
         </Button>
       </div>
-      <hr className="border-gray-400" />
       <AuthFooter showSignUp={false} showResetPassword={false} />
     </AuthCardWrapper>
   );

@@ -74,7 +74,7 @@ const SignInForm = ({}: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
         {error && (
           <div className="border-error/50 bg-error/10 rounded-md border p-2">
             <p className="text-error text-sm">{error}</p>
@@ -85,14 +85,14 @@ const SignInForm = ({}: Props) => {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-white font-medium">Email</FormLabel>
+            <FormItem className="space-y-2">
+              <FormLabel className="text-white/90 font-medium">Email Address</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   autoFocus={true}
-                  placeholder="Enter your email"
-                  className="flex h-10 w-full rounded-md border border-white/30 bg-white/10 px-3 py-2 lowercase shadow-lg shadow-black/20 backdrop-blur-md text-white placeholder:text-white/50 placeholder:capitalize file:font-medium focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:border-white/50 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 transition-all"
+                  placeholder="you@example.com"
+                  className="flex h-11 w-full rounded-lg border border-white/30 bg-white/10 px-4 py-2.5 lowercase shadow-lg shadow-black/20 backdrop-blur-md text-white placeholder:text-white/40 placeholder:capitalize file:font-medium focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:border-white/50 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 transition-all"
                 />
               </FormControl>
               <FormMessage className="text-red-300" />
@@ -104,14 +104,14 @@ const SignInForm = ({}: Props) => {
           control={form.control}
           name="password"
           render={({ field }) => (
-            <FormItem className="pb-2">
-              <FormLabel className="text-white font-medium">Password</FormLabel>
+            <FormItem className="space-y-2">
+              <FormLabel className="text-white/90 font-medium">Password</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   type="password"
                   placeholder="Enter your password"
-                  className="flex h-10 w-full rounded-md border border-white/30 bg-white/10 px-3 py-2 shadow-lg shadow-black/20 backdrop-blur-md text-white placeholder:text-white/50 file:font-medium focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:border-white/50 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 transition-all"
+                  className="flex h-11 w-full rounded-lg border border-white/30 bg-white/10 px-4 py-2.5 shadow-lg shadow-black/20 backdrop-blur-md text-white placeholder:text-white/40 file:font-medium focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:border-white/50 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 transition-all"
                 />
               </FormControl>
               <FormMessage className="text-red-300" />
@@ -122,21 +122,19 @@ const SignInForm = ({}: Props) => {
         <Button
           variant="auth"
           type="submit"
-          className="w-full cursor-pointer"
+          className="mt-1 h-11 w-full cursor-pointer text-base font-semibold"
           disabled={isPending}
         >
-          {isPending ? "Signing In..." : "Sign In"}
+          {isPending ? "Signing In..." : "Login"}
         </Button>
       </form>
-      <div className="w-full max-w-sm">
-        <div className="relative flex items-center gap-2">
-          <div className="flex-1 h-px bg-white/20" />
-          <span className="shrink-0 px-2 text-xs uppercase text-white/60 font-medium">
-            OR
-          </span>
-          <div className="flex-1 h-px bg-white/20" />
-        </div>
+      
+      <div className="relative flex items-center gap-3 py-1">
+        <div className="flex-1 h-px bg-white/20" />
+        <span className="shrink-0 text-sm text-white/50">or</span>
+        <div className="flex-1 h-px bg-white/20" />
       </div>
+      
       <OAuthButtons callbackUrl="/" />
     </Form>
   );

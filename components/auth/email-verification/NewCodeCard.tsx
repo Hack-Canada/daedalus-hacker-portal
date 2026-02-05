@@ -7,10 +7,9 @@ type Props = {};
 
 const NewCodeCard = ({}: Props) => {
   return (
-    <AuthCardWrapper>
+    <AuthCardWrapper showTabs={false}>
       <NewCodeHeader />
       <NewCodeForm />
-      <hr className="border-gray-400" />
       <AuthFooter
         showResetPassword={false}
         showSignUp={false}

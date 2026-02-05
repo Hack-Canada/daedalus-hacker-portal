@@ -59,7 +59,7 @@ const ForgotPasswordForm = ({}: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
         {error && (
           <div className="rounded-md border border-error/50 bg-error/10 p-2">
             <p className="text-sm text-error">{error}</p>
@@ -70,16 +70,16 @@ const ForgotPasswordForm = ({}: Props) => {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
+            <FormItem className="space-y-2">
+              <FormLabel className="text-white/90 font-medium">Email Address</FormLabel>
               <FormControl>
                 <input
                   {...field}
-                  placeholder="Enter your email"
-                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 lowercase text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-xs file:font-medium placeholder:capitalize placeholder:text-textMuted focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="you@example.com"
+                  className="flex h-11 w-full rounded-lg border border-white/30 bg-white/10 px-4 py-2.5 lowercase text-white shadow-lg shadow-black/20 backdrop-blur-md placeholder:capitalize placeholder:text-white/40 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:border-white/50 disabled:cursor-not-allowed disabled:opacity-50 transition-all"
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-300" />
             </FormItem>
           )}
         />
@@ -87,7 +87,7 @@ const ForgotPasswordForm = ({}: Props) => {
         <Button
           variant="auth"
           type="submit"
-          className="w-full"
+          className="mt-1 h-11 w-full text-base font-semibold"
           disabled={isPending}
         >
           {isPending ? "Sending Email..." : "Send Reset Link"}

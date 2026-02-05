@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { Snowflake } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { Tabs } from "@/components/ui/tabs";
 
 type Props = {
   children: React.ReactNode;
   className?: string;
+  showTabs?: boolean;
 };
 
 type SnowflakeData = {
@@ -19,7 +21,7 @@ type SnowflakeData = {
   isLarge: boolean;
 };
 
-const AuthCardWrapper = ({ children, className }: Props) => {
+const AuthCardWrapper = ({ children, className, showTabs = true }: Props) => {
   const [snowflakes, setSnowflakes] = useState<SnowflakeData[]>([]);
 
   useEffect(() => {
@@ -39,7 +41,9 @@ const AuthCardWrapper = ({ children, className }: Props) => {
   return (
     <div
       className={cn(
-        "relative w-full space-y-4 rounded-2xl p-6 shadow-2xl md:space-y-6 md:p-8 xl:p-10",
+        "relative w-full rounded-2xl p-8 shadow-2xl md:p-10",
+        // Fixed height for auth pages with tabs to prevent layout shift
+        showTabs && "min-h-[620px] md:min-h-[640px]",
         // Glassmorphism effect
         "bg-gradient-to-br from-white/10 via-white/5 to-transparent",
         "backdrop-blur-xl backdrop-saturate-150",
@@ -55,7 +59,8 @@ const AuthCardWrapper = ({ children, className }: Props) => {
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-black/40 via-black/30 to-black/50 pointer-events-none -z-10" />
       
       {/* Content with proper text color */}
-      <div className="relative z-10 text-white">
+      <div className="relative z-10 flex flex-col gap-6 text-white">
+        {showTabs && <Tabs />}
         {children}
       </div>
       
