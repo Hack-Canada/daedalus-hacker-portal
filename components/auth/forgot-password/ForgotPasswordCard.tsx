@@ -7,14 +7,13 @@ type Props = {};
 
 const ForgotPasswordCard = ({}: Props) => {
   return (
-    <AuthCardWrapper>
+    <AuthCardWrapper showTabs={false}>
       <ForgotPasswordHeader />
       <ForgotPasswordForm />
-      <hr className="border-gray-400" />
       <AuthFooter
         showResetPassword={false}
         showSignUp={false}
-        customSignInLabel="Remember your password"
+        customSignInLabel="Remember your password?"
       />
     </AuthCardWrapper>
   );

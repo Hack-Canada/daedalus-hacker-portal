@@ -96,7 +96,7 @@ export function GeneralInformationStep({
                 Age<span className="text-error">*</span>
               </FormLabel>
               <FormControl>
-                <Input type="number" placeholder="21" {...field} />
+                <Input type="number" placeholder="21" min="1" max="123" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

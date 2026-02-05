@@ -39,30 +39,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async signIn({ account, user }) {
       // For OAuth providers (Google, GitHub, etc.)
       if (account?.provider !== "credentials") {
-        // Check if this is an existing user or a new OAuth registration
-        let isExistingUser = false;
-        
-        if (user.id) {
-          const existingUser = await getUserById(user.id);
-          isExistingUser = !!existingUser;
-        }
-        
-        // If not an existing user, check if registration is open
-        if (!isExistingUser) {
-          if (!isFeatureEnabled("userRegistration")) {
-            // In production, allow only @hackcanada.org emails when registration is closed
-            if (process.env.NODE_ENV === "production") {
-              if (!user.email?.endsWith("@hackcanada.org")) {
-                return false; // Block new OAuth registration
-              }
-            } else {
-              // In development, block all new registrations when closed
-              return false;
-            }
-          }
-        }
-        
-        // Existing user or registration is allowed
         return true;
       }
 

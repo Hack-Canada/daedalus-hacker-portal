@@ -55,7 +55,7 @@ export function getApplications(): Application[] {
       href: "/applications/hacker",
       status: status,
       deadline: status === "closed" ? undefined : formatDeadline(hackerDeadline),
-      description: "Submit your application to join as a participant.",
+      description: "Ready to build something awesome? Join 500+ hackers for an unforgettable weekend! 🚀",
       icon: User,
       disabled: status !== "open",
     },
@@ -64,7 +64,8 @@ export function getApplications(): Application[] {
       href: "https://docs.google.com/forms/d/e/1FAIpQLScCS76RX3C1AvGGFOQ5J69XpoYb6rvdYQ-B0aYxS_GLaf4jmQ/viewform?usp=sf_link",
       status: "coming soon",
       deadline: "February 28th (11:59:59 PM), 2026",
-      description: "Apply to mentor participants during the hackathon.",
+      description:
+        "Share your wisdom and help hackers bring their ideas to life! 💡",
       icon: Lightbulb,
       disabled: true,
     },
@@ -72,7 +73,8 @@ export function getApplications(): Application[] {
       title: "Judge Applications",
       href: "https://docs.google.com/forms/d/e/1FAIpQLScCS76RX3C1AvGGFOQ5J69XpoYb6rvdYQ-B0aYxS_GLaf4jmQ/viewform?usp=sf_link",
       status: "coming soon",
-      description: "Help evaluate and reward the best projects.",
+      description:
+        "Help crown the champions and discover the next big thing! ⚖️",
       deadline: "February 28th (11:59:59 PM), 2026",
       icon: Gavel,
       disabled: true,

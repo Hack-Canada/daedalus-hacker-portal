@@ -73,24 +73,24 @@ const ResetPasswordForm = ({ token }: ResetPasswordParamsProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        {error && <p className="mb-4 text-red-500">{error}</p>}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        {error && <p className="text-red-300 text-sm">{error}</p>}
 
         <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
+            <FormItem className="space-y-2">
+              <FormLabel className="text-white/90 font-medium">New Password</FormLabel>
               <FormControl>
                 <input
                   {...field}
                   type="password"
                   placeholder="Enter new password"
-                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-xs file:font-medium placeholder:text-textMuted focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex h-11 w-full rounded-lg border border-white/30 bg-white/10 px-4 py-2.5 text-white shadow-lg shadow-black/20 backdrop-blur-md placeholder:text-white/40 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:border-white/50 disabled:cursor-not-allowed disabled:opacity-50 transition-all"
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-300" />
             </FormItem>
           )}
         />
@@ -99,17 +99,17 @@ const ResetPasswordForm = ({ token }: ResetPasswordParamsProps) => {
           control={form.control}
           name="confirmPassword"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
+            <FormItem className="space-y-2">
+              <FormLabel className="text-white/90 font-medium">Confirm Password</FormLabel>
               <FormControl>
                 <input
                   {...field}
                   type="password"
                   placeholder="Confirm new password"
-                  className="flex h-10 w-full rounded-sm border border-white/50 bg-white/10 px-3 py-2 text-textSecondary shadow-[0_4px_6px] shadow-black/10 backdrop-blur-xs file:font-medium placeholder:text-textMuted focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex h-11 w-full rounded-lg border border-white/30 bg-white/10 px-4 py-2.5 text-white shadow-lg shadow-black/20 backdrop-blur-md placeholder:text-white/40 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:border-white/50 disabled:cursor-not-allowed disabled:opacity-50 transition-all"
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-300" />
             </FormItem>
           )}
         />
@@ -117,7 +117,7 @@ const ResetPasswordForm = ({ token }: ResetPasswordParamsProps) => {
         <Button
           variant="auth"
           type="submit"
-          className="w-full"
+          className="mt-1 h-11 w-full text-base font-semibold"
           disabled={isPending}
         >
           {isPending ? "Resetting Password..." : "Reset Password"}

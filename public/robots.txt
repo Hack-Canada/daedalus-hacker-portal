@@ -1,0 +1,23 @@
+# Hack Canada Hacker Portal - Robots.txt
+# https://app.hackcanada.org
+
+User-agent: *
+Allow: /
+Allow: /sign-in
+Allow: /sign-up
+Allow: /applications
+
+# Block authenticated pages from indexing
+Disallow: /dashboard
+Disallow: /profile/
+Disallow: /rsvp
+Disallow: /api/
+
+# Block admin routes
+Disallow: /admin/
+
+# Sitemap location
+Sitemap: https://app.hackcanada.org/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1

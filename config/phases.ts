@@ -14,10 +14,10 @@ export type HackathonPhase =
   | "during-event" // Event is happening
   | "post-event"; // Event concluded
 
-// Phase dates
+// Phase dates - keep HEAD's functional dates
 export const phaseDates = {
   registrationOpen: new Date("2026-02-05T00:00:00-05:00"),
-  registrationClose: new Date("2026-02-15T23:59:59-05:00"),
+  registrationClose: new Date("2026-02-20T23:59:59-05:00"),
   eventStart: new Date("2026-03-06T16:30:00-05:00"),
   eventEnd: new Date("2026-03-08T16:00:00-05:00"),
 } as const;
@@ -61,182 +61,107 @@ export interface PhaseFeatures {
 
 export const phaseFeatures: Record<HackathonPhase, PhaseFeatures> = {
   "pre-registration": {
-    // Auth
     userRegistration: false,
-    oauthSignIn: false, // Always allow existing users to login
-
-    // Applications
+    oauthSignIn: false,
     applicationSubmission: false,
     applicationSaving: false,
     applicationViewing: true,
-
-    // RSVP
     rsvpAccess: false,
     rsvpCancellation: false,
-
-    // Dashboard
-    showApplicationStatus: true, // Show "Coming Soon" message
+    showApplicationStatus: true,
     showHackathonConclusion: false,
     showCountdown: true,
     showProjectsCard: false,
     showHackerPackage: false,
     showDiscordInvite: true,
-
-    // Check-ins
     qrCodeCheckIns: false,
     qrCodeDisplay: false,
-
-    // Profile
     profileUpdates: false,
-
-    // Schedule
-    scheduleVisible: true, // Show schedule so potential applicants can see what to expect
-
-    // Messages
+    scheduleVisible: true,
     contactMessage: "pre-event",
   },
 
   "registration-open": {
-    // Auth
     userRegistration: true,
     oauthSignIn: true,
-
-    // Applications
     applicationSubmission: true,
     applicationSaving: true,
     applicationViewing: true,
-
-    // RSVP
     rsvpAccess: true,
     rsvpCancellation: true,
-
-    // Dashboard
     showApplicationStatus: true,
     showHackathonConclusion: false,
     showCountdown: true,
     showProjectsCard: false,
     showHackerPackage: false,
     showDiscordInvite: true,
-
-    // Check-ins
     qrCodeCheckIns: false,
     qrCodeDisplay: false,
-
-    // Profile
     profileUpdates: true,
-
-    // Schedule
     scheduleVisible: true,
-
-    // Messages
     contactMessage: "pre-event",
   },
 
   "pre-event": {
-    // Auth
     userRegistration: true,
-    oauthSignIn: true, // Always allow existing users to login
-
-    // Applications
+    oauthSignIn: true,
     applicationSubmission: false,
     applicationSaving: false,
     applicationViewing: true,
-
-    // RSVP
-    rsvpAccess: true, // Batch 3 acceptances need to RSVP during pre-event
+    rsvpAccess: true,
     rsvpCancellation: true,
-
-    // Dashboard
     showApplicationStatus: true,
     showHackathonConclusion: false,
     showCountdown: true,
     showProjectsCard: false,
-    showHackerPackage: true, // Users need hacker package before event
+    showHackerPackage: true,
     showDiscordInvite: true,
-
-    // Check-ins
     qrCodeCheckIns: false,
     qrCodeDisplay: true,
-
-    // Profile
     profileUpdates: true,
-
-    // Schedule
     scheduleVisible: true,
-
-    // Messages
     contactMessage: "pre-event",
   },
 
   "during-event": {
-    // Auth
     userRegistration: false,
-    oauthSignIn: true, // Always allow existing users to login
-
-    // Applications
+    oauthSignIn: true,
     applicationSubmission: false,
     applicationSaving: false,
     applicationViewing: true,
-
-    // RSVP
     rsvpAccess: false,
     rsvpCancellation: false,
-
-    // Dashboard
     showApplicationStatus: false,
     showHackathonConclusion: false,
     showCountdown: false,
     showProjectsCard: false,
     showHackerPackage: true,
     showDiscordInvite: true,
-
-    // Check-ins
     qrCodeCheckIns: true,
     qrCodeDisplay: true,
-
-    // Profile
-    profileUpdates: true, // Allow updates during event (emergency contacts, dietary restrictions)
-
-    // Schedule
+    profileUpdates: true,
     scheduleVisible: true,
-
-    // Messages
     contactMessage: "during-event",
   },
 
   "post-event": {
-    // Auth
     userRegistration: false,
-    oauthSignIn: true, // Always allow existing users to login
-
-    // Applications
+    oauthSignIn: true,
     applicationSubmission: false,
     applicationSaving: false,
     applicationViewing: true,
-
-    // RSVP
     rsvpAccess: false,
     rsvpCancellation: false,
-
-    // Dashboard
     showApplicationStatus: false,
     showHackathonConclusion: true,
     showCountdown: false,
     showProjectsCard: true,
     showHackerPackage: false,
     showDiscordInvite: true,
-
-    // Check-ins
     qrCodeCheckIns: false,
     qrCodeDisplay: false,
-
-    // Profile
     profileUpdates: false,
-
-    // Schedule
     scheduleVisible: true,
-
-    // Messages
     contactMessage: "post-event",
   },
 };
@@ -245,15 +170,7 @@ export const phaseFeatures: Record<HackathonPhase, PhaseFeatures> = {
 // Phase Detection Logic
 // ============================================================================
 
-/**
- * Determines the current hackathon phase based on the current date
- * and configured phase boundaries. Can be overridden with environment variable.
- *
- * @param now - Optional date to use for phase calculation (defaults to current date)
- * @returns The current hackathon phase
- */
 export function getCurrentPhase(now: Date = new Date()): HackathonPhase {
-  // Check for manual override (for testing/admin purposes)
   if (typeof process !== "undefined" && process.env.FORCE_HACKATHON_PHASE) {
     const forcedPhase = process.env.FORCE_HACKATHON_PHASE as HackathonPhase;
     if (isValidPhase(forcedPhase)) {
@@ -263,27 +180,22 @@ export function getCurrentPhase(now: Date = new Date()): HackathonPhase {
 
   const currentTime = now.getTime();
 
-  // Before registration opens
   if (currentTime < phaseDates.registrationOpen.getTime()) {
     return "pre-registration";
   }
 
-  // Registration is open
   if (currentTime < phaseDates.registrationClose.getTime()) {
     return "registration-open";
   }
 
-  // After registration closes but before event starts
   if (currentTime < phaseDates.eventStart.getTime()) {
     return "pre-event";
   }
 
-  // During the event
   if (currentTime < phaseDates.eventEnd.getTime()) {
     return "during-event";
   }
 
-  // After the event
   return "post-event";
 }
 
@@ -311,7 +223,6 @@ export function isFeatureEnabled(featureName: keyof PhaseFeatures): boolean {
   return features[featureName] as boolean;
 }
 
-
 export function isPhaseActive(...phases: HackathonPhase[]): boolean {
   const currentPhase = getCurrentPhase();
   return phases.includes(currentPhase);
@@ -330,11 +241,9 @@ export function areApplicationsOpen(): boolean {
   return isPhaseActive("registration-open");
 }
 
-
 export function isEventActive(): boolean {
   return isPhaseActive("during-event");
 }
-
 
 export function isEventConcluded(): boolean {
   return isPhaseActive("post-event");

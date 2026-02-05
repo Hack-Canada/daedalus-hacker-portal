@@ -19,21 +19,19 @@ const ProjectsCard = () => {
 
   return (
     <div className="col-span-1 overflow-hidden lg:col-span-2">
-      <div className="group relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-md border border-border bg-backgroundMuted p-6 transition hover:border-primaryLight hover:shadow-lg">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-medium text-textPrimary">
-            View Projects
+      <div className="group relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:shadow-[0_0_30px_rgba(30,144,255,0.15)]">
+        <div className="relative z-10 flex items-center justify-between">
+          <h2 className="text-2xl font-medium text-white">
+            Hall of Fame! 🏆
           </h2>
           <Trophy className="size-8 text-amber-500" />
         </div>
 
-        <p className="pb-8 text-textMuted">
-          Explore all the amazing projects submitted during Hack Canada {hackathonYear}!
-          See what our talented hackers built and get inspired for future
-          hackathons.
+        <p className="relative z-10 pb-8 text-white/60">
+          Check out the incredible projects built at Hack Canada {hackathonYear}! From AI magic to creative hacks — get inspired by what your fellow hackers created in just 36 hours ✨
         </p>
 
-        <div className="mt-auto flex items-center gap-2">
+        <div className="relative z-10 mt-auto flex items-center gap-2">
           <a
             href={viewProjectsUrl}
             target="_blank"
@@ -43,7 +41,7 @@ const ProjectsCard = () => {
               className: "inline-flex items-center gap-2",
             })}
           >
-            View Projects
+            See the Magic
             <ExternalLink className="size-4" />
           </a>
         </div>

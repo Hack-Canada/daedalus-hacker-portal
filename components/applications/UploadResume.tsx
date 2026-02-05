@@ -39,22 +39,22 @@ export function UploadResume({ control, watch }: UploadResumeProps) {
             {!resumeUrl && (
               <button
                 type="button"
-                className="block w-full cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                className="block w-full cursor-pointer rounded-xl border-2 border-dashed border-white/20 bg-white/5 p-6 text-center transition-all hover:border-primary/40 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
                 onClick={() =>
                   document.getElementById("resume-upload")?.click()
                 }
                 disabled={isPending}
                 onDragOver={(e) => {
                   e.preventDefault();
-                  e.currentTarget.classList.add("bg-gray-50");
+                  e.currentTarget.classList.add("bg-white/10", "border-primary/40");
                 }}
                 onDragLeave={(e) => {
                   e.preventDefault();
-                  e.currentTarget.classList.remove("bg-gray-50");
+                  e.currentTarget.classList.remove("bg-white/10", "border-primary/40");
                 }}
                 onDrop={(e) => {
                   e.preventDefault();
-                  e.currentTarget.classList.remove("bg-gray-50");
+                  e.currentTarget.classList.remove("bg-white/10", "border-primary/40");
                   if (e.dataTransfer.files[0]) {
                     handleFileUpload(e.dataTransfer.files[0], field.onChange);
                   }
@@ -63,7 +63,7 @@ export function UploadResume({ control, watch }: UploadResumeProps) {
                 <div className="flex flex-col items-center space-y-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-gray-400"
+                    className="h-8 w-8 text-white/40"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -75,7 +75,7 @@ export function UploadResume({ control, watch }: UploadResumeProps) {
                       d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                     />
                   </svg>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-white/60">
                     {isPending ? (
                       <span className="flex items-center justify-center gap-2">
                         <svg
@@ -109,7 +109,7 @@ export function UploadResume({ control, watch }: UploadResumeProps) {
                       </>
                     )}
                   </p>
-                  <p className="text-xs text-gray-500">PDF only (max 5MB)</p>
+                  <p className="text-xs text-white/40">PDF only (max 5MB)</p>
                   <Input
                     type="file"
                     accept=".pdf"
@@ -125,14 +125,14 @@ export function UploadResume({ control, watch }: UploadResumeProps) {
               </button>
             )}
             {resumeUrl && (
-              <div className="mt-4 flex items-center justify-between rounded-lg border p-4">
+              <div className="mt-4 flex items-center justify-between rounded-xl border border-white/20 bg-white/5 p-4">
                 <div className="flex items-center gap-2">
-                  <ExternalLink className="h-5 w-5 text-gray-500" />
+                  <ExternalLink className="h-5 w-5 text-white/50" />
                   <a
                     href={getResumeUrl(resumeUrl)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm font-medium text-primary hover:underline"
+                    className="text-sm font-medium text-primary hover:text-primaryLight hover:underline"
                   >
                     View Resume
                   </a>
@@ -141,7 +141,7 @@ export function UploadResume({ control, watch }: UploadResumeProps) {
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="text-red-600 hover:bg-red-50 hover:text-red-700"
+                  className="text-red-400 hover:bg-red-500/10 hover:text-red-300"
                   onClick={async () => {
                     if (resumeUrl && (await deleteResume(resumeUrl))) {
                       field.onChange("");
@@ -151,7 +151,7 @@ export function UploadResume({ control, watch }: UploadResumeProps) {
                 >
                   {isPending ? (
                     <svg
-                      className="mr-2 h-4 w-4 animate-spin text-red-600"
+                      className="mr-2 h-4 w-4 animate-spin text-red-400"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -194,7 +194,7 @@ export function UploadResume({ control, watch }: UploadResumeProps) {
               />
             </FormControl>
             <div className="space-y-1 leading-none">
-              <FormLabel className="cursor-pointer text-sm font-medium text-gray-700 transition-colors hover:text-gray-900 md:text-base">
+              <FormLabel className="cursor-pointer text-sm font-medium text-white/70 transition-colors hover:text-white md:text-base">
                 I consent to sharing my resume with potential sponsors and
                 recruiters
               </FormLabel>

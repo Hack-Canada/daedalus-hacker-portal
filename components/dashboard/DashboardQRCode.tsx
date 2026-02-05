@@ -23,27 +23,33 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
   return (
     <div className="lg:col-span-2">
       <div
-        className={`group relative flex h-full min-h-[250px] flex-col gap-0 rounded-md border-2 p-6 transition-all duration-500 before:absolute before:inset-0 before:-z-10 before:transition ${
+        className={`group relative flex h-full min-h-[250px] flex-col gap-0 overflow-hidden rounded-xl border bg-white/5 p-6 backdrop-blur-sm transition-all duration-500 ${
           isLocked
-            ? "border-gray-200/50 before:bg-linear-to-br before:from-primary/15 before:via-info/10 before:to-primaryLight/10 before:opacity-25"
-            : "border-primary/15 before:bg-linear-to-br before:from-primary/10 before:via-info/15 before:to-primaryLight/20 before:opacity-75 hover:border-primary/25 hover:before:opacity-100"
+            ? "border-white/10"
+            : "border-white/10 hover:border-primary/40 hover:shadow-[0_0_30px_rgba(30,144,255,0.15)]"
         }`}
       >
+        {/* Gradient overlay */}
+        <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br transition-opacity duration-500 ${
+          isLocked 
+            ? "from-white/5 via-transparent to-transparent opacity-50"
+            : "from-primary/10 via-info/5 to-transparent opacity-50 group-hover:opacity-75"
+        }`} />
+
         {isLocked && <LockedState label="Participants Only" />}
 
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-2xl font-medium text-textPrimary">
-            Your QR Code
+        <div className="relative z-10 mb-4 flex items-center justify-between">
+          <h2 className="text-2xl font-medium text-white">
+            Your VIP Pass! 🎫
           </h2>
-          <QrCode className="size-8 transition-transform duration-500 md:size-8" />
+          <QrCode className="size-8 text-white/70 transition-all duration-500 group-hover:text-primary md:size-8" />
         </div>
 
-        <p className="pb-8 text-textPrimary/70">
-          Access your unique QR code for event check-ins and sharing your public
-          profile!
+        <p className="relative z-10 pb-8 text-white/60">
+          Your golden ticket to the hackathon! Use it for speedy check-ins and to share your awesome profile with new friends.
         </p>
 
-        <div className="mt-auto flex items-center gap-2">
+        <div className="relative z-10 mt-auto flex items-center gap-2">
           <Dialog>
             <DialogTrigger asChild>
               <Button
@@ -51,15 +57,15 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
                 variant={isLocked ? "outline" : "primary"}
                 className={`inline-flex items-center gap-2 ${
                   isLocked
-                    ? "pointer-events-none cursor-not-allowed !text-gray-400 opacity-40 hover:bg-transparent"
+                    ? "pointer-events-none cursor-not-allowed !text-white/30 opacity-40 hover:bg-transparent"
                     : ""
                 }`}
               >
-                View QR Code
+                Show My Pass
                 <QrCode className="size-4" />
               </Button>
             </DialogTrigger>
-            <DialogContent className="group flex max-w-sm flex-col items-center overflow-hidden border border-primary/50">
+            <DialogContent className="group flex max-w-sm flex-col items-center overflow-hidden border border-primary/50 bg-[#12121a]">
               <div className="absolute inset-0 bg-linear-to-br from-primary/30 via-info/20 to-primary/30">
                 <span className="absolute -top-4 left-20 h-16 w-[500px] -translate-x-40 -rotate-[20deg] border-y border-white/20 bg-white/10 backdrop-blur-[0.5px]" />
                 <span className="absolute -bottom-4 -left-4 size-20 rotate-[20deg] rounded-lg bg-primary/15" />
@@ -69,9 +75,9 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
                 <ScanQrCode className="absolute -bottom-2 -right-2 size-16 -rotate-[12deg] text-white opacity-30 transition-transform duration-500 group-hover:-rotate-[30deg]" />
               </div>
               <DialogHeader>
-                <DialogTitle className="md:text-xl">Your QR Code</DialogTitle>
+                <DialogTitle className="text-white md:text-xl">Your VIP Pass 🎫</DialogTitle>
               </DialogHeader>
-              <div className="relative z-50 mt-4 rounded-lg border bg-white p-2.5 shadow-xl shadow-primary/25 sm:p-4">
+              <div className="relative z-50 mt-4 rounded-lg border border-white/20 bg-white p-2.5 shadow-xl shadow-primary/25 sm:p-4">
                 <QRCodeSVG
                   value={profileUrl}
                   size={225}
@@ -84,8 +90,8 @@ const DashboardQRCode = ({ isLocked, userId }: DashboardQRCodeProps) => {
                   }}
                 />
               </div>
-              <p className="mt-4 text-balance text-center text-sm text-muted-foreground">
-                Use this QR code for check-ins and sharing your public profile!
+              <p className="mt-4 text-balance text-center text-sm text-white/60">
+                Flash this at check-in for express entry! Share it to connect with fellow hackers ✨
               </p>
             </DialogContent>
           </Dialog>

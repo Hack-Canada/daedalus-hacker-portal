@@ -47,7 +47,7 @@ export function PlatformSelect({
         type="button"
         onClick={() => !disabled && setIsOpen(!isOpen)}
         className={cn(
-          "flex h-10 w-full items-center justify-between gap-2 rounded-md border px-3 py-2",
+          "flex h-10 w-full cursor-pointer items-center justify-between gap-2 rounded-md border px-3 py-2",
           "bg-background text-sm transition-colors",
           value && platformStyles[value],
           disabled && "cursor-not-allowed opacity-50",
@@ -78,7 +78,7 @@ export function PlatformSelect({
                 setIsOpen(false);
               }}
               className={cn(
-                "flex w-full items-center gap-2 px-3 py-2 text-sm transition-colors",
+                "flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-sm transition-colors",
                 platformStyles[platform as Platform],
                 platform === value && "bg-accent",
               )}

@@ -29,15 +29,15 @@ export default function FormErrors({ errors, saveErrors }: FormErrorsProps) {
 
   return (
     <div
-      className={`rounded-md border-2 ${
+      className={`rounded-xl border backdrop-blur-sm ${
         saveErrors
-          ? "border-warning/25 bg-warning/5"
-          : "border-error/25 bg-error/5"
+          ? "border-warning/30 bg-warning/10"
+          : "border-error/30 bg-error/10"
       } p-4 md:p-8`}
     >
       <h3
         className={`mb-4 font-rubik font-semibold ${
-          saveErrors ? "text-warning" : "text-error"
+          saveErrors ? "text-amber-400" : "text-red-400"
         } md:text-lg`}
       >
         <Frown className="mr-1 inline-block size-5 -translate-y-0.5" />{" "}
@@ -51,14 +51,14 @@ export default function FormErrors({ errors, saveErrors }: FormErrorsProps) {
             <p
               key={`${key}-label`}
               className={`text-xs font-medium ${
-                saveErrors ? "text-warning" : "text-error"
+                saveErrors ? "text-amber-400" : "text-red-400"
               } md:text-sm`}
             >
               {formatErrorKey(key)}
             </p>
             <p
               key={`${key}-value`}
-              className={`${saveErrors ? "text-warning" : "text-error"} max-md:text-sm`}
+              className={`${saveErrors ? "text-amber-300" : "text-red-300"} max-md:text-sm`}
             >
               {typeof error?.message === "string"
                 ? error.message

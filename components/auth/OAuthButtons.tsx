@@ -26,30 +26,36 @@ const OAuthButtons = ({ callbackUrl = "/" }: Props) => {
     signIn(provider, { callbackUrl });
   };
 
+  const isOAuthEnabled = isFeatureEnabled("oauthSignIn");
+
   return (
-    <div className="flex justify-center gap-10">
+    <div className="flex flex-col gap-3">
       <button
         type="button"
         onClick={(e) => handleOAuthSignIn(e, "google")}
         className={cn(
-          "bg-backgroundMuted/50 hover:bg-backgroundMuted cursor-pointer rounded-full border p-2 transition-transform hover:scale-105 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50",
-          !isFeatureEnabled("oauthSignIn") && "cursor-not-allowed opacity-50",
+          "flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border border-white/20 bg-white/5 px-4 py-3 font-medium text-white backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/30 disabled:cursor-not-allowed disabled:opacity-50",
+          !isOAuthEnabled && "cursor-not-allowed opacity-50",
         )}
-        aria-label="Sign in with Google"
+        aria-label="Continue with Google"
+        disabled={!isOAuthEnabled}
       >
-        <FcGoogle size={28} />
+        <FcGoogle size={22} />
+        <span>Continue with Google</span>
       </button>
 
       <button
         type="button"
         onClick={(e) => handleOAuthSignIn(e, "github")}
         className={cn(
-          "bg-backgroundMuted/50 hover:bg-backgroundMuted cursor-pointer rounded-full border p-2 transition-transform hover:scale-105 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50",
-          !isFeatureEnabled("oauthSignIn") && "cursor-not-allowed opacity-50",
+          "flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border border-white/20 bg-white/5 px-4 py-3 font-medium text-white backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/30 disabled:cursor-not-allowed disabled:opacity-50",
+          !isOAuthEnabled && "cursor-not-allowed opacity-50",
         )}
-        aria-label="Sign in with GitHub"
+        aria-label="Continue with GitHub"
+        disabled={!isOAuthEnabled}
       >
-        <FaGithub size={28} />
+        <FaGithub size={22} />
+        <span>Continue with GitHub</span>
       </button>
     </div>
   );

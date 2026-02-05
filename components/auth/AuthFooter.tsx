@@ -15,49 +15,57 @@ const AuthFooter = ({
   showContactUs = true,
   customSignInLabel,
 }: Props) => {
+  const hasLinks = showResetPassword || showContactUs;
+  
   return (
-    <div className="flex flex-col space-y-3">
-      {showSignIn && (
-        <p className="text-muted-foreground text-center text-sm">
-          {customSignInLabel || "Already have an account?"}{" "}
-          <Link
-            href="/sign-in"
-            className="text-primary hover:text-primary/80 font-medium transition-all hover:underline"
-          >
-            Sign In
-          </Link>
-        </p>
+    <div className="flex flex-col gap-4 pt-2">
+      {(showSignIn || showSignUp) && (
+        <div className="flex flex-col gap-2">
+          {showSignIn && (
+            <p className="text-white/60 text-center text-sm">
+              {customSignInLabel || "Already have an account?"}{" "}
+              <Link
+                href="/sign-in"
+                className="cursor-pointer text-blue-300 hover:text-blue-200 font-medium transition-all hover:underline"
+              >
+                Sign In
+              </Link>
+            </p>
+          )}
+          {showSignUp && (
+            <p className="text-white/60 text-center text-sm">
+              New to Hack Canada?{" "}
+              <Link
+                href="/sign-up"
+                className="cursor-pointer text-blue-300 hover:text-blue-200 font-medium transition-all hover:underline"
+              >
+                Sign Up
+              </Link>
+            </p>
+          )}
+        </div>
       )}
-      {showSignUp && (
-        <p className="text-muted-foreground text-center text-sm">
-          New to Hack Canada?{" "}
-          <Link
-            href="/sign-up"
-            className="text-primary hover:text-primary/80 font-medium transition-all hover:underline"
-          >
-            Sign Up
-          </Link>
-        </p>
+      {hasLinks && (
+        <div className="flex items-center justify-center gap-6 text-sm">
+          {showResetPassword && (
+            <Link
+              href="/forgot-password"
+              className="cursor-pointer text-blue-300 hover:text-blue-200 font-medium transition-all hover:underline"
+            >
+              Forgot password?
+            </Link>
+          )}
+          {showContactUs && (
+            <Link
+              href="mailto:hi@hackcanada.org"
+              target="_blank"
+              className="cursor-pointer text-blue-300 hover:text-blue-200 font-medium transition-all hover:underline"
+            >
+              Need help?
+            </Link>
+          )}
+        </div>
       )}
-      <div className="flex items-center justify-around">
-        {showResetPassword && (
-          <Link
-            href="/forgot-password"
-            className="text-primary hover:text-primary/80 text-center text-sm font-medium transition-all hover:underline"
-          >
-            Forgot your password?
-          </Link>
-        )}
-        {showContactUs && (
-          <Link
-            href="mailto:hi@hackcanada.org"
-            target="_blank"
-            className="text-primary hover:text-primary/80 text-right text-sm font-medium transition-all hover:underline"
-          >
-            Having trouble?
-          </Link>
-        )}
-      </div>
     </div>
   );
 };

@@ -35,23 +35,23 @@ export function Field({ label, value, customValue }: FieldProps) {
 
   return (
     <div className="space-y-1 overflow-hidden">
-      <p className="text-sm font-medium text-black/75 max-md:text-xs">
+      <p className="text-sm font-medium text-white/60 max-md:text-xs">
         {label}
       </p>
       {isEmpty ? (
-        <p className="text-gray-400 md:text-lg">[Empty]</p>
+        <p className="text-white/30 md:text-lg">[Empty]</p>
       ) : isUrl ? (
         <a
           href={strValue}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-md bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-100"
+          className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-primary/30 bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary transition-all hover:border-primary/50 hover:bg-primary/20"
         >
           {getIcon(getUrlType(strValue))}
           <span>View {label}</span>
         </a>
       ) : (
-        <p className="truncate whitespace-pre-line wrap-break-word text-gray-900 md:text-lg">
+        <p className="truncate whitespace-pre-line wrap-break-word text-white md:text-lg">
           {strValue}
         </p>
       )}

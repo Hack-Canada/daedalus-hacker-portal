@@ -8,9 +8,10 @@ import SidebarNavLink from "./SidebarNavLink";
 
 type SidebarNavProps = {
   setIsOpen?: (open: boolean) => void;
+  dark?: boolean;
 };
 
-const SidebarNav = ({ setIsOpen }: SidebarNavProps) => {
+const SidebarNav = ({ setIsOpen, dark = true }: SidebarNavProps) => {
   const { data } = useSession();
 
   return (
@@ -25,12 +26,13 @@ const SidebarNav = ({ setIsOpen }: SidebarNavProps) => {
               {...item}
               href={updatedHref}
               setIsOpen={setIsOpen}
+              dark={dark}
             />
           );
         }
 
         return (
-          <SidebarNavLink key={item.href} {...item} setIsOpen={setIsOpen} />
+          <SidebarNavLink key={item.href} {...item} setIsOpen={setIsOpen} dark={dark} />
         );
       })}
     </nav>

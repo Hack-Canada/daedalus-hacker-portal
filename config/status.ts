@@ -79,109 +79,109 @@ export const statusConfig: Record<
   StatusConfig
 > & { accepted: AcceptedStatusConfig } = {
   coming_soon: {
-    heading: "Applications Coming Soon",
+    heading: "Something Awesome is Brewing! ✨",
     description:
-      "This feature is not available yet, but it's on the way! Stay tuned for updates.",
+      "We're cooking up something special! Applications will open soon — get ready to embark on an incredible hackathon adventure!",
     primaryAction: {
       href: "/applications",
-      label: "View All Applications",
+      label: "Explore Applications",
       variant: "primary",
     },
   },
   not_applied: {
-    heading: "Application not submitted",
+    heading: "Your Adventure Awaits!",
     description:
-      "You haven't submitted a hacker application yet. Click below to begin your hackathon journey!",
+      "Ready to build something amazing? Join 500+ hackers for an unforgettable weekend of innovation, learning, and fun.",
     primaryAction: {
       href: "/applications",
-      label: "Start Application",
+      label: "Let's Go!",
       variant: "primary",
     },
   },
   pending: {
-    heading: "Application submitted",
+    heading: "You're in the Running! 🎯",
     description:
-      "Your application is currently being reviewed by our team. We will notify you as soon as there's an update.",
+      "Awesome work submitting your application! Our team is reviewing it with care. Hang tight — exciting news is on its way to your inbox soon!",
     primaryAction: {
       href: "/applications/hacker/review",
-      label: "Review Application",
+      label: "View My Application",
       variant: "primary",
     },
     secondaryAction: {
       href: "/applications",
-      label: "View All Applications",
+      label: "Explore More",
       variant: "outline",
     },
   },
   accepted: {
     hacker: {
-      heading: "You're in!",
+      heading: "You Made It! 🎉",
       description:
-        "Congrats, you were accepted to Hack Canada! Mark your calendar for February 21st, we are super excited to see you!",
+        "HUGE congrats — you're officially a Hack Canada hacker! Mark your calendar for February 21st and get ready for the best weekend ever. We can't wait to see what you'll build!",
       primaryAction: {
         href: "/applications/hacker/review",
-        label: "Review Application",
+        label: "View My Application",
         variant: "primary",
       },
     },
     default: {
-      heading: "Congratulations!",
+      heading: "Welcome to Hack Canada! 🍁",
       description:
-        "We're delighted to invite you to Hack Canada! Please complete the form below within 7 days of your acceptance to secure your spot!",
+        "We're thrilled to have you join us! Please RSVP within 7 days to lock in your spot. This is going to be legendary!",
       primaryAction: {
         href: "/rsvp",
-        label: "RSVP",
+        label: "Secure My Spot!",
         variant: "primary",
       },
       secondaryAction: {
         href: "/applications/hacker/review",
-        label: "Review Application",
+        label: "View Application",
         variant: "outline",
       },
     },
   },
   rejected: {
-    heading: "You weren't accepted",
+    heading: "Not This Time 💙",
     description:
-      "Unfortunately, we couldn't accept your application this time. We hope to see you at future events!",
+      "We received so many incredible applications this year! While we couldn't accept everyone, your passion for building is what matters most. Keep creating, keep learning — we'd love to see you apply again!",
     primaryAction: {
       href: "/applications/hacker/review",
-      label: "Review Application",
+      label: "View Application",
       variant: "destructive",
     },
     secondaryAction: {
       href: "/applications",
-      label: "View All Applications",
+      label: "Explore More",
       variant: "outline",
     },
   },
   waitlisted: {
-    heading: "You're on the waitlist",
+    heading: "You're on Deck! ⏳",
     description:
-      "You're currently on the waitlist for the hackathon. We'll notify you if a spot becomes available.",
+      "You're on our waitlist! This means you're just one step away from joining the fun. We'll reach out the moment a spot opens up — fingers crossed!",
     primaryAction: {
       href: "/applications/hacker/review",
-      label: "Review Application",
+      label: "View Application",
       variant: "secondary",
     },
     secondaryAction: {
       href: "/applications",
-      label: "View All Applications",
+      label: "Explore More",
       variant: "outline",
     },
   },
   cancelled: {
-    heading: "C'mon :((",
+    heading: "We'll Miss You! 😿",
     description:
-      "You've cancelled your RSVP for the hackathon. We hope to see you next year!",
+      "Sad to see you go, but we totally understand! Life happens. Your spot will go to another eager hacker. Hope to see you at a future event!",
     primaryAction: {
       href: "/applications/hacker/review",
-      label: "Review Application",
+      label: "View Application",
       variant: "destructive",
     },
     secondaryAction: {
       href: "/applications",
-      label: "View All Applications",
+      label: "Explore More",
       variant: "outline",
     },
   },

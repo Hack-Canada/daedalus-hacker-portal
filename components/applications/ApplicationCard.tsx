@@ -30,47 +30,51 @@ export const ApplicationCard = ({
   return (
     <div
       className={cn(
-        "group relative block rounded-lg border border-border bg-white p-6 shadow-md transition-all duration-500 hover:-translate-y-1 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800",
+        "group relative block overflow-hidden rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_0_30px_rgba(30,144,255,0.15)]",
         disabled && "opacity-60",
         alreadyApplied && "cursor-default border-primary/50",
-        // !alreadyApplied && "cursor-pointer",
       )}
     >
+      {/* Gradient overlay */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-50 transition-opacity duration-500 group-hover:opacity-75" />
+
       {!alreadyApplied && (
         <Link
           href={disabled ? "" : href}
-          className={`absolute inset-0 z-10 ${disabled ? "cursor-not-allowed" : ""}`}
+          className={`absolute inset-0 z-20 ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}
+          aria-label={`Apply for ${title}`}
         />
       )}
       {alreadyApplied && (
-        <div className="absolute -right-2 -top-2 rounded-full bg-primary px-2 py-1 text-xs text-white">
+        <div className="pointer-events-none absolute -right-2 -top-2 z-20 rounded-full border border-primary/30 bg-primary/20 px-2 py-1 text-xs font-medium text-primary">
           Applied
         </div>
       )}
-      <div className="pointer-events-auto absolute inset-0 -z-10 rounded-lg bg-linear-to-br from-primaryLight to-primary opacity-0 transition-opacity duration-300 group-hover:opacity-10" />
-      <ApplicationCardHeader
-        title={
-          <div className="flex items-center gap-2">
-            {title}
-            {alreadyApplied && (
-              <Check
-                className="size-4 text-primary md:size-5"
-                strokeWidth={3}
-              />
-            )}
-          </div>
-        }
-        description={description}
-        icon={Icon}
-      />
+      <div className="pointer-events-none relative z-10">
+        <ApplicationCardHeader
+          title={
+            <div className="flex items-center gap-2">
+              {title}
+              {alreadyApplied && (
+                <Check
+                  className="size-4 text-primary md:size-5"
+                  strokeWidth={3}
+                />
+              )}
+            </div>
+          }
+          description={description}
+          icon={Icon}
+        />
 
-      <ApplicationCardStatus status={status} deadline={deadline} />
+        <ApplicationCardStatus status={status} deadline={deadline} />
+      </div>
 
       {alreadyApplied && (
-        <div className="mt-4 max-xs:w-full">
+        <div className="relative z-30 mt-4 max-xs:w-full">
           <Link
             href="/applications/hacker/review"
-            className="inline-flex items-center gap-2 rounded-md bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/20 max-xs:w-full max-xs:justify-center"
+            className="pointer-events-auto inline-flex cursor-pointer items-center gap-2 rounded-md border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-all hover:border-primary/50 hover:bg-primary/20 max-xs:w-full max-xs:justify-center"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
