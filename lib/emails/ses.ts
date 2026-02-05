@@ -71,14 +71,24 @@ type WelcomeEmailProps = {
 export const sendWelcomeEmail = async (data: WelcomeEmailProps) => {
   const { name, email, subject, verificationCode, token } = data;
 
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/41cc6abc-e1d2-466f-8d30-a9c9a87eb8fe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'lib/emails/ses.ts:72',message:'sendWelcomeEmail NODE_ENV check',data:{NODE_ENV:process.env.NODE_ENV,isProduction:process.env.NODE_ENV==='production'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+  // #endregion
+
+  const verificationUrl =
+    process.env.NODE_ENV === "production"
+      ? `https://app.hackcanada.org/email-verification?token=${token}&code=${verificationCode}&email=${email}`
+      : `http://localhost:3000/email-verification?token=${token}&code=${verificationCode}&email=${email}`;
+
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/41cc6abc-e1d2-466f-8d30-a9c9a87eb8fe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'lib/emails/ses.ts:82',message:'Generated verification URL',data:{verificationUrl,email},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+  // #endregion
+
   const body = await render(
     WelcomeEmail({
       name,
       verificationCode,
-      verificationUrl:
-        process.env.NODE_ENV === "production"
-          ? `https://app.hackcanada.org/email-verification?token=${token}&code=${verificationCode}&email=${email}`
-          : `http://localhost:3000/email-verification?token=${token}&code=${verificationCode}&email=${email}`,
+      verificationUrl,
     }),
   );
 
