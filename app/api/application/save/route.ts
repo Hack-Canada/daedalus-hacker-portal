@@ -101,6 +101,9 @@ export async function POST(
       major:
         validationResult.data.major.customValue ||
         validationResult.data.major.value,
+      shortAnswer1: validationResult.data.shortAnswer1,
+      shortAnswer2: validationResult.data.shortAnswer2,
+      shortAnswer3: validationResult.data.shortAnswer3,
       userId: currentUser.id,
       submissionStatus: "draft",
     };

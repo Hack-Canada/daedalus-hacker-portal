@@ -13,7 +13,7 @@ export const users = pgTable("user", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: text("name").notNull(),
-  image : text("image"),
+  image: text("image"),
   email: text("email").notNull(),
   emailVerified: timestamp("emailVerified"),
   password: text("password"),
@@ -173,6 +173,7 @@ export const hackerApplications = pgTable("hackerApplication", {
   country: text("country"),
   shortAnswer1: text("shortAnswer1"),
   shortAnswer2: text("shortAnswer2"),
+  shortAnswer3: text("shortAnswer3"),
   technicalInterests: text("technicalInterests"),
   hackathonsAttended: text("hackathonsAttended"),
   mlhCheckbox1: boolean("mlhCheckbox1"),

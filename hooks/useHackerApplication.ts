@@ -52,6 +52,7 @@ function getDefaultValues(
     country: existingApplication.country || "",
     shortAnswer1: existingApplication.shortAnswer1 || "",
     shortAnswer2: existingApplication.shortAnswer2 || "",
+    shortAnswer3: existingApplication.shortAnswer3 || "",
     mlhCheckbox1: existingApplication.mlhCheckbox1 ? true : false,
     mlhCheckbox2: existingApplication.mlhCheckbox2 ? true : false,
     mlhCheckbox3: existingApplication.mlhCheckbox3 ? true : false,

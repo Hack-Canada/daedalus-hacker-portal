@@ -110,6 +110,7 @@ export async function POST(
       country: data.country,
       shortAnswer1: data.shortAnswer1,
       shortAnswer2: data.shortAnswer2,
+      shortAnswer3: data.shortAnswer3,
       technicalInterests: data.technicalInterests,
       hackathonsAttended: data.hackathonsAttended,
       mlhCheckbox1: data.mlhCheckbox1,
