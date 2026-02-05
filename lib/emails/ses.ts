@@ -71,14 +71,30 @@ type WelcomeEmailProps = {
 export const sendWelcomeEmail = async (data: WelcomeEmailProps) => {
   const { name, email, subject, verificationCode, token } = data;
 
+  // #region agent log
+  console.log('[DEBUG] sendWelcomeEmail - Environment:', {
+    NODE_ENV: process.env.NODE_ENV,
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    VERCEL_ENV: process.env.VERCEL_ENV,
+  });
+  // #endregion
+
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
+  const verificationUrl = `${baseUrl}/email-verification?token=${token}&code=${verificationCode}&email=${email}`;
+
+  // #region agent log
+  console.log('[DEBUG] Generated verification URL:', {
+    baseUrl,
+    verificationUrl,
+    emailPrefix: email.substring(0, 3),
+  });
+  // #endregion
+
   const body = await render(
     WelcomeEmail({
       name,
       verificationCode,
-      verificationUrl:
-        process.env.NODE_ENV === "production"
-          ? `https://app.hackcanada.org/email-verification?token=${token}&code=${verificationCode}&email=${email}`
-          : `http://localhost:3000/email-verification?token=${token}&code=${verificationCode}&email=${email}`,
+      verificationUrl,
     }),
   );
 
@@ -102,10 +118,8 @@ type ResetPasswordEmailProps = {
 export const sendResetPasswordEmail = async (data: ResetPasswordEmailProps) => {
   const { name, email, subject, token } = data;
 
-  const resetUrl =
-    process.env.NODE_ENV === "production"
-      ? `https://app.hackcanada.org/reset-password/${token}`
-      : `http://localhost:3000/reset-password/${token}`;
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const resetUrl = `${baseUrl}/reset-password/${token}`;
 
   const body = await render(
     ResetPasswordEmail({
