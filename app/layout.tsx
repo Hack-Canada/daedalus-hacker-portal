@@ -7,8 +7,10 @@ import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 
 import { siteConfig, hackathonYear, eventDate } from "@/config/site";
+import { getActiveBanners } from "@/lib/db/queries/banner";
 import { fredoka, rubik } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
+import { SiteBanner } from "@/components/SiteBanner";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
@@ -32,6 +34,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
+  const banners = await getActiveBanners();
 
   // Structured data for SEO
   const structuredData = {
@@ -139,6 +142,7 @@ export default async function RootLayout({
         <link rel="canonical" href="https://app.hackcanada.org" />
       </head>
       <body className={cn("", fredoka.className, rubik.variable)}>
+        <SiteBanner banners={banners} />
         <Toaster richColors position="bottom-center" />
         <SessionProvider session={session}>
           <div className="flex h-full min-h-svh flex-col">{children}</div>
