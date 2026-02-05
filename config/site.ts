@@ -119,8 +119,9 @@ export const userRegistrationEnabled: boolean =
   isFeatureEnabled("userRegistration");
 
 // URLs and external links
-export const discordInviteUrl: string = "https://example.com/discord";
-export const hackathonsCanadaDiscordUrl: string = "https://example.com/discord";
+export const discordInviteUrl: string = "https://discord.gg/52Ev4CCUxe";
+export const hackathonsCanadaDiscordUrl: string =
+  "https://discord.gg/52Ev4CCUxe";
 export const viewProjectsUrl: string = "https://example.com/projects";
 export const hackerPackageUrl: string = "https://example.com/hacker-package";
 export const eventGalleryUrl: string =
