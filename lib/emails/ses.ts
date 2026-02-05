@@ -95,7 +95,6 @@ export const sendWelcomeEmail = async (data: WelcomeEmailProps) => {
       name,
       verificationCode,
       verificationUrl,
-      verificationUrl,
     }),
   );
 
