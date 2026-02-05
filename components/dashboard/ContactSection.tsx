@@ -12,11 +12,11 @@ export const ContactSection = () => {
 
   // Phase-specific messages
   const messages = {
-    "pre-event": `Big things are coming in January ${hackathonYear}! Stay tuned for exciting updates 🎉`,
+    "pre-event": "Stay tuned for exciting updates",
     "during-event":
-      "We're here to help! Reach out anytime — our team's got your back! 💪",
+      "We're here to help! Reach out anytime — our team's got your back!",
     "post-event":
-      "What an incredible journey! Thanks for being part of the magic. See you next year! ✨",
+      "What an incredible journey! Thanks for being part of the magic. See you next year!",
   };
 
   return (

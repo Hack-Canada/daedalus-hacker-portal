@@ -1,6 +1,6 @@
 import { Gavel, Lightbulb, LucideIcon, User } from "lucide-react";
 
-import { getCurrentPhase, getApplicationDeadline } from "./phases";
+import { getApplicationDeadline, getCurrentPhase } from "./phases";
 
 export type Application = {
   title: string;
@@ -54,8 +54,10 @@ export function getApplications(): Application[] {
       title: "Hacker Applications",
       href: "/applications/hacker",
       status: status,
-      deadline: status === "closed" ? undefined : formatDeadline(hackerDeadline),
-      description: "Ready to build something awesome? Join 500+ hackers for an unforgettable weekend! 🚀",
+      deadline:
+        status === "closed" ? undefined : formatDeadline(hackerDeadline),
+      description:
+        "Ready to build something awesome? Join hundreds of hackers for an unforgettable weekend!",
       icon: User,
       disabled: status !== "open",
     },
