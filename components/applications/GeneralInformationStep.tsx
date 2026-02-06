@@ -198,7 +198,6 @@ export function GeneralInformationStep({
                 <Input
                   {...field}
                   type="email"
-                  value={userEmail}
                   disabled
                   className="cursor-not-allowed lowercase opacity-60"
                 />

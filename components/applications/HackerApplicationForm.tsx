@@ -27,6 +27,18 @@ export default function HackerApplicationForm({
   existingApplication,
   userEmail,
 }: Props) {
+  const {
+    form,
+    currentStep,
+    setCurrentStep,
+    isSaving,
+    isSubmitting,
+    validationErrors,
+    formErrors,
+    onSave,
+    onSubmit,
+  } = useHackerApplication(existingApplication);
+
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       e.preventDefault();
@@ -40,17 +52,12 @@ export default function HackerApplicationForm({
     };
   }, []);
 
-  const {
-    form,
-    currentStep,
-    setCurrentStep,
-    isSaving,
-    isSubmitting,
-    validationErrors,
-    formErrors,
-    onSave,
-    onSubmit,
-  } = useHackerApplication(existingApplication);
+  // Sync userEmail prop to form state
+  useEffect(() => {
+    if (userEmail && form.getValues("email") !== userEmail) {
+      form.setValue("email", userEmail, { shouldValidate: false });
+    }
+  }, [userEmail, form]);
 
   return (
     <PageWrapper className="flex h-full items-center bg-center">
