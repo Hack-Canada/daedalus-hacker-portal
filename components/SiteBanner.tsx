@@ -3,10 +3,10 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { cva, type VariantProps } from "class-variance-authority";
-import { X, Info, AlertTriangle, CheckCircle, AlertCircle } from "lucide-react";
+import { AlertCircle, AlertTriangle, CheckCircle, Info, X } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { Banner } from "@/lib/db/schema";
+import { cn } from "@/lib/utils";
 
 const DISMISSED_BANNERS_KEY = "dismissed-banners";
 
@@ -34,7 +34,7 @@ const bannerVariants = cva(
     defaultVariants: {
       type: "info",
     },
-  }
+  },
 );
 
 const iconMap = {
@@ -50,12 +50,14 @@ interface SiteBannerProps extends VariantProps<typeof bannerVariants> {
 
 export function SiteBanner({ banners }: SiteBannerProps) {
   // Track dismissed IDs in state, initialized lazily from localStorage
-  const [dismissedIds, setDismissedIds] = useState<string[]>(getStoredDismissedIds);
+  const [dismissedIds, setDismissedIds] = useState<string[]>(
+    getStoredDismissedIds,
+  );
 
   // Compute visible banners from props and dismissed state
   const visibleBanners = useMemo(
     () => banners.filter((b) => !dismissedIds.includes(b.id)),
-    [banners, dismissedIds]
+    [banners, dismissedIds],
   );
 
   const dismissBanner = (id: string) => {
@@ -69,13 +71,14 @@ export function SiteBanner({ banners }: SiteBannerProps) {
   return (
     <div className="w-full">
       {visibleBanners.map((banner) => {
-        const bannerType = (banner.type as "info" | "warning" | "success" | "error") || "info";
+        const bannerType =
+          (banner.type as "info" | "warning" | "success" | "error") || "info";
         const Icon = iconMap[bannerType];
 
         return (
           <div
             key={banner.id}
-            className={cn(bannerVariants({ type: bannerType }))}
+            className={cn(bannerVariants({ type: bannerType }) + " z-[50]")}
           >
             <Icon className="h-4 w-4 shrink-0" />
             <span>{banner.message}</span>
@@ -89,7 +92,7 @@ export function SiteBanner({ banners }: SiteBannerProps) {
             )}
             <button
               onClick={() => dismissBanner(banner.id)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-sm p-1 opacity-70 transition-opacity hover:opacity-100"
+              className="absolute top-1/2 right-2 -translate-y-1/2 rounded-sm p-1 opacity-70 transition-opacity hover:opacity-100"
               aria-label="Dismiss banner"
             >
               <X className="h-4 w-4" />
