@@ -26,9 +26,10 @@ export function ShortAnswersStep({ control }: ShortAnswersStepProps) {
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              Every project has a story. What problem were you trying to solve,
-              and how does your creation tackle it? Take us behind the scenes,
-              what technologies power it, what obstacles did you face, and what
+              What&apos;s the coolest project you&apos;ve ever built? Every
+              project has a story. What problem were you trying to solve, and
+              how does your creation tackle it? Take us behind the scenes, what
+              technologies power it, what obstacles did you face, and what
               &apos;aha&apos; moments got you through? Share your links (GitHub,
               demo, video, etc.) so we can see it in action
             </FormLabel>
