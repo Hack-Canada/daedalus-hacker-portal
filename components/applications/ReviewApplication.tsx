@@ -19,7 +19,7 @@ export function ReviewApplication({ application }: ReviewApplicationProps) {
         title="Review your application"
         className="space-y-2 md:space-y-2 xl:space-y-2"
       >
-        <p className="text-textMuted max-md:text-sm">
+        <p className="text-white/50 max-md:text-sm">
           An overview of your submitted application is below. You can no longer
           make any changes since the application was already submitted.
         </p>
@@ -64,19 +64,23 @@ export function ReviewApplication({ application }: ReviewApplicationProps) {
 
       <ReviewSection title="Short Answers" columns="1">
         <Field
-          label="Are you concerned that AI will take over or impact a career that you were looking forward to pursuing? Why or why not?"
+          label="Every project has a story. What problem were you trying to solve, and how does your creation tackle it? Take us behind the scenes, what technologies power it, what obstacles did you face, and what 'aha' moments got you through? Share your links (GitHub, demo, video, etc.) so we can see it in action"
           value={application.shortAnswer1}
         />
         <Field
-          label="What inspired you to start participating in hackathons, and what motivates you to dedicate your weekends to them?"
+          label="What would help you most in continuing your project after the hackathon? (e.g., one-on-one meetings with sponsors, mentorship, cloud credits, introductions to investors or partners, additional prizes, incubator access, or technical support)"
           value={application.shortAnswer2}
+        />
+        <Field
+          label='How would you describe your "builder style"? (e.g., The Architect who structures the logic, The Sprinter who writes the code, The Strategist who connects the project to the ecosystem, or The Polymath who fills the gaps)'
+          value={application.shortAnswer3}
         />
       </ReviewSection>
 
-      <hr />
+      <hr className="border-white/10" />
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium md:text-xl">
+        <h3 className="text-lg font-medium text-white md:text-xl">
           Interested in anything else?
         </h3>
         <div className="flex gap-2.5 max-xs:flex-col xs:items-center">

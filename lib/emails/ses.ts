@@ -7,10 +7,10 @@ import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
 import WelcomeEmail from "@/components/emails/WelcomeEmail";
 
 const ses = new SESClient({
-  region: process.env.AWS_SES_REGION,
+  region: process.env.AWS_REGION,
   credentials: {
-    accessKeyId: process.env.AWS_SES_ACCESS_KEY_ID || "",
-    secretAccessKey: process.env.AWS_SES_SECRET_ACCESS_KEY || "",
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
   },
 });
 
@@ -25,7 +25,6 @@ export const sendEmail = async (
   body: string,
   from?: string,
 ): Promise<SendEmailResult> => {
-  console.log("From:", from);
   const command = new SendEmailCommand({
     Source: `Hack Canada <${process.env.AWS_SES_NO_REPLY_EMAIL!}>` || "",
     Destination: {
@@ -72,14 +71,14 @@ type WelcomeEmailProps = {
 export const sendWelcomeEmail = async (data: WelcomeEmailProps) => {
   const { name, email, subject, verificationCode, token } = data;
 
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
+  const verificationUrl = `${baseUrl}/email-verification?token=${token}&code=${verificationCode}&email=${email}`;
+
   const body = await render(
     WelcomeEmail({
       name,
       verificationCode,
-      verificationUrl:
-        process.env.NODE_ENV === "production"
-          ? `https://app.hackcanada.org/email-verification?token=${token}`
-          : `http://localhost:3000/email-verification?token=${token}`,
+      verificationUrl,
     }),
   );
 
@@ -103,10 +102,8 @@ type ResetPasswordEmailProps = {
 export const sendResetPasswordEmail = async (data: ResetPasswordEmailProps) => {
   const { name, email, subject, token } = data;
 
-  const resetUrl =
-    process.env.NODE_ENV === "production"
-      ? `https://app.hackcanada.org/reset-password/${token}`
-      : `http://localhost:3000/reset-password/${token}`;
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const resetUrl = `${baseUrl}/reset-password/${token}`;
 
   const body = await render(
     ResetPasswordEmail({
@@ -194,7 +191,7 @@ IMPORTANT LINKS:
 - Hacker Dashboard: https://app.hackcanada.org
 - Project Submissions: https://dorahacks.io/hackathon/hackcanada/detail
 
-Questions? Email us at hello@hackcanada.org or message us on Discord.
+Questions? Email us at hi@hackcanada.org or message us on Discord.
 
 See you soon!
 - Hack Canada Team

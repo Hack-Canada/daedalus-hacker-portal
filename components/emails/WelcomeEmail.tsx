@@ -14,6 +14,8 @@ import {
 } from "@react-email/components";
 import { Tailwind } from "@react-email/tailwind";
 
+import { hackathonYear } from "@/config/site";
+
 interface WelcomeEmailProps {
   name: string;
   verificationCode: string;
@@ -27,6 +29,9 @@ const WelcomeEmail = ({
 }: WelcomeEmailProps) => {
   return (
     <Html>
+      <Preview>
+        {verificationCode} - Your verification code. Welcome to Hack Canada!
+      </Preview>
       <Tailwind
         config={{
           theme: {
@@ -49,161 +54,293 @@ const WelcomeEmail = ({
         }}
       >
         <Head />
-        <Preview>
-          {verificationCode} - Your verification code. Welcome to Hack Canada!
-        </Preview>
-        <Body className="bg-primary/5 rounded-lg">
-          <Container className="mx-auto max-w-2xl px-4 py-8">
+        <Body style={{ backgroundColor: "#FFF5F5", margin: 0, padding: 0 }}>
+          <Container
+            style={{
+              maxWidth: "600px",
+              margin: "0 auto",
+              padding: "20px 0",
+            }}
+          >
+            {/* Header Image */}
             <Img
-              src="https://i.imgur.com/OBbPUOD.png"
-              width={500}
-              alt="Hack Canada"
-              className="w-full rounded-t-lg"
+              src="https://hackcanada.org/email-headers/hack_canada_welcom_header.png"
+              width="600"
+              alt="Welcome to Hack Canada"
+              style={{
+                width: "100%",
+                maxWidth: "600px",
+                height: "auto",
+                display: "block",
+                borderRadius: "12px 12px 0 0",
+              }}
             />
-            <Section className="bg-background/95 rounded-b-lg p-6 shadow-lg backdrop-blur-xs">
-              <Heading className="text-textPrimary text-2xl font-semibold">
+
+            {/* Main Content Section */}
+            <Section
+              style={{
+                backgroundColor: "#FFFFFF",
+                borderRadius: "0 0 12px 12px",
+                padding: "40px 32px",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              {/* Greeting */}
+              <Heading
+                style={{
+                  color: "#5D2E46",
+                  fontSize: "28px",
+                  fontWeight: "700",
+                  margin: "0 0 16px 0",
+                  textAlign: "center",
+                }}
+              >
                 Welcome, {name}! 🎉
               </Heading>
+
               <Text
-                className="text-textSecondary"
-                style={{ marginTop: "-1rem" }}
+                style={{
+                  color: "#4B5563",
+                  fontSize: "16px",
+                  lineHeight: "24px",
+                  margin: "0 0 32px 0",
+                  textAlign: "center",
+                }}
               >
                 Thank you for signing up! Please verify your email address using
                 the code below:
               </Text>
-              <Hr className="mb-6 border-gray-200" />
 
-              <Section className="bg-primary/5 to-primary/5 mb-4 rounded-lg border border-blue-500/10 p-6 shadow-xs">
-                <div className="text-center">
-                  <Text className="text-textSecondary">
-                    🔐 Your verification code is:
-                  </Text>
-                  <div className="bg-primary/5 text-primary mt-2 rounded-lg px-6 py-4 text-4xl font-bold tracking-wider">
+              {/* Verification Code Box */}
+              <Section
+                style={{
+                  // background:
+                  // "linear-gradient(135deg, #FFE5EC 0%, #FFF0F5 100%)",
+                  // border: "2px solid #F8BBD0",
+                  // borderRadius: "12px",
+                  padding: "32px 24px",
+                  margin: "0 0 32px 0",
+                  textAlign: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#5D2E46",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    margin: "0 0 16px 0",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.5px",
+                  }}
+                >
+                  🔐 Your Verification Code
+                </Text>
+                <div
+                  style={{
+                    backgroundColor: "#FFFFFF",
+                    border: "2px dashed #F8BBD0",
+                    borderRadius: "8px",
+                    padding: "20px",
+                    margin: "0 auto",
+                    maxWidth: "280px",
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: "#C2185B",
+                      fontSize: "36px",
+                      fontWeight: "700",
+                      letterSpacing: "8px",
+                      margin: 0,
+                      fontFamily: "monospace",
+                    }}
+                  >
                     {verificationCode}
-                  </div>
+                  </Text>
                 </div>
               </Section>
 
-              <div className="text-center">
-                <Text className="text-textSecondary mb-4">
-                  Click the button below to go to the verification page:
+              {/* CTA Button */}
+              <div style={{ textAlign: "center", margin: "0 0 32px 0" }}>
+                <Text
+                  style={{
+                    color: "#6B7280",
+                    fontSize: "14px",
+                    margin: "0 0 16px 0",
+                  }}
+                >
+                  Click the button below to complete verification:
                 </Text>
                 <Button
                   href={verificationUrl}
-                  className="inline-block rounded-lg bg-[#0A1F44] px-8 py-3 text-center font-semibold text-white no-underline transition-all duration-200 hover:brightness-110"
+                  style={{
+                    backgroundColor: "#5D2E46",
+                    color: "#FFFFFF",
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    textDecoration: "none",
+                    textAlign: "center",
+                    display: "inline-block",
+                    padding: "14px 40px",
+                    borderRadius: "8px",
+                    boxShadow: "0 2px 4px rgba(93, 46, 70, 0.2)",
+                  }}
                 >
-                  Verify Email
+                  Verify Email Address
                 </Button>
               </div>
 
-              <Text className="text-textMuted mt-8 text-center text-sm">
-                ❗ If you did not sign up for our platform, please ignore this
-                email. ❗
-              </Text>
+              {/* Disclaimer */}
+              <Section
+                style={{
+                  // backgroundColor: "#FFF9E6",
+                  // border: "1px solid #FFE082",
+                  // borderRadius: "8px",
+                  padding: "16px",
+                  margin: "0 0 32px 0",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "#F57C00",
+                    fontSize: "13px",
+                    lineHeight: "20px",
+                    margin: 0,
+                    textAlign: "center",
+                  }}
+                >
+                  ⚠️ If you didn&apos;t sign up for Hack Canada, please ignore
+                  this email. Your account won&apos;t be created without
+                  verification.
+                </Text>
+              </Section>
 
-              <Hr className="my-6 border-gray-200" />
+              <Hr
+                style={{
+                  border: "none",
+                  borderTop: "1px solid #E5E7EB",
+                  margin: "32px 0",
+                }}
+              />
 
               {/* Footer */}
               <div style={{ textAlign: "center" }}>
-                <div style={{ marginBottom: "16px" }}>
+                {/* Social Links */}
+                <div style={{ marginBottom: "20px" }}>
                   <Link
-                    style={{
-                      color: "#9CA3AF",
-                      fontSize: "12px",
-                      textDecoration: "none",
-                    }}
                     href="https://hackcanada.org"
                     target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Hack Canada
-                  </Link>
-                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-                  <Link
                     style={{
                       color: "#9CA3AF",
                       fontSize: "12px",
                       textDecoration: "none",
+                      margin: "0 8px",
                     }}
+                  >
+                    Website
+                  </Link>
+                  <span style={{ color: "#D1D5DB" }}>•</span>
+                  <Link
                     href="https://app.hackcanada.org"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    style={{
+                      color: "#9CA3AF",
+                      fontSize: "12px",
+                      textDecoration: "none",
+                      margin: "0 8px",
+                    }}
                   >
                     Dashboard
                   </Link>
-                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                  <span style={{ color: "#D1D5DB" }}>•</span>
                   <Link
+                    href="https://discord.gg/wp42amwcWy"
+                    target="_blank"
                     style={{
                       color: "#9CA3AF",
                       fontSize: "12px",
                       textDecoration: "none",
+                      margin: "0 8px",
                     }}
-                    href="https://discord.gg/wp42amwcWy"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
                     Discord
                   </Link>
-                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                  <span style={{ color: "#D1D5DB" }}>•</span>
                   <Link
+                    href="https://www.instagram.com/hackcanada/"
+                    target="_blank"
                     style={{
                       color: "#9CA3AF",
                       fontSize: "12px",
                       textDecoration: "none",
+                      margin: "0 8px",
                     }}
-                    href="https://www.instagram.com/hackcanada/"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
                     Instagram
                   </Link>
-                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                </div>
+
+                <div style={{ marginBottom: "20px" }}>
                   <Link
+                    href="https://www.linkedin.com/company/hack-canada"
+                    target="_blank"
                     style={{
                       color: "#9CA3AF",
                       fontSize: "12px",
                       textDecoration: "none",
+                      margin: "0 8px",
                     }}
-                    href="https://www.linkedin.com/company/hack-canada"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
                     LinkedIn
                   </Link>
-                  &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                  <span style={{ color: "#D1D5DB" }}>•</span>
                   <Link
+                    href="mailto:hi@hackcanada.org"
                     style={{
                       color: "#9CA3AF",
                       fontSize: "12px",
                       textDecoration: "none",
+                      margin: "0 8px",
                     }}
-                    href="mailto:hello@hackcanada.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
-                    Email
+                    Contact Us
                   </Link>
                 </div>
+
                 <Text
                   style={{
                     color: "#9CA3AF",
                     fontSize: "12px",
+                    lineHeight: "18px",
                     margin: "8px 0",
                   }}
                 >
-                  Copyright © 2025 Hack Canada
+                  © {hackathonYear} Hack Canada. All rights reserved.
                 </Text>
+
                 <Text
                   style={{
-                    color: "#9CA3AF",
-                    fontSize: "12px",
-                    margin: "8px 0",
+                    color: "#D1D5DB",
+                    fontSize: "11px",
+                    lineHeight: "16px",
+                    margin: "8px 0 0 0",
                   }}
                 >
-                  All rights reserved.
+                  Building the future, one hack at a time 🍁
                 </Text>
               </div>
             </Section>
+
+            {/* Bottom Gradient Accent */}
+            <div
+              style={{
+                height: "4px",
+                background:
+                  "linear-gradient(90deg, #F8BBD0 0%, #FFB74D 50%, #CE93D8 100%)",
+                borderRadius: "0 0 12px 12px",
+                marginTop: "-4px",
+              }}
+            />
           </Container>
         </Body>
       </Tailwind>

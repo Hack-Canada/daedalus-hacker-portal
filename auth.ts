@@ -3,6 +3,7 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth, { DefaultSession } from "next-auth";
 
 import authConfig from "./auth.config";
+import { isFeatureEnabled } from "./config/phases";
 import { db } from "./lib/db";
 import {
   createVerificationToken,
@@ -36,7 +37,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ account, user }) {
-      // Allow OAuth providers immediately
+      // For OAuth providers (Google, GitHub, etc.)
       if (account?.provider !== "credentials") {
         return true;
       }
@@ -56,7 +57,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         );
 
         if (existingToken) {
-          return `/email-verification?token=${existingToken.id}`;
+          return `/email-verification?token=${existingToken.id}&email=${existingUser.email}`;
         }
 
         const { tokenId, code } = await createVerificationToken(
@@ -76,7 +77,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return false;
         }
 
-        return `/email-verification?token=${tokenId}`;
+        return `/email-verification?token=${tokenId}&email=${existingUser.email}`;
       }
 
       return true;

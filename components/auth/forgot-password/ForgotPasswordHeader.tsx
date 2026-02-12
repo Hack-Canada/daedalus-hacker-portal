@@ -2,11 +2,11 @@ type Props = {};
 
 const ForgotPasswordHeader = ({}: Props) => {
   return (
-    <div>
-      <h1 className="font-rubik text-2xl font-semibold text-textPrimary md:text-3xl">
+    <div className="space-y-1">
+      <h1 className="font-rubik text-2xl font-bold text-white md:text-3xl">
         Forgot Password
       </h1>
-      <p className="text-black/50 max-md:text-sm">
+      <p className="text-white/60 text-sm md:text-base">
         If the email is registered with us, you will receive a password reset
         link.
       </p>

@@ -16,17 +16,17 @@ export function StepNavigation({
       {steps.map((step, index) => (
         <div key={step} className="flex items-center">
           <button
-            className={`relative flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-primary/30 text-sm transition-all ${
+            className={`relative flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border text-sm transition-all ${
               index === currentStep
-                ? "bg-primary text-white ring-4 ring-primaryLight"
-                : "bg-backgroundMuted text-textMuted hover:bg-primaryLight hover:text-white"
+                ? "border-primary/50 bg-primary text-white shadow-[0_0_15px_rgba(30,144,255,0.4)] ring-4 ring-primary/30"
+                : "border-white/20 bg-white/5 text-white/50 hover:border-primary/30 hover:bg-primary/20 hover:text-white"
             }`}
             onClick={() => onStepChange(index)}
           >
             {index === steps.length - 1 ? "🎉" : index + 1}
           </button>
           {index < steps.length - 1 && (
-            <div className="mx-2 h-1 w-4 rounded-full bg-primaryLight" />
+            <div className="mx-2 h-1 w-4 rounded-full bg-primary/30" />
           )}
         </div>
       ))}

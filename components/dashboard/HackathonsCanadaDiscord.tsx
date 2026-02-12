@@ -8,10 +8,10 @@ import CardDecorativeElements from "./CardDecorativeElements";
 const HackathonsCanadaDiscord = () => {
   return (
     <div className="col-span-1 overflow-hidden lg:col-span-2">
-      <div className="group relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-md border border-border bg-backgroundMuted p-6 transition hover:border-primaryLight hover:shadow-lg">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-medium text-textPrimary">
-            Hackathons Canada Discord
+      <div className="group hover:border-primary/40 relative flex h-full min-h-[250px] flex-col gap-4 overflow-hidden rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all duration-300 hover:shadow-[0_0_30px_rgba(30,144,255,0.15)]">
+        <div className="relative z-10 flex items-center justify-between">
+          <h2 className="text-2xl font-medium text-white">
+            Join the Movement! 🍁
           </h2>
           {/* Discord SVG Icon */}
           <svg
@@ -27,13 +27,12 @@ const HackathonsCanadaDiscord = () => {
           </svg>
         </div>
 
-        <p className="pb-8 text-textMuted">
-          Join the Hackathons Canada community! Connect with fellow hackers,
-          stay updated on upcoming events, and be part of Canada&apos;s largest
-          hackathon community.
+        <p className="relative z-10 pb-8 text-white/60">
+          Be part of Canada&apos;s largest hackathon community! Connect with
+          thousands of hackers and level up your skills together
         </p>
 
-        <div className="mt-auto flex items-center gap-2">
+        <div className="relative z-10 mt-auto flex items-center gap-2">
           <a
             href={hackathonsCanadaDiscordUrl}
             target="_blank"
@@ -43,7 +42,7 @@ const HackathonsCanadaDiscord = () => {
               className: "inline-flex items-center gap-2",
             })}
           >
-            Join Community
+            Join the Fun!
             <ExternalLink className="size-4" />
           </a>
         </div>

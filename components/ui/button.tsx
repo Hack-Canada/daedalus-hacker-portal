@@ -6,24 +6,24 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-all duration-300 ease-in-out focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex cursor-pointer items-center justify-center rounded-md text-sm font-medium transition-all duration-300 ease-in-out focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-background hover:bg-blue-500 hover:shadow-[0_6px_20px_rgba(0,118,255,0.3)] hover:shadow-primary focus-visible:ring-blue-500",
+          "bg-primary text-white hover:bg-blue-400 hover:shadow-[0_0_25px_rgba(30,144,255,0.4)] focus-visible:ring-blue-500 focus-visible:ring-offset-[#0a0a0f]",
         primary:
-          "px-8 py-2 bg-linear-to-b from-blue-500 to-blue-600 shadow-xs text-white hover:shadow-xl focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 duration-200",
+          "px-8 py-2 bg-linear-to-b from-blue-500 to-blue-600 shadow-lg shadow-primary/25 text-white hover:shadow-[0_0_30px_rgba(30,144,255,0.5)] hover:from-blue-400 hover:to-blue-500 focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-[#0a0a0f] duration-200",
         destructive:
-          "bg-error text-background hover:bg-error/90 hover:shadow-[0_6px_20px_rgba(244,67,54,0.3)] focus-visible:ring-error/70",
+          "bg-error text-white hover:bg-red-500 hover:shadow-[0_0_20px_rgba(244,67,54,0.4)] focus-visible:ring-error/70 focus-visible:ring-offset-[#0a0a0f]",
         outline:
-          "border-2 border-border bg-background text-textPrimary/75 hover:bg-linear-to-r hover:bg-primaryLight/50 hover:text-primary hover:border-primary focus-visible:ring-primary focus-visible:ring-offset-primaryLight",
+          "border border-white/20 bg-white/5 text-white/80 hover:bg-white/10 hover:text-primary hover:border-primary/50 hover:shadow-[0_0_15px_rgba(30,144,255,0.2)] focus-visible:ring-primary focus-visible:ring-offset-[#0a0a0f]",
         secondary:
-          "bg-secondary text-background hover:bg-secondaryDark hover:shadow-lg focus-visible:ring-secondaryDark",
+          "bg-secondary/20 text-secondary border border-secondary/30 hover:bg-secondary/30 hover:shadow-[0_0_15px_rgba(255,167,38,0.3)] focus-visible:ring-secondary focus-visible:ring-offset-[#0a0a0f]",
         ghost:
-          "text-textSecondary hover:bg-primary/10 hover:text-primary focus-visible:ring-primary",
-        link: "text-primary underline-offset-4 hover:underline hover:text-primaryDark focus-visible:ring-primary",
-        auth: "rounded-sm bg-linear-to-r from-[#132C57] to-[#0A1F44] text-white shadow-md hover:shadow-lg hover:tracking-widest hover:shadow-[#0A1F44]/50 focus-visible:ring-[#0A1F44]",
+          "text-white/60 hover:bg-white/10 hover:text-primary focus-visible:ring-primary focus-visible:ring-offset-[#0a0a0f]",
+        link: "text-primary underline-offset-4 hover:underline hover:text-primaryLight focus-visible:ring-primary",
+        auth: "rounded-sm bg-linear-to-r from-[#132C57] to-[#0A1F44] text-white shadow-md hover:shadow-[0_0_20px_rgba(10,31,68,0.6)] hover:tracking-widest focus-visible:ring-[#0A1F44]",
         unstyled: "",
       },
       size: {

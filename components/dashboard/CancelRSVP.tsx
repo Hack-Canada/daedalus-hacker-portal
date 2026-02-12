@@ -52,7 +52,7 @@ const CancelRSVP = () => {
     <>
       {showConfirmation ? (
         <div className="space-y-2">
-          <p className="text-xs text-textMuted md:text-sm">
+          <p className="text-xs text-white/50 md:text-sm">
             Are you sure you want to cancel your acceptance? This action cannot
             be undone.
           </p>
@@ -60,25 +60,25 @@ const CancelRSVP = () => {
             <button
               type="button"
               onClick={() => setShowConfirmation(false)}
-              className="hover:text-text text-xs text-success md:text-sm"
+              className="cursor-pointer text-xs text-success hover:text-green-300 md:text-sm"
             >
               Let&apos;s keep it!
             </button>
-            <span className="my-auto h-4 w-0.5 bg-textMuted" />
+            <span className="my-auto h-4 w-0.5 bg-white/30" />
             <button
               type="button"
               onClick={onSubmit}
               disabled={isPending}
-              className="group relative text-xs text-primary transition-colors hover:text-primaryDark disabled:opacity-50 md:text-sm"
+              className="group relative cursor-pointer text-xs text-primary transition-colors hover:text-primaryLight disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
             >
               {isPending ? "Cancelling..." : "Confirm Cancellation"}
-              <span className="absolute inset-x-0 bottom-0 h-px origin-center scale-x-0 bg-primaryDark transition-transform group-hover:scale-x-100" />
+              <span className="absolute inset-x-0 bottom-0 h-px origin-center scale-x-0 bg-primaryLight transition-transform group-hover:scale-x-100" />
             </button>
           </div>
         </div>
       ) : (
         <div className="space-y-2">
-          <p className="text-xs text-textMuted md:text-sm">
+          <p className="text-xs text-white/50 md:text-sm">
             No longer able to attend? You can give your spot to someone on the
             waitlist!{" "}
           </p>
@@ -86,10 +86,10 @@ const CancelRSVP = () => {
             <button
               type="button"
               onClick={() => setShowConfirmation(true)}
-              className="group relative text-xs text-primary transition-colors hover:text-primaryDark md:text-sm"
+              className="group relative cursor-pointer text-xs text-primary transition-colors hover:text-primaryLight md:text-sm"
             >
               Cancel RSVP
-              <span className="absolute inset-x-0 bottom-0 h-px origin-center scale-x-0 bg-primaryDark transition-transform group-hover:scale-x-100" />
+              <span className="absolute inset-x-0 bottom-0 h-px origin-center scale-x-0 bg-primaryLight transition-transform group-hover:scale-x-100" />
             </button>
           </form>
         </div>

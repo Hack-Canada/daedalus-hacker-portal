@@ -70,7 +70,9 @@ export default function NewCodeForm() {
         const { tokenId } = data;
         form.reset();
         toast.success("New verification code sent!");
-        router.push(`/email-verification?token=${tokenId}`);
+        router.push(
+          `/email-verification?token=${tokenId}&email=${values.email}`,
+        );
       });
     } catch (error) {
       const errorMessage =
@@ -83,10 +85,10 @@ export default function NewCodeForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
         {error && (
-          <div className="rounded-md border border-error/50 bg-error/10 p-2">
-            <p className="text-sm text-error">{error}</p>
+          <div className="border-error/50 bg-error/10 rounded-md border p-2">
+            <p className="text-error text-sm">{error}</p>
           </div>
         )}
 
@@ -94,17 +96,17 @@ export default function NewCodeForm() {
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
+            <FormItem className="space-y-2">
+              <FormLabel className="text-white/90 font-medium">Email Address</FormLabel>
               <FormControl>
                 <Input
                   {...field}
-                  placeholder="Enter your email"
-                  className="rounded-sm lowercase placeholder:capitalize"
+                  placeholder="you@example.com"
+                  className="flex h-11 w-full rounded-lg border border-white/30 bg-white/10 px-4 py-2.5 lowercase shadow-lg shadow-black/20 backdrop-blur-md text-white placeholder:text-white/40 placeholder:capitalize focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:border-white/50 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 transition-all"
                   disabled={isPending || cooldown > 0}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-300" />
             </FormItem>
           )}
         />
@@ -112,7 +114,7 @@ export default function NewCodeForm() {
         <Button
           variant="auth"
           type="submit"
-          className="w-full text-sm"
+          className="mt-1 h-11 w-full text-base font-semibold"
           disabled={isPending || cooldown > 0}
         >
           {isPending

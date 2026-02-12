@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 
 import { db } from "@/lib/db";
@@ -6,7 +6,32 @@ import {
   deleteVerificationTokenById,
   getVerificationTokenById,
 } from "@/lib/db/queries/email-verification-tokens";
+import { isUserEmailVerified } from "@/lib/db/queries/user";
 import { users } from "@/lib/db/schema";
+
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const email = searchParams.get("email");
+
+    if (!email) {
+      return NextResponse.json(
+        { error: "Email is required" },
+        { status: 400 },
+      );
+    }
+
+    const verified = await isUserEmailVerified(email);
+
+    return NextResponse.json({ verified }, { status: 200 });
+  } catch (error) {
+    console.error("Error checking email verification status:", error);
+    return NextResponse.json(
+      { error: "Failed to check verification status" },
+      { status: 500 },
+    );
+  }
+}
 
 export async function POST(request: Request) {
   try {

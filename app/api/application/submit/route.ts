@@ -3,11 +3,13 @@ import { getCurrentUser } from "@/auth";
 
 import { ApiResponse } from "@/types/api";
 import {
+  checkPhoneNumberExists,
   createOrUpdateApplication,
   submitApplication,
 } from "@/lib/db/queries/application";
 import { sendApplicationSubmittedEmail } from "@/lib/emails/ses";
 import { HackerApplicationSubmissionSchema } from "@/lib/validations/application";
+import { isFeatureEnabled } from "@/config/phases";
 
 export async function POST(
   req: NextRequest,
@@ -32,6 +34,14 @@ export async function POST(
       });
     }
 
+    // Check if application submission is allowed based on current phase
+    if (!isFeatureEnabled("applicationSubmission")) {
+      return NextResponse.json({
+        success: false,
+        message: "Application submissions are not available at this time",
+      });
+    }
+
     const validatedFields = HackerApplicationSubmissionSchema.safeParse(body);
 
     if (!validatedFields.success) {
@@ -52,6 +62,21 @@ export async function POST(
 
     const { data } = validatedFields;
 
+    // Check if phone number is already in use by another user
+    const phoneExists = await checkPhoneNumberExists(
+      data.phoneNumber,
+      currentUser.id,
+    );
+    if (phoneExists) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "This phone number is already registered with another account.",
+        },
+        { status: 400 },
+      );
+    }
+
     // Convert string fields to numbers
     const age = parseInt(data.age);
     const graduationYear = parseInt(data.graduationYear);
@@ -62,13 +87,15 @@ export async function POST(
     const major = data.major.customValue || data.major.value;
 
     // Create new application data from validated input
+    // SECURITY: Always use the authenticated user's email, never trust the form input
     const applicationData = {
       userId: currentUser.id,
       firstName: data.firstName,
       lastName: data.lastName,
       age,
       pronouns,
-      email: data.email.toLowerCase(),
+      email: currentUser.email?.toLowerCase() || "",
+      phoneNumber: data.phoneNumber,
       github: data.github,
       linkedin: data.linkedin,
       personalWebsite: data.personalWebsite,
@@ -83,6 +110,7 @@ export async function POST(
       country: data.country,
       shortAnswer1: data.shortAnswer1,
       shortAnswer2: data.shortAnswer2,
+      shortAnswer3: data.shortAnswer3,
       technicalInterests: data.technicalInterests,
       hackathonsAttended: data.hackathonsAttended,
       mlhCheckbox1: data.mlhCheckbox1,

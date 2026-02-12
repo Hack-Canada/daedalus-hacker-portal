@@ -4,9 +4,15 @@ import Image from "next/image";
 import { LogOut } from "lucide-react";
 import { useSession } from "next-auth/react";
 
+import { cn } from "@/lib/utils";
+
 import { LogoutButton } from "../auth/LoginButton";
 
-const SidebarUser = () => {
+type SidebarUserProps = {
+  dark?: boolean;
+};
+
+const SidebarUser = ({ dark = true }: SidebarUserProps) => {
   const { data } = useSession();
 
   if (!data) {
@@ -16,8 +22,17 @@ const SidebarUser = () => {
   return (
     <div className="z-10 space-y-6 pb-12">
       <div className="flex items-center space-x-2">
-        <div className="w-full border-t-2 border-primary"></div>
-        <Image src="/blue-leaf.png" alt="Leaf" width={16} height={16} />
+        <div className={cn(
+          "w-full border-t-2",
+          dark ? "border-white/30" : "border-primary"
+        )} />
+        <Image 
+          src="/blue-leaf.png" 
+          alt="Leaf" 
+          width={16} 
+          height={16}
+          className={dark ? "opacity-70 brightness-150" : ""}
+        />
       </div>
       <div className="flex space-x-4">
         <Image
@@ -25,17 +40,31 @@ const SidebarUser = () => {
           alt={data.user.name + "'s Avatar"}
           width={64}
           height={64}
-          className="aspect-square size-14 rounded-full border"
+          className={cn(
+            "aspect-square size-14 rounded-full border",
+            dark ? "border-white/30" : "border-border"
+          )}
         />
         <div className="space-y-1">
-          <div className="font-semibold">{data.user.name}</div>
+          <div className={cn(
+            "font-semibold",
+            dark ? "text-white" : "text-textPrimary"
+          )}>
+            {data.user.name}
+          </div>
           <div className="relative">
             <LogoutButton
               label="Log Out"
               icon={<LogOut className="size-5" />}
-              className="peer h-fit p-0 text-primary"
+              className={cn(
+                "peer h-fit p-0",
+                dark ? "text-white/70 hover:text-white" : "text-primary"
+              )}
             />
-            <span className="absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-primary transition-transform peer-hover:scale-x-100" />
+            <span className={cn(
+              "absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 transition-transform peer-hover:scale-x-100",
+              dark ? "bg-white" : "bg-primary"
+            )} />
           </div>
         </div>
       </div>

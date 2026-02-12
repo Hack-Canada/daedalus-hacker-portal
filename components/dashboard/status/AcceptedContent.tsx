@@ -27,7 +27,7 @@ export const AcceptedContent = ({ role }: AcceptedContentProps) => {
         }
       >
         <Confetti className="pointer-events-none absolute inset-0 w-full" />
-        <hr className="my-4" />
+        <hr className="my-4 border-white/10" />
         <CancelRSVP />
       </StatusContent>
     );
@@ -48,7 +48,7 @@ export const AcceptedContent = ({ role }: AcceptedContentProps) => {
         />
       }
     >
-      <hr className="my-4 md:my-6" />
+      <hr className="my-4 border-white/10 md:my-6" />
       <p className="mb-6 flex animate-pulse items-center justify-center gap-2 rounded-md border border-primary/50 bg-primary/20 px-3 py-2.5 text-center font-semibold text-primary max-md:text-sm">
         😾 Action Required - RSVP 😾
       </p>

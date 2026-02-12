@@ -20,9 +20,25 @@ import { StepNavigation } from "./StepNavigation";
 
 type Props = {
   existingApplication: HackerApplicationsSelectData | null;
+  userEmail: string;
 };
 
-export default function HackerApplicationForm({ existingApplication }: Props) {
+export default function HackerApplicationForm({
+  existingApplication,
+  userEmail,
+}: Props) {
+  const {
+    form,
+    currentStep,
+    setCurrentStep,
+    isSaving,
+    isSubmitting,
+    validationErrors,
+    formErrors,
+    onSave,
+    onSubmit,
+  } = useHackerApplication(existingApplication);
+
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       e.preventDefault();
@@ -36,17 +52,12 @@ export default function HackerApplicationForm({ existingApplication }: Props) {
     };
   }, []);
 
-  const {
-    form,
-    currentStep,
-    setCurrentStep,
-    isSaving,
-    isSubmitting,
-    validationErrors,
-    formErrors,
-    onSave,
-    onSubmit,
-  } = useHackerApplication(existingApplication);
+  // Sync userEmail prop to form state
+  useEffect(() => {
+    if (userEmail && form.getValues("email") !== userEmail) {
+      form.setValue("email", userEmail, { shouldValidate: false });
+    }
+  }, [userEmail, form]);
 
   return (
     <PageWrapper className="flex h-full items-center bg-center">
@@ -69,6 +80,7 @@ export default function HackerApplicationForm({ existingApplication }: Props) {
                   <GeneralInformationStep
                     control={form.control}
                     watch={form.watch}
+                    userEmail={userEmail}
                   />
                 </StepContentWrapper>
               )}
@@ -85,11 +97,10 @@ export default function HackerApplicationForm({ existingApplication }: Props) {
                   title="Short Answers"
                   className="space-y-0 md:space-y-0 xl:space-y-0"
                 >
-                  <p className="pb-4 pt-1 text-textMuted max-md:text-sm md:pb-8 md:pt-2">
-                    Please answer either one or both of the following questions.
-                    Note that your chances of acceptance will not be impacted if
-                    you only answer one of the questions. Minimum length of 32
-                    characters.
+                  <p className="text-white/50 pt-1 pb-4 max-md:text-sm md:pt-2 md:pb-8">
+                    Please answer both of the following questions. Max length of
+                    2000 characters, minimum length of 32 characters for each
+                    question.
                   </p>
                   <ShortAnswersStep control={form.control} />
                 </StepContentWrapper>
@@ -104,7 +115,7 @@ export default function HackerApplicationForm({ existingApplication }: Props) {
               <FormErrors saveErrors errors={validationErrors} />
             </div>
 
-            <hr className="mb-6 md:mb-8" />
+            <hr className="mb-6 border-white/10 md:mb-8" />
 
             <FormNavigation
               currentStep={currentStep}
