@@ -1,7 +1,7 @@
 // app/challenges/page.tsx
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth";
-import { and, eq, gte, sql } from "drizzle-orm";
+import { and, eq, gte, isNull, or, sql } from "drizzle-orm";
 
 import { db } from "@/lib/db";
 import {
@@ -52,7 +52,10 @@ export default async function ChallengesPage() {
       .where(
         and(
           eq(challenges.enabled, true),
-          gte(sql`CURRENT_TIMESTAMP`, challenges.showTime),
+          or(
+            gte(sql`CURRENT_TIMESTAMP`, challenges.showTime),
+            isNull(challenges.showTime),
+          ),
         ),
       ),
     db
