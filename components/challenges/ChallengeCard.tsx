@@ -141,17 +141,17 @@ export function ChallengeCard({
               {challenge.submissionInstructions}
             </AccordionContent>
           </AccordionItem>
-
-          {challenge.status == "not_started" && (
-            <Button
-              className="mt-2"
-              variant="outline"
-              onClick={() => onStartChallenge(challenge)}
-            >
-              Start
-            </Button>
-          )}
         </Accordion>
+
+        {challenge.status === "not_started" && (
+          <Button
+            className="mt-2 w-full"
+            variant="outline"
+            onClick={() => onStartChallenge(challenge)}
+          >
+            Start
+          </Button>
+        )}
       </CardContent>
     </Card>
   );

@@ -18,19 +18,28 @@ export function ChallengeGrid({
   const [clientChallenges, setClientChallenges] =
     useState<ChallengeWithStatus[]>(challenges);
 
+  // Filter out challenges that cannot be acted upon
+  const actionableChallenges = useMemo(
+    () =>
+      clientChallenges.filter(
+        (c) => c.status !== "not_yet_available" && c.status !== "deadline_passed"
+      ),
+    [clientChallenges]
+  );
+
   // Higher number means appears first
   const priority: { [key: string]: number } = {
-    completed: 0,
-    not_started: 1,
-    in_progress: 2,
+    in_progress: 2, // Show in-progress challenges first
+    not_started: 1, // Then challenges that can be started
+    completed: 0,   // Show completed challenges last
   };
 
   const sortedChallenges = useMemo(
     () =>
-      [...clientChallenges].sort(
+      [...actionableChallenges].sort(
         (a, b) => priority[b.status] - priority[a.status],
       ),
-    [clientChallenges],
+    [actionableChallenges],
   );
 
   const onStartChallenge = async (challenge: ChallengeWithStatus) => {
@@ -47,11 +56,12 @@ export function ChallengeGrid({
 
     if (!response.ok) {
       toast.error("Error syncing challenge start");
+      return;
     }
 
     setClientChallenges((prev) =>
       prev.map((c) =>
-        c.id == challenge.id ? { ...c, status: "in_progress" } : c,
+        c.id === challenge.id ? { ...c, status: "in_progress" } : c,
       ),
     );
   };

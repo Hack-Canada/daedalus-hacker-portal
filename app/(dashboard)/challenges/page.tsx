@@ -10,7 +10,6 @@ import {
   challengesInProgress,
   challengesSubmitted,
 } from "@/lib/db/schema";
-import { ChallengeCard } from "@/components/challenges/ChallengeCard";
 import { ChallengeGrid } from "@/components/challenges/ChallengeGrid";
 import { EmptyPage } from "@/components/EmptyPage";
 

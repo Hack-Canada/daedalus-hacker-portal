@@ -47,6 +47,30 @@ export async function POST(
     const body = await req.json();
     const { userId, challengeId } = challengeSchema.parse(body);
 
+    // SECURITY: Verify that the authenticated user matches the userId in the request
+    if (currentUser.id !== userId) {
+      // Log suspicious activity
+      await db.insert(auditLogs).values({
+        userId: currentUser.id,
+        action: "attempt",
+        entityType: "challenge_start",
+        entityId: userId,
+        metadata: JSON.stringify({
+          description: `User ${currentUser.name} attempted to start challenge ${challengeId} for user ${userId}`,
+          issue: "Unauthorized: User ID mismatch",
+        }),
+      });
+
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Unauthorized: You can only start challenges for yourself",
+          error: "User ID mismatch",
+        },
+        { status: 403 },
+      );
+    }
+
     const existingUser = await getUserById(userId);
 
     if (!existingUser) {
