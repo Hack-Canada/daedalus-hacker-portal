@@ -1,4 +1,4 @@
-import { Gavel, Lightbulb, LucideIcon, User } from "lucide-react";
+import { HandHelping, Lightbulb, LucideIcon, User } from "lucide-react";
 
 import { getApplicationDeadline, getCurrentPhase } from "./phases";
 
@@ -17,6 +17,7 @@ export type Application = {
  */
 function formatDeadline(date: Date): string {
   return date.toLocaleDateString("en-US", {
+    timeZone: "America/Toronto",
     month: "long",
     day: "numeric",
     year: "numeric",
@@ -62,24 +63,35 @@ export function getApplications(): Application[] {
       disabled: status !== "open",
     },
     {
-      title: "Mentor Applications",
-      href: "https://docs.google.com/forms/d/e/1FAIpQLScCS76RX3C1AvGGFOQ5J69XpoYb6rvdYQ-B0aYxS_GLaf4jmQ/viewform?usp=sf_link",
-      status: "coming soon",
-      deadline: "February 28th (11:59:59 PM), 2026",
+      title: "Mentor & Judge Applications",
+      href: "https://forms.gle/tUCGaGi5HgHGQtKD9",
+      status: "open",
+      deadline: "March 2nd (11:59:59 PM), 2026",
       description:
+        // for mentors and judges,
         "Share your wisdom and help hackers bring their ideas to life! 💡",
       icon: Lightbulb,
-      disabled: true,
+      disabled: false,
     },
+    // {
+    //   title: "Judge Applications",
+    //   href: "https://docs.google.com/forms/d/e/1FAIpQLScCS76RX3C1AvGGFOQ5J69XpoYb6rvdYQ-B0aYxS_GLaf4jmQ/viewform?usp=sf_link",
+    //   status: "coming soon",
+    //   description:
+    //     "Help crown the champions and discover the next big thing! ⚖️",
+    //   deadline: "February 28th (11:59:59 PM), 2026",
+    //   icon: Gavel,
+    //   disabled: true,
+    // },
     {
-      title: "Judge Applications",
-      href: "https://docs.google.com/forms/d/e/1FAIpQLScCS76RX3C1AvGGFOQ5J69XpoYb6rvdYQ-B0aYxS_GLaf4jmQ/viewform?usp=sf_link",
-      status: "coming soon",
+      title: "Volunteer Applications",
+      href: "https://forms.gle/QyHgyzaiAELfNN4Q6",
+      status: "open",
       description:
-        "Help crown the champions and discover the next big thing! ⚖️",
-      deadline: "February 28th (11:59:59 PM), 2026",
-      icon: Gavel,
-      disabled: true,
+        "Help us run an amazing event and make a difference behind the scenes!",
+      deadline: "March 2nd (11:59:59 PM), 2026",
+      icon: HandHelping,
+      disabled: false,
     },
   ];
 }
