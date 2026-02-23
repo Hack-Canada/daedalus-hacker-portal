@@ -27,6 +27,8 @@ export const ApplicationCard = ({
     href,
   } = application;
 
+  const isExternalLink = href.startsWith("http");
+
   return (
     <div
       className={cn(
@@ -43,6 +45,10 @@ export const ApplicationCard = ({
           href={disabled ? "" : href}
           className={`absolute inset-0 z-20 ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}
           aria-label={`Apply for ${title}`}
+          {...(isExternalLink && {
+            target: "_blank",
+            rel: "noopener noreferrer",
+          })}
         />
       )}
       {alreadyApplied && (

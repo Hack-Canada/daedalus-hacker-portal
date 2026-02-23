@@ -34,6 +34,7 @@ const RSVPPage = async () => {
 
   // Format the date for display
   const sevenDaysLaterFormatted = sevenDaysLater.toLocaleDateString("en-US", {
+    timeZone: "America/Toronto",
     weekday: "long",
     year: "numeric",
     month: "long",
