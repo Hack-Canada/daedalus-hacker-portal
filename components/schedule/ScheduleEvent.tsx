@@ -11,11 +11,11 @@ import {
 } from "@/components/ui/hover-card";
 
 const eventTypeColors = {
-  general: "bg-sky-200/75 hover:bg-sky-300",
-  meals: "bg-emerald-200/75 hover:bg-emerald-300",
-  ceremonies: "bg-amber-200/75 hover:bg-amber-300",
-  workshops: "bg-violet-200/75 hover:bg-violet-300",
-  fun: "bg-rose-200/75 hover:bg-rose-300",
+  general: "bg-sky-500/20 hover:bg-sky-500/30 border-l-2 border-sky-400",
+  meals: "bg-emerald-500/20 hover:bg-emerald-500/30 border-l-2 border-emerald-400",
+  ceremonies: "bg-amber-500/20 hover:bg-amber-500/30 border-l-2 border-amber-400",
+  workshops: "bg-violet-500/20 hover:bg-violet-500/30 border-l-2 border-violet-400",
+  fun: "bg-rose-500/20 hover:bg-rose-500/30 border-l-2 border-rose-400",
 };
 
 interface ScheduleEventProps {
@@ -67,7 +67,7 @@ export default function ScheduleEvent({ event, style }: ScheduleEventProps) {
 
         {event.eventDescription && (
           <HoverCardContent
-            className="border-border bg-white/10 backdrop-blur-sm"
+            className="border-border bg-backgroundMuted backdrop-blur-sm"
             side="bottom"
           >
             <p>{event.eventDescription}</p>

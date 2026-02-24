@@ -17,7 +17,7 @@ export function EventsGrid({
   selectedDay,
 }: EventsGridProps) {
   return (
-    <div className="border-border relative border-l bg-white">
+    <div className="border-border relative border-l bg-background">
       {/* Time slot grid lines */}
       {timeSlots.map((time) => (
         <div

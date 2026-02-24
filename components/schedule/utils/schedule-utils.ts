@@ -1,8 +1,8 @@
 import { Schedule } from "@/lib/db/schema";
 
 export const DAYS = ["Friday", "Saturday", "Sunday"];
-export const TIME_SLOT_HEIGHT = 60; // Height in pixels for each 15-min slot
-export const INTERVAL = 15; // 15-minute intervals
+export const TIME_SLOT_HEIGHT = 50; // Height in pixels for each 30-min slot
+export const INTERVAL = 30; // 30-minute intervals
 
 // Time ranges for each day
 export const DAY_RANGES = {
@@ -152,10 +152,10 @@ export function getEventStyle(
     endHour = 24;
   }
 
-  // Adjust for day's start time
+  const slotsPerHour = 60 / INTERVAL;
   const startSlots =
-    (startHour - dayStartHour) * 4 + Math.floor(startMinute / 15);
-  const endSlots = (endHour - dayStartHour) * 4 + Math.floor(endMinute / 15);
+    (startHour - dayStartHour) * slotsPerHour + Math.floor(startMinute / INTERVAL);
+  const endSlots = (endHour - dayStartHour) * slotsPerHour + Math.floor(endMinute / INTERVAL);
   const duration = endSlots - startSlots;
 
   // Calculate width based on number of overlapping events
