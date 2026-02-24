@@ -3,26 +3,31 @@ import {
   EventPosition,
   getEventStyle,
   TIME_SLOT_HEIGHT,
+  type TimeSlot,
 } from "./utils/schedule-utils";
 
 interface EventsGridProps {
-  timeSlots: string[];
+  timeSlots: TimeSlot[];
   eventPositions: EventPosition[];
-  selectedDay: number;
+  dayStartHour: number;
 }
 
 export function EventsGrid({
   timeSlots,
   eventPositions,
-  selectedDay,
+  dayStartHour,
 }: EventsGridProps) {
   return (
     <div className="border-border relative border-l bg-background">
       {/* Time slot grid lines */}
-      {timeSlots.map((time) => (
+      {timeSlots.map((slot) => (
         <div
-          key={time}
-          className="border-border bg-backgroundMuted/25 hover:bg-backgroundMuted border-t transition-colors"
+          key={slot.label}
+          className={`border-t transition-colors ${
+            slot.isMajor
+              ? "border-border bg-backgroundMuted/25 hover:bg-backgroundMuted"
+              : "border-border/30 border-dashed"
+          }`}
           style={{ height: TIME_SLOT_HEIGHT }}
         />
       ))}
@@ -35,7 +40,7 @@ export function EventsGrid({
           style={getEventStyle(
             event,
             { event, column, totalColumns },
-            selectedDay,
+            dayStartHour,
           )}
         />
       ))}

@@ -1,22 +1,25 @@
-import { TIME_SLOT_HEIGHT } from "./utils/schedule-utils";
+import { TIME_SLOT_HEIGHT, type TimeSlot } from "./utils/schedule-utils";
 
 interface TimeSlotsColumnProps {
-  timeSlots: string[];
+  timeSlots: TimeSlot[];
 }
 
 export function TimeSlotsColumn({ timeSlots }: TimeSlotsColumnProps) {
   return (
     <div className="relative">
-      {timeSlots.map((time) => (
+      {timeSlots.map((slot) => (
         <div
-          key={time}
-          className="border-t border-border bg-background transition-colors hover:bg-backgroundMuted"
+          key={slot.label}
+          className={`border-t bg-background transition-colors hover:bg-backgroundMuted ${
+            slot.isMajor ? "border-border" : "border-border/30 border-dashed"
+          }`}
           style={{ height: TIME_SLOT_HEIGHT }}
         >
-          {/* Time label positioned under the line */}
-          <div className="sticky left-0 mt-2 pr-2 text-right text-sm text-textSecondary">
-            {time}
-          </div>
+          {slot.isMajor && (
+            <div className="sticky left-0 mt-1 pr-2 text-right text-sm text-textSecondary">
+              {slot.label}
+            </div>
+          )}
         </div>
       ))}
     </div>
