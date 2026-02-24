@@ -1,7 +1,7 @@
 import { Schedule } from "@/lib/db/schema";
 
 export const DAYS = ["Friday", "Saturday", "Sunday"];
-export const TIME_SLOT_HEIGHT = 50; // Height in pixels for each 15-min slot
+export const TIME_SLOT_HEIGHT = 45; // Height in pixels for each 15-min slot
 export const INTERVAL = 15; // 15-minute intervals
 
 export type DayRange = { start: number; end: number };

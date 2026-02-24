@@ -9,13 +9,22 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { useScheduleLightMode } from "./schedule-theme";
 
-const eventTypeColors = {
-  general: "bg-sky-500/20 hover:bg-sky-500/30 border-l-2 border-sky-400",
-  meals: "bg-emerald-500/20 hover:bg-emerald-500/30 border-l-2 border-emerald-400",
-  ceremonies: "bg-amber-500/20 hover:bg-amber-500/30 border-l-2 border-amber-400",
-  workshops: "bg-violet-500/20 hover:bg-violet-500/30 border-l-2 border-violet-400",
-  fun: "bg-rose-500/20 hover:bg-rose-500/30 border-l-2 border-rose-400",
+const darkEventColors = {
+  general: "bg-sky-500/40 hover:bg-sky-500/50 border-l-2 border-sky-400",
+  meals: "bg-emerald-500/40 hover:bg-emerald-500/50 border-l-2 border-emerald-400",
+  ceremonies: "bg-amber-500/40 hover:bg-amber-500/50 border-l-2 border-amber-400",
+  workshops: "bg-violet-500/40 hover:bg-violet-500/50 border-l-2 border-violet-400",
+  fun: "bg-rose-500/40 hover:bg-rose-500/50 border-l-2 border-rose-400",
+};
+
+const lightEventColors = {
+  general: "bg-sky-100 hover:bg-sky-200 border-l-2 border-sky-400 shadow-sm",
+  meals: "bg-emerald-100 hover:bg-emerald-200 border-l-2 border-emerald-400 shadow-sm",
+  ceremonies: "bg-amber-100 hover:bg-amber-200 border-l-2 border-amber-400 shadow-sm",
+  workshops: "bg-violet-100 hover:bg-violet-200 border-l-2 border-violet-400 shadow-sm",
+  fun: "bg-rose-100 hover:bg-rose-200 border-l-2 border-rose-400 shadow-sm",
 };
 
 interface ScheduleEventProps {
@@ -31,7 +40,9 @@ interface ScheduleEventProps {
 }
 
 export default function ScheduleEvent({ event, style }: ScheduleEventProps) {
-  // Format time to display
+  const isLightMode = useScheduleLightMode();
+  const eventTypeColors = isLightMode ? lightEventColors : darkEventColors;
+
   const startTime = new Date(event.startTime);
   const endTime = new Date(event.endTime);
   const formatTime = (date: Date) => {
