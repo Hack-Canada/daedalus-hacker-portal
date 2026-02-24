@@ -16,47 +16,19 @@ interface ScheduleViewProps {
 const STORAGE_KEY = "schedule-theme-mode";
 
 export default function ScheduleView({ schedule }: ScheduleViewProps) {
-  const [isLightMode, setIsLightMode] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  // Load saved preference on mount
-  useEffect(() => {
-    setMounted(true);
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved !== null) {
-      setIsLightMode(saved === "light");
+  const [isLightMode, setIsLightMode] = useState(() => {
+    // Only access localStorage on client-side
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved === "light";
     }
-  }, []);
+    return false;
+  });
 
-  // Save preference whenever it changes
-  const handleToggle = () => {
-    const newMode = !isLightMode;
-    setIsLightMode(newMode);
-    localStorage.setItem(STORAGE_KEY, newMode ? "light" : "dark");
-  };
-
-  // Prevent hydration mismatch by not rendering theme-dependent content until mounted
-  if (!mounted) {
-    return (
-      <div className="flex flex-col gap-6 rounded-2xl">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="flex flex-col gap-2">
-            <div className="from-primary to-primary w-fit bg-linear-to-r via-sky-400 bg-clip-text text-transparent">
-              <h1 className="font-rubik text-3xl font-bold">Event Schedule</h1>
-            </div>
-            <p className="text-textSecondary">
-              All times are in Eastern Time (ET). Events and times are subject to
-              change.
-            </p>
-          </div>
-        </div>
-        <ScheduleLegend />
-        <div className="border-border bg-backgroundMuted rounded-lg border p-4">
-          <ScheduleGrid schedule={schedule} />
-        </div>
-      </div>
-    );
-  }
+  // Save preference to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, isLightMode ? "light" : "dark");
+  }, [isLightMode]);
 
   return (
     <ScheduleThemeProvider value={isLightMode}>
@@ -79,7 +51,7 @@ export default function ScheduleView({ schedule }: ScheduleViewProps) {
           </div>
           <ScheduleThemeToggle
             isLightMode={isLightMode}
-            onToggle={handleToggle}
+            onToggle={() => setIsLightMode(!isLightMode)}
           />
         </div>
 
