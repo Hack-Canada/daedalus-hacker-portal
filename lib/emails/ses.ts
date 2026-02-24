@@ -1,6 +1,7 @@
 import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 import { render } from "@react-email/render";
 
+import ApplicationReminderEmail from "@/components/emails/ApplicationReminderEmail";
 import ApplicationSubmittedEmail from "@/components/emails/ApplicationSubmittedEmail";
 import HackathonPrepEmail from "@/components/emails/HackathonPrepEmail";
 import ResetPasswordEmail from "@/components/emails/ResetPasswordEmail";
@@ -232,6 +233,64 @@ export const sendHackathonPrepEmail = async (data: HackathonPrepEmailProps) => {
       Subject: {
         Charset: "UTF-8",
         Data: "Hack Canada Event Details and Check-in Information",
+      },
+    },
+  });
+
+  try {
+    await ses.send(command);
+    return { success: true };
+  } catch (error) {
+    console.error("Error sending email with SES:", error);
+    return {
+      success: false,
+      error: "Something went wrong. Email could not be sent.",
+    };
+  }
+};
+
+type ApplicationReminderEmailProps = {
+  name: string;
+  email: string;
+  hasDraft: boolean;
+};
+
+export const sendApplicationReminderEmail = async (
+  data: ApplicationReminderEmailProps,
+) => {
+  const { name, email, hasDraft } = data;
+
+  const subject = hasDraft
+    ? "Quick reminder about your Hack Canada application"
+    : "Your Hack Canada application";
+
+  const htmlBody = await render(
+    ApplicationReminderEmail({ name, hasDraft }),
+  );
+
+  const textBody = hasDraft
+    ? `Hey ${name},\n\nWe noticed you started your Hack Canada hacker application but haven't submitted it yet. Your progress is saved, so you can pick up right where you left off.\n\nIt should only take a few more minutes to finish up and submit.\n\nFinish your application: https://app.hackcanada.org/applications/hacker\n\nCheers,\nThe Hack Canada Team`
+    : `Hey ${name},\n\nYou created a Hack Canada account a little while ago, but we haven't received a hacker application from you yet.\n\nIf you're still interested in joining us, the application only takes about 10 minutes. We'd love to have you.\n\nGo to your application: https://app.hackcanada.org/applications/hacker\n\nCheers,\nThe Hack Canada Team`;
+
+  const command = new SendEmailCommand({
+    Source: `Hack Canada <${process.env.AWS_SES_NO_REPLY_EMAIL!}>` || "",
+    Destination: {
+      ToAddresses: [email],
+    },
+    Message: {
+      Body: {
+        Html: {
+          Charset: "UTF-8",
+          Data: htmlBody,
+        },
+        Text: {
+          Charset: "UTF-8",
+          Data: textBody,
+        },
+      },
+      Subject: {
+        Charset: "UTF-8",
+        Data: subject,
       },
     },
   });

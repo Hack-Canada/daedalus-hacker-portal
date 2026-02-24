@@ -15,7 +15,7 @@ export function DaySelector({ selectedDay, onDayChange }: DaySelectorProps) {
           className={`cursor-pointer rounded-lg px-4 py-2 font-medium transition-all ${
             selectedDay === index
               ? "bg-primary/20 text-primary border border-primary/30"
-              : "text-white/60 border border-white/10 hover:bg-white/10 hover:text-white"
+              : "text-textSecondary border border-border hover:bg-backgroundMuted hover:text-textPrimary"
           }`}
         >
           {day}
