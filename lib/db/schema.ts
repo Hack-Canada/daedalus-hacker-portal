@@ -327,3 +327,17 @@ export const banners = pgTable("banner", {
 
 export type Banner = typeof banners.$inferSelect;
 export type NewBanner = typeof banners.$inferInsert;
+
+export const shopItems = pgTable("shopItem", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  image: text("image"),
+  itemName: text("itemName").notNull(),
+  itemDescription: text("itemDescription"),
+  purchasePrice: integer("purchasePrice").notNull(),
+});
+
+export type ShopItem = typeof shopItems.$inferSelect;
+export type NewShopItem = typeof shopItems.$inferInsert;
+
