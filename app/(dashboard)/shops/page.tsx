@@ -8,8 +8,26 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { EmptyPage } from "@/components/EmptyPage";
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/auth";
 
 export default async function ShopsPage() {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser?.id) {
+        redirect("/sign-in");
+    }
+
+    if (currentUser.role === "unassigned") {
+        return (
+            <EmptyPage
+                title="Shop"
+                message="Sorry, this feature is only available to participants."
+            />
+        );
+    }
+
     const items = await db.select().from(shopItems);
 
     // Dummy points
