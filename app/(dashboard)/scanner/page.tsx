@@ -1,13 +1,12 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth";
 
-import { isOrganizer, isVolunteer } from "@/lib/utils";
+import { isVolunteer } from "@/lib/utils";
 import { BackButton } from "@/components/ui/back-button";
 import PageWrapper from "@/components/PageWrapper";
+import { Scanner } from "@/components/scanner/Scanner";
 
-import { Scanner } from "./Scanner";
-
-export default async function QrScannerPage() {
+export default async function ScannerPage() {
   const currentUser = await getCurrentUser();
 
   if (!currentUser?.id) {

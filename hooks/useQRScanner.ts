@@ -27,7 +27,7 @@ export const useQRScanner = ({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const codeReader = useRef(new BrowserMultiFormatReader());
   const isProcessing = useRef(false);
-  const { hasCameraPermission } = useCameraPermission();
+  const { permissionState, requestPermission } = useCameraPermission();
 
   const successAudio = useRef<HTMLAudioElement | null>(null);
   const errorAudio = useRef<HTMLAudioElement | null>(null);
@@ -162,11 +162,13 @@ export const useQRScanner = ({
 
     if (!selectedEvent) {
       toast.error("Please select an event first");
+      setStartingCamera(false);
       return;
     }
 
-    if (!hasCameraPermission) {
+    if (permissionState !== "granted") {
       toast.error("Camera access is required for scanning QR codes");
+      setStartingCamera(false);
       return;
     }
 
@@ -238,7 +240,8 @@ export const useQRScanner = ({
     videoRef,
     handleToggleCamera,
     scanResult,
-    hasCameraPermission,
+    permissionState,
+    requestPermission,
     startingCamera,
     handleResetEvent,
     scanData,

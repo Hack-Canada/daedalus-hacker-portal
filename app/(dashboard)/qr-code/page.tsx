@@ -3,11 +3,10 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/auth";
 import { QRCodeSVG } from "qrcode.react";
 
-import { cn, isVolunteer } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { BackButton } from "@/components/ui/back-button";
 import { EmptyPage } from "@/components/EmptyPage";
 import PageWrapper from "@/components/PageWrapper";
-import QrCodeOrganizerActions from "@/components/QrCodeOrganizerActions";
 
 export default async function QRCodePage() {
   const currentUser = await getCurrentUser();
@@ -42,9 +41,9 @@ export default async function QRCodePage() {
         </div>
 
         {/* Main Content */}
-        <div className="grid gap-6 lg:grid-cols-5 lg:gap-8">
+        <div className="flex justify-center">
           {/* QR Code Section */}
-          <div className="lg:col-span-3">
+          <div className="w-full max-w-2xl">
             <div
               className="group relative flex h-full flex-col gap-6 overflow-hidden rounded-lg border border-primary/20 bg-white/50 p-6 transition-all duration-500 hover:border-primary/40 hover:shadow-lg md:p-8"
               role="region"
@@ -115,12 +114,6 @@ export default async function QRCodePage() {
               </div>
             </div>
           </div>
-
-          {isVolunteer(currentUser.role) && (
-            <div className="lg:col-span-2">
-              <QrCodeOrganizerActions />
-            </div>
-          )}
         </div>
       </div>
       <BackButton />
