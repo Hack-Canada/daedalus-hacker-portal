@@ -127,7 +127,7 @@ export const statusConfig: Record<
     default: {
       heading: "Welcome to Hack Canada! 🍁",
       description:
-        "We're thrilled to have you join us! Please RSVP within 7 days to lock in your spot. This is going to be legendary!",
+        "We're thrilled to have you join us! Please RSVP within 5 days to lock in your spot. This is going to be legendary!",
       primaryAction: {
         href: "/rsvp",
         label: "Secure My Spot!",
