@@ -161,18 +161,18 @@ Hello ${name}!
 
 HACK CANADA EVENT DETAILS AND CHECK-IN INFORMATION
 
-We're getting closer to the big day! Here's everything you need to know about Hack Canada at Wilfrid Laurier University this weekend.
+We're getting closer to the big day! Here's everything you need to know about Hack Canada at SPUR Campus in Waterloo this weekend.
 
 LOCATION & CHECK-IN DETAILS
 --------------------------
 CHECK-IN TIME:
-Friday, February 21st, 4:30 PM — 6:30 PM
+Friday, March 6th, 4:00 PM — 6:30 PM
 Note: If you're running late, message us in #ask-an-organizer on Discord or find an organizer at the event.
 
 VENUE ADDRESS:
-Lazaridis School of Business and Economics
-64 University Ave W, Waterloo, ON N2L 3C7
-Note: Overnight parking is not permitted. For parking information, visit: https://www.wlu.ca/information-for/visiting-laurier/parking.html
+SPUR Campus - Spur Innovation Center
+2240 University Ave, Waterloo, ON N2K 0G3
+Note: Parking is available at the venue.
 
 WHAT TO BRING:
 -------------
@@ -199,7 +199,7 @@ See you soon!
 
 --
 Hack Canada | https://hackcanada.org
-64 University Ave W, Waterloo, ON N2L 3C7
+2240 University Ave, Waterloo, ON N2K 0G3
 To unsubscribe, visit: https://app.hackcanada.org/unsubscribe`;
 
 export const sendHackathonPrepEmail = async (data: HackathonPrepEmailProps) => {
