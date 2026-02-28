@@ -28,6 +28,15 @@ export default async function SchedulePage() {
     );
   }
 
+  if (currentUser.role === "hacker") {
+    return (
+      <EmptyPage
+        title="Will be live soon"
+        message="The event schedule will be available closer to the event. Check back later!"
+      />
+    );
+  }
+
   const {
     data: scheduleData,
     source,
