@@ -117,7 +117,7 @@ export const statusConfig: Record<
     hacker: {
       heading: "You Made It! 🎉",
       description:
-        "HUGE congrats — you're officially a Hack Canada hacker! Mark your calendar for February 21st and get ready for the best weekend ever. We can't wait to see what you'll build!",
+        "HUGE congrats — you're officially a Hack Canada hacker! Mark your calendar for March 6th and get ready for the best weekend ever. We can't wait to see what you'll build!",
       primaryAction: {
         href: "/applications/hacker/review",
         label: "View My Application",
