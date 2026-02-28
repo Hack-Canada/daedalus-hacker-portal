@@ -1,5 +1,4 @@
 #!/usr/bin/env bun
-import { loadEnvConfig } from "@next/env";
 import { render } from "@react-email/render";
 import { and, eq, isNull, or } from "drizzle-orm";
 
@@ -7,8 +6,6 @@ import ApplicationReminderEmail from "../components/emails/ApplicationReminderEm
 import { db } from "../lib/db";
 import { hackerApplications, users } from "../lib/db/schema";
 import { sendApplicationReminderEmail } from "../lib/emails/ses";
-
-loadEnvConfig(process.cwd());
 
 type ReminderRecipient = {
   id: string;
