@@ -14,7 +14,7 @@ export const siteConfig = {
   openGraph: {
     title: `Hack Canada ${hackathonYear} Hacker Portal | HC Applications`,
     description:
-      "Join Hack Canada ${hackathonYear}! Apply through the official hacker portal, submit your hackathon application, and be part of Canada's biggest student hackathon community.",
+      `Join Hack Canada ${hackathonYear}! Apply through the official hacker portal, submit your hackathon application, and be part of Canada's biggest student hackathon community.`,
     type: "website",
     locale: "en_CA",
     siteName: "Hack Canada Hacker Portal",
