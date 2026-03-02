@@ -28,6 +28,11 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  // Allow public access to schedule page
+  if (pathname === "/schedule") {
+    return NextResponse.next();
+  }
+
   // If the user is not authenticated and trying to access a protected route, redirect to login
   if (
     !isAuthenticated(req) &&

@@ -1,9 +1,6 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
-import { getCurrentUser } from "@/auth";
 
 import { ScheduleService } from "@/lib/services/schedule";
-import { EmptyPage } from "@/components/EmptyPage";
 import PageWrapper from "@/components/PageWrapper";
 import ScheduleView from "@/components/schedule/ScheduleView";
 
@@ -13,21 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function SchedulePage() {
-  const currentUser = await getCurrentUser();
-
-  if (!currentUser?.id) {
-    redirect("/sign-in");
-  }
-
-  if (currentUser.role === "unassigned") {
-    return (
-      <EmptyPage
-        title="Schedule Page"
-        message="This feature is only available to participants."
-      />
-    );
-  }
-
+  // Public page - no authentication required
   const {
     data: scheduleData,
     source,
