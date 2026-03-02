@@ -137,23 +137,28 @@ export function calculateEventPositions(events: Schedule[]): EventPosition[] {
       }
     }
 
-    // Count overlapping columns during this event's time period
-    let overlappingColumns = 0;
-    columns.forEach((column) => {
-      const hasOverlappingEvent = column.events.some((existingEvent) => {
+    // Check if any OTHER column has an event overlapping this event's time
+    let hasRealOverlap = false;
+    for (let i = 0; i < columns.length; i++) {
+      if (i === eventColumn) continue;
+      const overlaps = columns[i].events.some((existingEvent) => {
         const existingStart = new Date(existingEvent.startTime).getTime();
         const existingEnd = new Date(existingEvent.endTime).getTime();
         return !(eventEnd <= existingStart || eventStart >= existingEnd);
       });
-      if (hasOverlappingEvent) overlappingColumns++;
-    });
+      if (overlaps) {
+        hasRealOverlap = true;
+        break;
+      }
+    }
 
-    // For non-overlapping events, use full width. Otherwise use total columns.
-    const totalColumns = overlappingColumns === 1 ? 1 : columns.length;
+    // Non-overlapping events span full width; overlapping events share the total column space
+    const totalColumns = hasRealOverlap ? columns.length : 1;
+    const effectiveColumn = hasRealOverlap ? eventColumn : 0;
 
     positions.push({
       event,
-      column: eventColumn,
+      column: effectiveColumn,
       totalColumns,
     });
   });
