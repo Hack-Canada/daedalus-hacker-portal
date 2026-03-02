@@ -19,15 +19,6 @@ export default async function SchedulePage() {
     redirect("/sign-in");
   }
 
-  if (currentUser.role === "unassigned") {
-    return (
-      <EmptyPage
-        title="Schedule Page"
-        message="This feature is only available to participants."
-      />
-    );
-  }
-
   const {
     data: scheduleData,
     source,
