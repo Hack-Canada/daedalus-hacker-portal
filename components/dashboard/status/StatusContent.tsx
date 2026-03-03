@@ -3,6 +3,7 @@ import React from "react";
 import { statusConfig } from "@/config/status";
 
 import ApplicationStatusHeader from "../ApplicationStatusHeader";
+import RestoreRSVP from "../RestoreRSVP";
 import { StatusActions } from "./StatusActions";
 import { StatusBadge } from "./StatusBadge";
 
@@ -140,6 +141,10 @@ export const CancelledContent = () => {
           secondaryAction={config.secondaryAction}
         />
       }
-    />
+    >
+      <div className="mt-4 rounded-lg border border-success/20 bg-success/5 p-4">
+        <RestoreRSVP />
+      </div>
+    </StatusContent>
   );
 };
