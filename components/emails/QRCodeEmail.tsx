@@ -12,10 +12,10 @@ import {
 
 type Props = {
   name: string;
-  qrCodeDataUrl: string;
+  qrCodeSrc: string;
 };
 
-const QRCodeEmail = ({ name, qrCodeDataUrl }: Props) => {
+const QRCodeEmail = ({ name, qrCodeSrc }: Props) => {
   return (
     <Html>
       <Preview>Your Hack Canada QR Code</Preview>
@@ -72,7 +72,7 @@ const QRCodeEmail = ({ name, qrCodeDataUrl }: Props) => {
               }}
             >
               <Img
-                src={qrCodeDataUrl}
+                src={qrCodeSrc}
                 width={250}
                 height={250}
                 alt="Your Hack Canada QR Code"

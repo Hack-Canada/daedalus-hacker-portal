@@ -4,7 +4,7 @@ import { render } from "@react-email/render";
 import QRCode from "qrcode";
 
 import { ApiResponse } from "@/types/api";
-import { sendEmail } from "@/lib/emails/ses";
+import { sendEmailWithInlineImages } from "@/lib/emails/ses";
 import QRCodeEmail from "@/components/emails/QRCodeEmail";
 
 export async function POST(
@@ -58,17 +58,27 @@ export async function POST(
       },
     });
 
+    const qrCodeCid = "qrcode-image";
+    const base64Data = qrCodeDataUrl.replace(/^data:image\/png;base64,/, "");
+
     const htmlBody = await render(
       QRCodeEmail({
         name: currentUser.name?.split(" ")[0] || "Hacker",
-        qrCodeDataUrl,
+        qrCodeSrc: `cid:${qrCodeCid}`,
       }),
     );
 
-    const result = await sendEmail(
+    const result = await sendEmailWithInlineImages(
       currentUser.email,
       "Your Hack Canada QR Code",
       htmlBody,
+      [
+        {
+          cid: qrCodeCid,
+          base64Data,
+          mimeType: "image/png",
+        },
+      ],
     );
 
     if (!result.success) {
