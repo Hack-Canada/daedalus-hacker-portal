@@ -173,7 +173,7 @@ export const statusConfig: Record<
   cancelled: {
     heading: "We'll Miss You! 😿",
     description:
-      "Sad to see you go, but we totally understand! Life happens. Your spot will go to another eager hacker. Hope to see you at a future event!",
+      "You've cancelled your RSVP, but we'd love to have you back! If you've changed your mind, you can restore your RSVP below.",
     primaryAction: {
       href: "/applications/hacker/review",
       label: "View Application",
