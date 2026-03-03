@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { BackButton } from "@/components/ui/back-button";
 import { EmptyPage } from "@/components/EmptyPage";
 import PageWrapper from "@/components/PageWrapper";
+import { QRCodeActions } from "@/components/qr-code/QRCodeActions";
 
 export default async function QRCodePage() {
   const currentUser = await getCurrentUser();
@@ -100,6 +101,7 @@ export default async function QRCodePage() {
                     </div>
 
                     <QRCodeSVG
+                      data-qr-code="true"
                       value={profileUrl}
                       size={225}
                       level="H"
@@ -113,12 +115,19 @@ export default async function QRCodePage() {
                   </div>
 
                   <div className="max-w-md text-center">
-                    <p className="text-sm text-textSecondary transition-colors duration-300 group-hover:text-textPrimary md:text-base">
-                      Screenshot and save this QR code to your device for quick
-                      and easy access during the event. You&apos;ll need it for
-                      check-ins and other activities!
+                    <p className="text-sm text-slate-600 transition-colors duration-300 group-hover:text-slate-700 md:text-base">
+                      Save this QR code to your device for quick and easy access
+                      during the event. You&apos;ll need it for check-ins and
+                      other activities!
                     </p>
                   </div>
+
+                  <QRCodeActions
+                    userId={currentUser.id}
+                    userName={currentUser.name || "Hacker"}
+                    userEmail={currentUser.email || ""}
+                    profileUrl={profileUrl}
+                  />
                 </div>
               </div>
             </div>
