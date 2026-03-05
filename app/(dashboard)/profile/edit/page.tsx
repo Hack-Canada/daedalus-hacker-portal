@@ -3,7 +3,6 @@ import { getCurrentUser } from "@/auth";
 
 import { getProfileWithUser } from "@/lib/db/queries/profile";
 import { BackButton } from "@/components/ui/back-button";
-import { EmptyPage } from "@/components/EmptyPage";
 import PageWrapper from "@/components/PageWrapper";
 import { ProfileForm } from "@/components/profile/ProfileForm";
 
@@ -17,15 +16,6 @@ export default async function EditProfilePage() {
   // Only assigned users can have profiles (e.g. hackers, orgs, mentors)
   if (user.role === "unassigned") {
     redirect("/");
-  }
-
-  if (user.role === "hacker") {
-    return (
-      <EmptyPage
-        title="Will be live soon"
-        message="Profiles will be available closer to the event. Check back later!"
-      />
-    );
   }
 
   const profile = await getProfileWithUser(user.id);
