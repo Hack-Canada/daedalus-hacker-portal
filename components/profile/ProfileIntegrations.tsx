@@ -2,7 +2,12 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { PlusCircle, Trash2 } from "lucide-react";
-import { Control, UseFieldArrayReturn, useFormState } from "react-hook-form";
+import {
+  Control,
+  UseFieldArrayReturn,
+  useFormState,
+  useWatch,
+} from "react-hook-form";
 
 import {
   Platform,
@@ -37,6 +42,11 @@ export function ProfileIntegrations({
   const { fields, append, remove } = fieldArray;
   const { errors } = useFormState({ control });
   const integrationErrors = errors.integrations;
+
+  const watchedIntegrations = useWatch({
+    control,
+    name: "integrations",
+  });
 
   const addNewPlatform = () => {
     if (fields.length >= MAX_INTEGRATIONS) {
@@ -118,7 +128,10 @@ export function ProfileIntegrations({
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder={getUrlPlaceholder(fields[index].platform)}
+                        placeholder={getUrlPlaceholder(
+                          watchedIntegrations?.[index]?.platform ||
+                            fields[index].platform,
+                        )}
                         disabled={isPending}
                         className="transition-all focus-visible:ring-1"
                       />

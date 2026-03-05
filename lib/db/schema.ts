@@ -77,6 +77,8 @@ export const profiles = pgTable("profile", {
     .references(() => users.id, { onDelete: "cascade" }),
   bio: text("bio"),
   hobbies: text("hobbies"),
+  skills: text("skills").array(),
+  askMeAbout: text("askMeAbout"),
   createdAt: timestamp("createdAt")
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
@@ -191,6 +193,8 @@ export const hackerApplications = pgTable("hackerApplication", {
   internalNotes: text("internalNotes"),
   reviewCount: integer("reviewCount").default(0).notNull(),
   averageRating: integer("averageRating"),
+  normalizedAvgRating: integer("normalizedAvgRating"),
+  lastNormalizedAt: timestamp("lastNormalizedAt"),
 });
 
 export const applicationReviews = pgTable("applicationReview", {
@@ -394,3 +398,42 @@ export const banners = pgTable("banner", {
 
 export type Banner = typeof banners.$inferSelect;
 export type NewBanner = typeof banners.$inferInsert;
+
+export const emailCampaigns = pgTable("emailCampaign", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text("name").notNull(),
+  subject: text("subject").notNull(),
+  body: text("body").notNull(),
+  status: text("status").notNull().default("draft"),
+  sentAt: timestamp("sentAt"),
+  createdAt: timestamp("createdAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updatedAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+});
+
+export type EmailCampaign = typeof emailCampaigns.$inferSelect;
+export type NewEmailCampaign = typeof emailCampaigns.$inferInsert;
+
+export const emailCampaignRecipients = pgTable("emailCampaignRecipient", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  campaignId: text("campaignId")
+    .notNull()
+    .references(() => emailCampaigns.id, { onDelete: "cascade" }),
+  email: text("email").notNull(),
+  name: text("name"),
+  error: text("error"),
+  createdAt: timestamp("createdAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  sentAt: timestamp("sentAt"),
+});
+
+export type EmailCampaignRecipient = typeof emailCampaignRecipients.$inferSelect;
+export type NewEmailCampaignRecipient = typeof emailCampaignRecipients.$inferInsert;

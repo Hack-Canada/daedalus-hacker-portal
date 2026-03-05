@@ -18,44 +18,37 @@ export function ProfileHeader({
   isOwner,
 }: ProfileHeaderProps) {
   return (
-    <div className="group relative overflow-hidden rounded-lg border-2 border-primary/20 bg-white/50 p-6 transition-all duration-500 hover:border-primary/40 hover:shadow-lg md:p-8">
+    <div className="group relative overflow-hidden rounded-xl border border-primary/20 bg-backgroundMuted p-6 transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 md:p-8">
       <Image
         src="/beaver-wave.webp"
         alt="Beaver wave"
         width={200}
         height={200}
-        className="pointer-events-none absolute right-5 object-contain max-3xl:top-8 max-sm:w-36 sm:right-10 3xl:bottom-0 3xl:h-full 3xl:w-full 3xl:max-w-64"
+        className="pointer-events-none absolute right-5 object-contain opacity-60 max-3xl:top-8 max-sm:w-32 sm:right-10 3xl:bottom-0 3xl:h-full 3xl:w-full 3xl:max-w-64"
       />
 
-      {/* Enhanced layered background effects */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        {/* Radial gradient overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.1),rgba(255,255,255,0))]" />
-
-        {/* Animated gradient background */}
-        <div className="absolute inset-0 bg-linear-to-br from-primary/30 via-info/30 to-primaryLight/30 opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-100" />
-
-        {/* Additional decorative elements */}
-        <div className="absolute -left-32 -top-32 size-64 rounded-full bg-primary/20 blur-3xl transition-all duration-700 group-hover:bg-primary/30" />
-        <div className="absolute -bottom-32 -right-32 size-64 rounded-full bg-info/20 blur-3xl transition-all duration-700 group-hover:bg-info/30" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(30,144,255,0.08),transparent_55%)]" />
+        <div className="absolute -left-20 -top-20 size-48 rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute -bottom-20 -right-20 size-48 rounded-full bg-info/5 blur-3xl" />
       </div>
 
       {/* Header Content */}
-      <div className="mb-6 flex items-start justify-between gap-4">
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
+      <div className="mb-5 flex items-start justify-between gap-4">
+        <div className="space-y-2.5">
+          <div className="flex items-center gap-3">
             <Image
               src="/default-avatar.webp"
               alt={name + "'s Avatar"}
               width={48}
               height={48}
-              className="aspect-square size-8 rounded-full sm:size-10 lg:size-12"
+              className="aspect-square size-10 rounded-full ring-2 ring-primary/20 sm:size-12"
             />
-            <h1 className="shrink-0 translate-y-0.5 font-rubik text-2xl font-black tracking-wider text-textPrimary transition-all duration-500 group-hover:text-black md:text-3xl lg:text-4xl">
+            <h1 className="font-rubik text-2xl font-black tracking-wider text-textPrimary md:text-3xl lg:text-4xl">
               {name}
             </h1>
           </div>
-          <span className="inline-block rounded-full bg-linear-to-r from-primary/10 via-info/10 to-primaryLight/10 px-4 py-1.5 text-sm font-medium capitalize text-textPrimary shadow-xs backdrop-blur-[2px] transition-all duration-500 group-hover:from-primary/20 group-hover:via-info/20 group-hover:to-primaryLight/20 group-hover:shadow-md">
+          <span className="inline-block rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-primary">
             {role}
           </span>
         </div>
@@ -69,7 +62,7 @@ export function ProfileHeader({
               variant: "ghost",
               size: "icon",
               className:
-                "shrink-0 text-textSecondary shadow-xs transition-all duration-500 hover:scale-105 hover:text-black group-hover:shadow-md",
+                "shrink-0 text-textMuted transition-all duration-300 hover:text-primary",
             })}
           >
             <Pencil className="size-4" />
@@ -78,18 +71,13 @@ export function ProfileHeader({
       </div>
 
       {/* Bio Section */}
-      <div className="relative overflow-hidden rounded-lg bg-white/60 p-4 shadow-xs backdrop-blur-xs transition-all duration-500 group-hover:bg-white/80 group-hover:shadow-md 3xl:max-w-3xl">
-        {bio ? (
-          <>
-            <div className="absolute inset-0 -z-10 bg-linear-to-br from-primary/5 via-info/5 to-primaryLight/5 opacity-0 transition-all duration-700 group-hover:opacity-100" />
-            <p className="max-h-80 overflow-y-auto whitespace-pre-wrap wrap-break-word text-textSecondary transition-all duration-500 group-hover:text-black md:max-h-64">
-              {bio}
-            </p>
-          </>
-        ) : (
-          <p className="text-sm font-semibold text-textMuted">[No bio added]</p>
-        )}
-      </div>
+      {bio ? (
+        <p className="max-h-48 max-w-3xl overflow-y-auto whitespace-pre-wrap break-words text-sm leading-relaxed text-textSecondary md:max-h-40">
+          {bio}
+        </p>
+      ) : (
+        <p className="text-sm text-textMuted italic">[No bio added]</p>
+      )}
     </div>
   );
 }

@@ -50,6 +50,8 @@ export default async function EditProfilePage() {
             ? {
                 bio: profile.bio,
                 hobbies: profile.hobbies || "",
+                skills: profile.skills || [],
+                askMeAbout: profile.askMeAbout,
                 integrations: profile.integrations,
               }
             : undefined
