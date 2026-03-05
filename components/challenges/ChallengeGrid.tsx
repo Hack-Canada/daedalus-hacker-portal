@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { Trophy } from "lucide-react";
 import { toast } from "sonner";
 
-import { Challenge } from "@/lib/db/schema";
 import { ChallengeWithStatus } from "@/app/(dashboard)/challenges/page";
 
 import { ChallengeCard } from "./ChallengeCard";
@@ -65,6 +65,23 @@ export function ChallengeGrid({
       ),
     );
   };
+
+  if (sortedChallenges.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center rounded-xl border border-primary/20 bg-backgroundMuted px-6 py-12 text-center">
+        <div className="mb-4 rounded-lg bg-primary/10 p-3 ring-1 ring-primary/20">
+          <Trophy strokeWidth={2} className="size-8 text-primary" />
+        </div>
+        <h3 className="text-lg font-semibold text-textPrimary">
+          No challenges available
+        </h3>
+        <p className="mt-1 max-w-sm text-sm text-textMuted">
+          There are no active challenges at the moment. Check back later for new
+          challenges to complete and earn points!
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
