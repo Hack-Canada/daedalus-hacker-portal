@@ -65,13 +65,13 @@ export function getApplications(): Application[] {
     {
       title: "Mentor & Judge Applications",
       href: "https://forms.gle/tUCGaGi5HgHGQtKD9",
-      status: "open",
+      status: "closed",
       deadline: "March 2nd (11:59:59 PM), 2026",
       description:
         // for mentors and judges,
         "Share your wisdom and help hackers bring their ideas to life! 💡",
       icon: Lightbulb,
-      disabled: false,
+      disabled: true,
     },
     // {
     //   title: "Judge Applications",
@@ -86,12 +86,12 @@ export function getApplications(): Application[] {
     {
       title: "Volunteer Applications",
       href: "https://forms.gle/QyHgyzaiAELfNN4Q6",
-      status: "open",
+      status: "closed",
       description:
         "Help us run an amazing event and make a difference behind the scenes!",
       deadline: "March 2nd (11:59:59 PM), 2026",
       icon: HandHelping,
-      disabled: false,
+      disabled: true,
     },
   ];
 }
