@@ -5,11 +5,11 @@ interface EventType {
 }
 
 const eventTypes: EventType[] = [
-  { type: "general", label: "General", color: "bg-sky-200" },
-  { type: "meals", label: "Meals", color: "bg-emerald-200" },
-  { type: "ceremonies", label: "Ceremonies", color: "bg-amber-200" },
-  { type: "workshops", label: "Workshops", color: "bg-violet-200" },
-  { type: "fun", label: "Fun Events", color: "bg-rose-200" },
+  { type: "general", label: "General", color: "bg-sky-400" },
+  { type: "meals", label: "Meals", color: "bg-emerald-400" },
+  { type: "ceremonies", label: "Ceremonies", color: "bg-amber-400" },
+  { type: "workshops", label: "Workshops", color: "bg-violet-400" },
+  { type: "fun", label: "Fun Events", color: "bg-rose-400" },
 ];
 
 export default function ScheduleLegend() {

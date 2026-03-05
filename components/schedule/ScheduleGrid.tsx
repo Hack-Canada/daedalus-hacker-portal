@@ -11,6 +11,7 @@ import {
   calculateEventPositions,
   generateTimeSlots,
   getDayEvents,
+  getDynamicDayRange,
 } from "./utils/schedule-utils";
 
 interface ScheduleGridProps {
@@ -19,8 +20,9 @@ interface ScheduleGridProps {
 
 export default function ScheduleGrid({ schedule }: ScheduleGridProps) {
   const [selectedDay, setSelectedDay] = useState(0); // 0 = Friday, 1 = Saturday, 2 = Sunday
-  const timeSlots = generateTimeSlots(selectedDay);
   const dayEvents = getDayEvents(schedule, selectedDay);
+  const dayRange = getDynamicDayRange(dayEvents, selectedDay);
+  const timeSlots = generateTimeSlots(dayRange);
   const eventPositions = calculateEventPositions(dayEvents);
 
   return (
@@ -38,7 +40,7 @@ export default function ScheduleGrid({ schedule }: ScheduleGridProps) {
           <EventsGrid
             timeSlots={timeSlots}
             eventPositions={eventPositions}
-            selectedDay={selectedDay}
+            dayStartHour={dayRange.start}
           />
         </div>
       </div>

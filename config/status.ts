@@ -117,7 +117,7 @@ export const statusConfig: Record<
     hacker: {
       heading: "You Made It! 🎉",
       description:
-        "HUGE congrats — you're officially a Hack Canada hacker! Mark your calendar for February 21st and get ready for the best weekend ever. We can't wait to see what you'll build!",
+        "HUGE congrats — you're officially a Hack Canada hacker! Mark your calendar for March 6th and get ready for the best weekend ever. We can't wait to see what you'll build!",
       primaryAction: {
         href: "/applications/hacker/review",
         label: "View My Application",
@@ -127,7 +127,7 @@ export const statusConfig: Record<
     default: {
       heading: "Welcome to Hack Canada! 🍁",
       description:
-        "We're thrilled to have you join us! Please RSVP within 7 days to lock in your spot. This is going to be legendary!",
+        "We're thrilled to have you join us! Please RSVP within 5 days to lock in your spot. This is going to be legendary!",
       primaryAction: {
         href: "/rsvp",
         label: "Secure My Spot!",
@@ -173,7 +173,7 @@ export const statusConfig: Record<
   cancelled: {
     heading: "We'll Miss You! 😿",
     description:
-      "Sad to see you go, but we totally understand! Life happens. Your spot will go to another eager hacker. Hope to see you at a future event!",
+      "You've cancelled your RSVP, but we'd love to have you back! If you've changed your mind, you can restore your RSVP below.",
     primaryAction: {
       href: "/applications/hacker/review",
       label: "View Application",

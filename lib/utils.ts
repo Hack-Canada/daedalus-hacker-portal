@@ -69,6 +69,7 @@ export const formatOptions = (options: string[]) => {
 
 export const formatDate = (date: string | Date) => {
   return new Date(date).toLocaleString("en-US", {
+    timeZone: "America/Toronto",
     month: "short",
     day: "numeric",
     hour: "numeric",

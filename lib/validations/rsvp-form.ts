@@ -1,6 +1,5 @@
 import { z } from "zod";
-
-const phoneRegex = /^[0-9-]+$/;
+import { isValidPhoneNumber, parsePhoneNumber } from "libphonenumber-js";
 
 // T-shirt size options
 export const TSHIRT_SIZES = ["XS", "S", "M", "L", "XL", "2XL", "3XL"] as const;
@@ -34,25 +33,46 @@ export const RsvpFormSchema = z.object({
   emergencyContactPhoneNumber: z
     .string()
     .trim()
-    .min(10, "Phone number must be at least 10 digits long")
-    .max(21, "Phone number must be at most 21 digits long")
-    .regex(phoneRegex, "Phone number must contain only digits and dashes (-)")
-    .refine((val) => val.length >= 10, {
-      message: "Phone number must be at least 10 digits long",
+    .min(1, { message: "Phone number is required" })
+    .refine(
+      (value) => {
+        return isValidPhoneNumber(value);
+      },
+      {
+        message: "Please provide a valid phone number.",
+      },
+    )
+    .transform((value) => {
+      try {
+        const phoneNumber = parsePhoneNumber(value);
+        return phoneNumber ? phoneNumber.number : value;
+      } catch {
+        return value;
+      }
     }),
 
   alternativePhoneNumber: z
     .string()
     .trim()
-    .max(21, "Phone number must be at most 21 digits long")
+    .optional()
     .refine(
-      (val) => val.length === 0 || (phoneRegex.test(val) && val.length >= 10),
+      (value) => {
+        if (!value || value === "") return true;
+        return isValidPhoneNumber(value);
+      },
       {
-        message:
-          "Phone number must be at least 10 digits long or left empty and contain only digits and dashes (-)",
+        message: "Please provide a valid phone number.",
       },
     )
-    .optional(),
+    .transform((value) => {
+      if (!value || value === "") return value;
+      try {
+        const phoneNumber = parsePhoneNumber(value);
+        return phoneNumber ? phoneNumber.number : value;
+      } catch {
+        return value;
+      }
+    }),
 
   dietaryRestrictions: z
     .object({

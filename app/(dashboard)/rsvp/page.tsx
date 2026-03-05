@@ -28,19 +28,20 @@ const RSVPPage = async () => {
     redirect("/");
   }
 
-  // Calculate the 7 days from the acceptedAt date
-  const sevenDaysLater = new Date(acceptedAt);
-  sevenDaysLater.setDate(sevenDaysLater.getDate() + 8);
+  // Calculate 5 days from the acceptedAt date
+  const rsvpDeadline = new Date(acceptedAt);
+  rsvpDeadline.setDate(rsvpDeadline.getDate() + 5);
 
   // Format the date for display
-  const sevenDaysLaterFormatted = sevenDaysLater.toLocaleDateString("en-US", {
+  const rsvpDeadlineFormatted = rsvpDeadline.toLocaleDateString("en-US", {
+    timeZone: "America/Toronto",
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
   });
 
-  // TODO (maybe): If exactly 7 days has passed, process an automatic rejection
+  // TODO (maybe): If exactly 5 days has passed, process an automatic rejection
 
   return (
     <PageWrapper className="3xl:max-w-screen-lg">
@@ -51,7 +52,7 @@ const RSVPPage = async () => {
         <p className="mb-1 max-w-3xl text-textMuted max-md:text-sm">
           Congratulations {currentUser.name?.split(" ")[0]}! Welcome to Hack
           Canada! To confirm your acceptance, please complete the form below by{" "}
-          {sevenDaysLaterFormatted}.
+          {rsvpDeadlineFormatted}.
         </p>
       </div>
 

@@ -1,51 +1,66 @@
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { useCallback, useEffect, useState } from "react";
+
+export type PermissionState = "prompt" | "granted" | "denied" | "unavailable";
 
 export const useCameraPermission = () => {
-  const [hasCameraPermission, setHasCameraPermission] = useState<
-    boolean | null
-  >(null);
+  const [permissionState, setPermissionState] =
+    useState<PermissionState>("prompt");
 
-  useEffect(() => {
-    const checkCameraPermission = async () => {
-      try {
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-          setHasCameraPermission(false);
-          toast.error(
-            "Camera access is not supported on this device or browser",
-          );
-          return;
-        }
-
-        // Check if we already have camera permission
-        const permission = await navigator.permissions.query({
-          name: "camera" as PermissionName,
-        });
-        if (permission.state === "granted") {
-          setHasCameraPermission(true);
-          return;
-        }
-
-        // Only request camera access if we don't have permission
-        if (permission.state === "prompt") {
-          const stream = await navigator.mediaDevices.getUserMedia({
-            video: true,
-          });
-          stream.getTracks().forEach((track) => track.stop());
-          setHasCameraPermission(true);
-        } else {
-          setHasCameraPermission(false);
-          toast.error("Camera access is required for scanning QR codes");
-        }
-      } catch (error) {
-        console.error("Camera permission error:", error);
-        setHasCameraPermission(false);
-        toast.error("Camera access is required for scanning QR codes");
+  // Check current permission state without requesting
+  const checkPermission = useCallback(async () => {
+    try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        setPermissionState("unavailable");
+        return "unavailable";
       }
-    };
 
-    checkCameraPermission();
+      // Check if we already have camera permission
+      const permission = await navigator.permissions.query({
+        name: "camera" as PermissionName,
+      });
+
+      const state = permission.state as PermissionState;
+      setPermissionState(state);
+      return state;
+    } catch (error) {
+      console.error("Camera permission check error:", error);
+      setPermissionState("prompt");
+      return "prompt";
+    }
   }, []);
 
-  return { hasCameraPermission };
+  // Manually request camera permission
+  const requestPermission = useCallback(async () => {
+    try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        setPermissionState("unavailable");
+        return false;
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+      });
+
+      // Stop the stream immediately - we just wanted permission
+      stream.getTracks().forEach((track) => track.stop());
+
+      setPermissionState("granted");
+      return true;
+    } catch (error) {
+      console.error("Camera permission request error:", error);
+      setPermissionState("denied");
+      return false;
+    }
+  }, []);
+
+  // Check permission on mount
+  useEffect(() => {
+    checkPermission();
+  }, [checkPermission]);
+
+  return {
+    permissionState,
+    requestPermission,
+    checkPermission,
+  };
 };

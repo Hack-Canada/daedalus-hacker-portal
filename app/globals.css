@@ -219,6 +219,16 @@
   }
 }
 
+.schedule-light {
+  --color-background: #ffffff;
+  --color-backgroundMuted: #f8fafc;
+  --color-textPrimary: #1f2937;
+  --color-textSecondary: #4b5563;
+  --color-textMuted: #9ca3af;
+  --color-border: #e2e8f0;
+  --color-shadow: rgba(0, 0, 0, 0.05);
+}
+
 @media (max-height: 800px) {
   .sidebar-content {
     @apply space-y-16;

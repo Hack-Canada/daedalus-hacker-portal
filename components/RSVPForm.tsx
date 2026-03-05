@@ -1,5 +1,7 @@
 "use client";
 
+import { E164Number } from "libphonenumber-js/core";
+
 import {
   DIETARY_RESTRICTIONS,
   TSHIRT_SIZES,
@@ -16,6 +18,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import {
   Select,
   SelectContent,
@@ -23,8 +27,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-import { Input } from "./ui/input";
 
 const RSVPForm = () => {
   const { form, isPending, onSubmit } = useRsvpForm();
@@ -91,10 +93,15 @@ const RSVPForm = () => {
                   <span className="text-error">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input
+                  <PhoneInput
                     {...field}
-                    placeholder="1234567890 (min. 10 digits)"
+                    defaultCountry="CA"
+                    placeholder="Enter phone number"
                     disabled={isPending}
+                    onChange={(value) => {
+                      field.onChange(value || "");
+                    }}
+                    value={field.value as E164Number}
                   />
                 </FormControl>
                 <FormMessage />
@@ -109,10 +116,15 @@ const RSVPForm = () => {
               <FormItem>
                 <FormLabel>Alternative Phone Number</FormLabel>
                 <FormControl>
-                  <Input
+                  <PhoneInput
                     {...field}
-                    placeholder="1234567890 (min. 10 digits)"
+                    defaultCountry="CA"
+                    placeholder="Enter phone number"
                     disabled={isPending}
+                    onChange={(value) => {
+                      field.onChange(value || "");
+                    }}
+                    value={field.value as E164Number}
                   />
                 </FormControl>
                 <FormMessage />

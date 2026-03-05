@@ -46,7 +46,7 @@ export default function Loading() {
             </div>
 
             {/* Schedule Grid Skeleton */}
-            <div className="border-border space-y-4 rounded-lg border bg-white p-4">
+            <div className="border-border space-y-4 rounded-lg border bg-background p-4">
               <div className="flex gap-4">
                 <Skeleton className="h-16 w-20 shrink-0" />
                 <div className="flex-1 space-y-2">
