@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Loader2, Trash2 } from "lucide-react";
 
 import { Event } from "@/config/qr-code";
@@ -8,6 +8,7 @@ import { cn, formatDate } from "@/lib/utils";
 import { useQRScanner } from "@/hooks/useQRScanner";
 import { Checkbox } from "@/components/ui/checkbox";
 import { EventSelector } from "@/components/EventSelector";
+
 import { CameraPermissionPrompt } from "./CameraPermissionPrompt";
 
 const STORAGE_KEY_EVENT = "scanner-selected-event";
@@ -61,11 +62,11 @@ export function Scanner() {
 
   return (
     <>
-      <div className="flex flex-col gap-8 rounded-md border-2 border-primary/25 p-4 transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:shadow-primaryLight/50 md:p-6">
+      <div className="border-primary/25 hover:border-primary/50 hover:shadow-primaryLight/50 flex flex-col gap-8 rounded-md border-2 p-4 transition-all duration-500 hover:shadow-2xl md:p-6">
         {/* Visual feedback overlay */}
         {scanResult && (
           <div
-            className={`absolute -inset-full z-50 animate-flash duration-500 ${
+            className={`animate-flash absolute -inset-full z-50 duration-500 ${
               scanResult === "success" ? "bg-success" : "bg-error"
             }`}
           />
@@ -79,11 +80,11 @@ export function Scanner() {
           <Checkbox
             id="keep-camera-on"
             checked={keepCameraOn}
-            onCheckedChange={(value) => {
+            onCheckedChange={(value: boolean | "indeterminate") => {
               setKeepCameraOn(!!value);
             }}
           />
-          <label htmlFor="keep-camera-on" className="text-sm text-textPrimary">
+          <label htmlFor="keep-camera-on" className="text-textPrimary text-sm">
             Keep Camera On
           </label>
         </div>
@@ -100,7 +101,7 @@ export function Scanner() {
           ) : (
             <div className="relative flex flex-col items-center">
               {/* Camera container */}
-              <div className="group relative mx-auto w-full max-w-96 rounded-md border-2 border-primary/25 bg-primary/25 p-2 transition-all duration-500">
+              <div className="group border-primary/25 bg-primary/25 relative mx-auto w-full max-w-96 rounded-md border-2 p-2 transition-all duration-500">
                 <div className="relative mx-auto aspect-square w-full overflow-hidden rounded-md">
                   <video
                     ref={videoRef}
@@ -120,7 +121,7 @@ export function Scanner() {
                   <button
                     onClick={handleToggleCamera}
                     className={cn(
-                      "flex h-full w-full items-center justify-center bg-backgroundMuted text-lg font-semibold text-textPrimary/70 transition hover:text-textPrimary",
+                      "bg-backgroundMuted text-textPrimary/70 hover:text-textPrimary flex h-full w-full items-center justify-center text-lg font-semibold transition",
                       {
                         "opacity-0": isCameraOn,
                       },
@@ -140,8 +141,8 @@ export function Scanner() {
       )}
 
       {scannedUserName && (
-        <div className="mt-4 rounded-lg border border-primary/10 bg-primary/5 p-4 text-center">
-          <p className="text-lg font-semibold text-textPrimary">
+        <div className="border-primary/10 bg-primary/5 mt-4 rounded-lg border p-4 text-center">
+          <p className="text-textPrimary text-lg font-semibold">
             Successfully scanned:{" "}
             <span className="text-primary">{scannedUserName}</span>
           </p>
@@ -150,20 +151,20 @@ export function Scanner() {
 
       {scanData.length > 0 && (
         <div className="mt-4 md:mt-6">
-          <h3 className="mb-4 text-lg font-semibold text-textPrimary">
+          <h3 className="text-textPrimary mb-4 text-lg font-semibold">
             User&apos;s Check-in History
           </h3>
           <div className="space-y-2">
             {scanData.map((checkIn) => (
               <div
                 key={checkIn.id}
-                className="flex items-center justify-between gap-4 rounded-md border border-primary/10 bg-primary/5 p-3"
+                className="border-primary/10 bg-primary/5 flex items-center justify-between gap-4 rounded-md border p-3"
               >
                 <div className="flex flex-1 items-center justify-between">
-                  <span className="font-medium text-textPrimary">
+                  <span className="text-textPrimary font-medium">
                     {checkIn.eventName.split("-").join(" ")}
                   </span>
-                  <span className="text-sm text-textPrimary/70">
+                  <span className="text-textPrimary/70 text-sm">
                     {formatDate(checkIn.createdAt)}
                   </span>
                 </div>
@@ -171,7 +172,7 @@ export function Scanner() {
                   onClick={() =>
                     handleResetEvent(checkIn.userId, checkIn.eventName)
                   }
-                  className="text-destructive/70 transition hover:text-destructive"
+                  className="text-destructive/70 hover:text-destructive transition"
                   title="Delete check-in"
                 >
                   <Trash2 className="h-4 w-4" />

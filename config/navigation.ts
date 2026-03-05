@@ -5,6 +5,7 @@ import {
   NotebookPen,
   QrCode,
   ScanQrCode,
+  Trophy,
   User,
 } from "lucide-react";
 
@@ -28,6 +29,11 @@ export const navigation = [
     name: "Schedule",
     href: "/schedule",
     icon: Clock,
+  },
+  {
+    name: "Challenges",
+    href: "/challenges",
+    icon: Trophy,
   },
   {
     name: "QR Code",
