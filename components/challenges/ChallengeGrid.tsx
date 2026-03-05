@@ -22,17 +22,16 @@ export function ChallengeGrid({
   const actionableChallenges = useMemo(
     () =>
       clientChallenges.filter(
-        (c) =>
-          c.status !== "not_yet_available" && c.status !== "deadline_passed",
+        (c) => c.status !== "not_yet_available" && c.status !== "deadline_passed"
       ),
-    [clientChallenges],
+    [clientChallenges]
   );
 
   // Higher number means appears first
   const priority: { [key: string]: number } = {
     in_progress: 2, // Show in-progress challenges first
     not_started: 1, // Then challenges that can be started
-    completed: 0, // Show completed challenges last
+    completed: 0,   // Show completed challenges last
   };
 
   const sortedChallenges = useMemo(
@@ -69,14 +68,14 @@ export function ChallengeGrid({
 
   if (sortedChallenges.length === 0) {
     return (
-      <div className="border-primary/20 bg-backgroundMuted flex flex-col items-center justify-center rounded-xl border px-6 py-12 text-center">
-        <div className="bg-primary/10 ring-primary/20 mb-4 rounded-lg p-3 ring-1">
-          <Trophy strokeWidth={2} className="text-primary size-8" />
+      <div className="flex flex-col items-center justify-center rounded-xl border border-primary/20 bg-backgroundMuted px-6 py-12 text-center">
+        <div className="mb-4 rounded-lg bg-primary/10 p-3 ring-1 ring-primary/20">
+          <Trophy strokeWidth={2} className="size-8 text-primary" />
         </div>
-        <h3 className="text-textPrimary text-lg font-semibold">
+        <h3 className="text-lg font-semibold text-textPrimary">
           No challenges available
         </h3>
-        <p className="text-textMuted mt-1 max-w-sm text-sm">
+        <p className="mt-1 max-w-sm text-sm text-textMuted">
           There are no active challenges at the moment. Check back later for new
           challenges to complete and earn points!
         </p>

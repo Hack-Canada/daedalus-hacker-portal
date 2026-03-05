@@ -101,7 +101,7 @@ export default async function ChallengesPage() {
       <div className="flex flex-col gap-6 md:gap-8">
         {/* Page Header */}
         <div className="space-y-2">
-          <div className="from-primary to-primary w-fit bg-linear-to-r via-sky-400 bg-clip-text text-transparent">
+          <div className="w-fit bg-linear-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
             <h1 className="font-rubik text-3xl font-bold">Challenges</h1>
           </div>
           <p className="text-textMuted max-md:text-sm">

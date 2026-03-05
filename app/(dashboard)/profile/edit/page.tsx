@@ -3,7 +3,6 @@ import { getCurrentUser } from "@/auth";
 
 import { getProfileWithUser } from "@/lib/db/queries/profile";
 import { BackButton } from "@/components/ui/back-button";
-import { EmptyPage } from "@/components/EmptyPage";
 import PageWrapper from "@/components/PageWrapper";
 import { ProfileForm } from "@/components/profile/ProfileForm";
 

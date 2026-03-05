@@ -25,15 +25,6 @@ export default async function QRCodePage() {
     );
   }
 
-  if (currentUser.role === "hacker") {
-    return (
-      <EmptyPage
-        title="Will be live soon"
-        message="QR codes will be available closer to the event. Check back later!"
-      />
-    );
-  }
-
   const profileUrl = `https://app.hackcanada.org/profile/${currentUser.id}`;
 
   return (

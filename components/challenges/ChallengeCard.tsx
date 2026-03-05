@@ -55,7 +55,7 @@ function StatusBadge({ status }: { status?: ChallengeStatus }) {
   }
 
   return (
-    <Badge className="text-textSecondary border-white/10 bg-white/8">
+    <Badge className="border-white/10 bg-white/8 text-textSecondary">
       Not Started
     </Badge>
   );
@@ -71,10 +71,10 @@ export function ChallengeCard({
   onStartChallenge: (challenge: ChallengeWithStatus) => void;
 }) {
   return (
-    <Card className="border-primary/15 bg-backgroundMuted hover:border-primary/30 flex h-full flex-col transition-colors">
+    <Card className="flex h-full flex-col border-primary/15 bg-backgroundMuted transition-colors hover:border-primary/30">
       <CardHeader className="space-y-1">
         <div className="flex items-center justify-between gap-2">
-          <CardTitle className="text-textPrimary text-base">
+          <CardTitle className="text-base text-textPrimary">
             {challenge.name}
           </CardTitle>
           <StatusBadge status={challenge.status} />
@@ -85,25 +85,23 @@ export function ChallengeCard({
       </CardHeader>
 
       <CardContent className="space-y-3">
-        <p className="text-textSecondary text-sm">
-          {challenge.shortDescription}
-        </p>
+        <p className="text-sm text-textSecondary">{challenge.shortDescription}</p>
 
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="instructions" className="border-primary/10">
-            <AccordionTrigger className="text-textPrimary hover:text-primary text-sm">
+            <AccordionTrigger className="text-sm text-textPrimary hover:text-primary">
               Full instructions
             </AccordionTrigger>
-            <AccordionContent className="text-textSecondary text-sm">
+            <AccordionContent className="text-sm text-textSecondary">
               {challenge.instructions}
             </AccordionContent>
           </AccordionItem>
 
           <AccordionItem value="hints" className="border-primary/10">
-            <AccordionTrigger className="text-textPrimary hover:text-primary text-sm">
+            <AccordionTrigger className="text-sm text-textPrimary hover:text-primary">
               Hints
             </AccordionTrigger>
-            <AccordionContent className="text-textSecondary space-y-1 text-sm">
+            <AccordionContent className="space-y-1 text-sm text-textSecondary">
               <ul className="list-inside list-disc space-y-1">
                 {challenge.hints.map((hint) => (
                   <li key={hint}>{hint}</li>
@@ -114,7 +112,7 @@ export function ChallengeCard({
 
           {challenge.qrCode && (
             <AccordionItem value="qr" className="border-primary/10">
-              <AccordionTrigger className="text-textPrimary hover:text-primary text-sm">
+              <AccordionTrigger className="text-sm text-textPrimary hover:text-primary">
                 QR code
               </AccordionTrigger>
               <AccordionContent className="flex flex-col items-center gap-2 py-2">
@@ -134,7 +132,7 @@ export function ChallengeCard({
                     }}
                   />
                 </div>
-                <p className="text-textMuted text-xs">
+                <p className="text-xs text-textMuted">
                   Scan this code on-site to confirm your visit.
                 </p>
               </AccordionContent>
@@ -142,10 +140,10 @@ export function ChallengeCard({
           )}
 
           <AccordionItem value="submission" className="border-primary/10">
-            <AccordionTrigger className="text-textPrimary hover:text-primary text-sm">
+            <AccordionTrigger className="text-sm text-textPrimary hover:text-primary">
               Submission instructions
             </AccordionTrigger>
-            <AccordionContent className="text-textSecondary text-sm">
+            <AccordionContent className="text-sm text-textSecondary">
               {challenge.submissionInstructions}
             </AccordionContent>
           </AccordionItem>
@@ -153,7 +151,7 @@ export function ChallengeCard({
 
         {challenge.status === "not_started" && (
           <Button
-            className="border-primary/30 text-primary hover:bg-primary/10 mt-2 w-full"
+            className="mt-2 w-full border-primary/30 text-primary hover:bg-primary/10"
             variant="outline"
             onClick={() => onStartChallenge(challenge)}
           >
