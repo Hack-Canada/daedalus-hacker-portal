@@ -24,6 +24,16 @@ export default async function ProfilePage(
 ) {
   const params = await props.params;
   const currentUser = await getCurrentUser();
+
+  if (currentUser?.role === "hacker") {
+    return (
+      <EmptyPage
+        title="Will be live soon"
+        message="Profiles will be available closer to the event. Check back later!"
+      />
+    );
+  }
+
   const profile = await getProfileWithUser(params.userId);
 
   let emergencyContactInfo: {
