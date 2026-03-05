@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { Trophy } from "lucide-react";
 import { toast } from "sonner";
 
-import { Challenge } from "@/lib/db/schema";
 import { ChallengeWithStatus } from "@/app/(dashboard)/challenges/page";
 
 import { ChallengeCard } from "./ChallengeCard";
@@ -22,16 +22,17 @@ export function ChallengeGrid({
   const actionableChallenges = useMemo(
     () =>
       clientChallenges.filter(
-        (c) => c.status !== "not_yet_available" && c.status !== "deadline_passed"
+        (c) =>
+          c.status !== "not_yet_available" && c.status !== "deadline_passed",
       ),
-    [clientChallenges]
+    [clientChallenges],
   );
 
   // Higher number means appears first
   const priority: { [key: string]: number } = {
     in_progress: 2, // Show in-progress challenges first
     not_started: 1, // Then challenges that can be started
-    completed: 0,   // Show completed challenges last
+    completed: 0, // Show completed challenges last
   };
 
   const sortedChallenges = useMemo(
@@ -65,6 +66,23 @@ export function ChallengeGrid({
       ),
     );
   };
+
+  if (sortedChallenges.length === 0) {
+    return (
+      <div className="border-primary/20 bg-backgroundMuted flex flex-col items-center justify-center rounded-xl border px-6 py-12 text-center">
+        <div className="bg-primary/10 ring-primary/20 mb-4 rounded-lg p-3 ring-1">
+          <Trophy strokeWidth={2} className="text-primary size-8" />
+        </div>
+        <h3 className="text-textPrimary text-lg font-semibold">
+          No challenges available
+        </h3>
+        <p className="text-textMuted mt-1 max-w-sm text-sm">
+          There are no active challenges at the moment. Check back later for new
+          challenges to complete and earn points!
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

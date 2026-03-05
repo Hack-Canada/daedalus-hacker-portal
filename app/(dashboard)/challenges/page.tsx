@@ -10,8 +10,10 @@ import {
   challengesInProgress,
   challengesSubmitted,
 } from "@/lib/db/schema";
+import { BackButton } from "@/components/ui/back-button";
 import { ChallengeGrid } from "@/components/challenges/ChallengeGrid";
 import { EmptyPage } from "@/components/EmptyPage";
+import PageWrapper from "@/components/PageWrapper";
 
 export type ChallengeStatus =
   | "completed"
@@ -95,21 +97,27 @@ export default async function ChallengesPage() {
   );
 
   return (
-    <main className="container space-y-8 py-8">
-      <section className="space-y-2">
-        <h1 className="text-2xl font-semibold tracking-tight">Challenges</h1>
-        <p className="text-muted-foreground text-sm">
-          Browse, sort, and filter challenges. Click a card to view full details
-          and submission steps.
-        </p>
-      </section>
+    <PageWrapper>
+      <div className="flex flex-col gap-6 md:gap-8">
+        {/* Page Header */}
+        <div className="space-y-2">
+          <div className="from-primary to-primary w-fit bg-linear-to-r via-sky-400 bg-clip-text text-transparent">
+            <h1 className="font-rubik text-3xl font-bold">Challenges</h1>
+          </div>
+          <p className="text-textMuted max-md:text-sm">
+            Complete challenges to earn points and unlock rewards. Click a card
+            to view full details and submission steps.
+          </p>
+        </div>
 
-      <section className="space-y-4">
+        {/* Challenge Grid */}
         <ChallengeGrid
           challenges={challengesWithStatus}
           currentUser={currentUser}
         />
-      </section>
-    </main>
+
+        <BackButton />
+      </div>
+    </PageWrapper>
   );
 }
