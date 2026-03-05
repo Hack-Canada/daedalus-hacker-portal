@@ -26,6 +26,7 @@ export const EVENTS = [
   "snack-5",
   "extra-1",
   "extra-2",
+  "challenge",
 ] as const;
 
 export type Event = (typeof EVENTS)[number];

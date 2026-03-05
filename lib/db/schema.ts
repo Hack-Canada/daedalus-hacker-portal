@@ -6,6 +6,7 @@ import {
   pgTable,
   text,
   timestamp,
+  unique,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("user", {
@@ -76,6 +77,8 @@ export const profiles = pgTable("profile", {
     .references(() => users.id, { onDelete: "cascade" }),
   bio: text("bio"),
   hobbies: text("hobbies"),
+  skills: text("skills").array(),
+  askMeAbout: text("askMeAbout"),
   createdAt: timestamp("createdAt")
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
@@ -190,6 +193,8 @@ export const hackerApplications = pgTable("hackerApplication", {
   internalNotes: text("internalNotes"),
   reviewCount: integer("reviewCount").default(0).notNull(),
   averageRating: integer("averageRating"),
+  normalizedAvgRating: integer("normalizedAvgRating"),
+  lastNormalizedAt: timestamp("lastNormalizedAt"),
 });
 
 export const applicationReviews = pgTable("applicationReview", {
@@ -285,6 +290,72 @@ export const checkIns = pgTable("checkIn", {
 export type CheckIn = typeof checkIns.$inferSelect;
 export type NewCheckIn = typeof checkIns.$inferInsert;
 
+export const challenges = pgTable("challenges", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text("name").notNull(),
+  category: text("category").notNull(),
+  points: integer("points").notNull(),
+  difficulty: text("difficulty").notNull().default("easy"), // easy, medium, hard
+  shortDescription: text("shortDescription").notNull().default(""),
+  instructions: text("instructions").notNull(),
+  hints: text("hints").array().notNull(),
+  qrCode: boolean("qrCode").notNull(),
+  submissionInstructions: text("submissionInstructions").notNull(),
+  maxCompletions: integer("maxCompletions"),
+  enabled: boolean("enabled").notNull().default(true),
+  deadlineStart: timestamp("deadlineStart"),
+  deadlineEnd: timestamp("deadlineEnd"),
+  showTime: timestamp("showTime"),
+});
+
+export type Challenge = typeof challenges.$inferSelect;
+
+export const challengesSubmitted = pgTable(
+  "challengesSubmitted",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    challengeId: text("challengeId")
+      .notNull()
+      .references(() => challenges.id, { onDelete: "cascade" }),
+    submittedAt: timestamp("submittedAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+  },
+  (t) => [unique().on(t.userId, t.challengeId)],
+);
+
+export type ChallengeSubmission = typeof challengesSubmitted.$inferSelect;
+export type NewChallengeSubmission = typeof challengesSubmitted.$inferInsert;
+
+export const challengesInProgress = pgTable(
+  "challengesStarted",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    challengeId: text("challengeId")
+      .notNull()
+      .references(() => challenges.id, { onDelete: "cascade" }),
+    submittedAt: timestamp("startedAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+  },
+  (t) => [unique().on(t.userId, t.challengeId)],
+);
+
+export type ChallengeInProgress = typeof challengesInProgress.$inferSelect;
+export type NewChallengeInProgress = typeof challengesInProgress.$inferInsert;
+
 export const schedule = pgTable("schedule", {
   id: text("id")
     .primaryKey()
@@ -327,3 +398,42 @@ export const banners = pgTable("banner", {
 
 export type Banner = typeof banners.$inferSelect;
 export type NewBanner = typeof banners.$inferInsert;
+
+export const emailCampaigns = pgTable("emailCampaign", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text("name").notNull(),
+  subject: text("subject").notNull(),
+  body: text("body").notNull(),
+  status: text("status").notNull().default("draft"),
+  sentAt: timestamp("sentAt"),
+  createdAt: timestamp("createdAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updatedAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+});
+
+export type EmailCampaign = typeof emailCampaigns.$inferSelect;
+export type NewEmailCampaign = typeof emailCampaigns.$inferInsert;
+
+export const emailCampaignRecipients = pgTable("emailCampaignRecipient", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  campaignId: text("campaignId")
+    .notNull()
+    .references(() => emailCampaigns.id, { onDelete: "cascade" }),
+  email: text("email").notNull(),
+  name: text("name"),
+  error: text("error"),
+  createdAt: timestamp("createdAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  sentAt: timestamp("sentAt"),
+});
+
+export type EmailCampaignRecipient = typeof emailCampaignRecipients.$inferSelect;
+export type NewEmailCampaignRecipient = typeof emailCampaignRecipients.$inferInsert;
