@@ -80,7 +80,8 @@ export const HackerApplicationDraftSchema = z
           try {
             const url = new URL(val);
             return (
-              url.hostname === "github.com" &&
+              (url.hostname === "github.com" ||
+                url.hostname === "www.github.com") &&
               url.pathname.split("/").filter(Boolean).length >= 1
             );
           } catch {
@@ -103,7 +104,8 @@ export const HackerApplicationDraftSchema = z
           try {
             const url = new URL(val);
             return (
-              url.hostname === "www.linkedin.com" &&
+              (url.hostname === "linkedin.com" ||
+                url.hostname === "www.linkedin.com") &&
               /^\/in\/[a-zA-Z0-9-]+(\/)?$/.test(url.pathname)
             );
           } catch {
@@ -112,7 +114,7 @@ export const HackerApplicationDraftSchema = z
         },
         {
           message:
-            "Please provide a valid LinkedIn profile URL (e.g., https://www.linkedin.com/in/username)",
+            "Please provide a valid LinkedIn profile URL (e.g., https://linkedin.com/in/username)",
         },
       ),
     personalWebsite: z

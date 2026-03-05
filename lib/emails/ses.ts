@@ -1,4 +1,8 @@
-import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
+import {
+  SendEmailCommand,
+  SendRawEmailCommand,
+  SESClient,
+} from "@aws-sdk/client-ses";
 import { render } from "@react-email/render";
 
 import ApplicationReminderEmail from "@/components/emails/ApplicationReminderEmail";
@@ -18,6 +22,68 @@ const ses = new SESClient({
 type SendEmailResult = {
   success: boolean;
   error?: string;
+};
+
+type InlineImage = {
+  cid: string;
+  base64Data: string;
+  mimeType: string;
+};
+
+export const sendEmailWithInlineImages = async (
+  to: string,
+  subject: string,
+  htmlBody: string,
+  inlineImages: InlineImage[],
+): Promise<SendEmailResult> => {
+  const boundary = `----=_Part_${Date.now()}_${Math.random().toString(36).substring(2)}`;
+  const fromAddress = `Hack Canada <${process.env.AWS_SES_NO_REPLY_EMAIL!}>`;
+
+  let rawEmail = [
+    `From: ${fromAddress}`,
+    `To: ${to}`,
+    `Subject: ${subject}`,
+    `MIME-Version: 1.0`,
+    `Content-Type: multipart/related; boundary="${boundary}"`,
+    ``,
+    `--${boundary}`,
+    `Content-Type: text/html; charset=UTF-8`,
+    `Content-Transfer-Encoding: 7bit`,
+    ``,
+    htmlBody,
+  ].join("\r\n");
+
+  for (const image of inlineImages) {
+    rawEmail += [
+      ``,
+      `--${boundary}`,
+      `Content-Type: ${image.mimeType}`,
+      `Content-Transfer-Encoding: base64`,
+      `Content-ID: <${image.cid}>`,
+      `Content-Disposition: inline; filename="${image.cid}"`,
+      ``,
+      image.base64Data,
+    ].join("\r\n");
+  }
+
+  rawEmail += `\r\n--${boundary}--`;
+
+  const command = new SendRawEmailCommand({
+    RawMessage: {
+      Data: Buffer.from(rawEmail),
+    },
+  });
+
+  try {
+    await ses.send(command);
+    return { success: true };
+  } catch (error) {
+    console.error("Error sending raw email with SES:", error);
+    return {
+      success: false,
+      error: "Something went wrong. Email could not be sent.",
+    };
+  }
 };
 
 export const sendEmail = async (

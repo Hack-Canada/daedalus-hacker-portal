@@ -3,7 +3,6 @@ import { getCurrentUser } from "@/auth";
 
 import { getProfileWithUser } from "@/lib/db/queries/profile";
 import { BackButton } from "@/components/ui/back-button";
-import { EmptyPage } from "@/components/EmptyPage";
 import PageWrapper from "@/components/PageWrapper";
 import { ProfileForm } from "@/components/profile/ProfileForm";
 
@@ -19,21 +18,12 @@ export default async function EditProfilePage() {
     redirect("/");
   }
 
-  if (user.role === "hacker") {
-    return (
-      <EmptyPage
-        title="Will be live soon"
-        message="Profiles will be available closer to the event. Check back later!"
-      />
-    );
-  }
-
   const profile = await getProfileWithUser(user.id);
 
   return (
-    <PageWrapper className="max-w-screen-lg 3xl:max-w-screen-lg">
+    <PageWrapper className="3xl:max-w-screen-lg max-w-screen-lg">
       <div className="mb-8">
-        <div className="w-fit bg-linear-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
+        <div className="from-primary to-primary w-fit bg-linear-to-r via-sky-400 bg-clip-text text-transparent">
           <h1 className="font-rubik text-2xl font-bold text-transparent md:text-3xl">
             Edit Profile
           </h1>
@@ -50,6 +40,8 @@ export default async function EditProfilePage() {
             ? {
                 bio: profile.bio,
                 hobbies: profile.hobbies || "",
+                skills: profile.skills || [],
+                askMeAbout: profile.askMeAbout,
                 integrations: profile.integrations,
               }
             : undefined

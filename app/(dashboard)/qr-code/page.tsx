@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { BackButton } from "@/components/ui/back-button";
 import { EmptyPage } from "@/components/EmptyPage";
 import PageWrapper from "@/components/PageWrapper";
+import { QRCodeActions } from "@/components/qr-code/QRCodeActions";
 
 export default async function QRCodePage() {
   const currentUser = await getCurrentUser();
@@ -24,15 +25,6 @@ export default async function QRCodePage() {
     );
   }
 
-  if (currentUser.role === "hacker") {
-    return (
-      <EmptyPage
-        title="Will be live soon"
-        message="QR codes will be available closer to the event. Check back later!"
-      />
-    );
-  }
-
   const profileUrl = `https://app.hackcanada.org/profile/${currentUser.id}`;
 
   return (
@@ -40,7 +32,7 @@ export default async function QRCodePage() {
       <div className="flex flex-col gap-6 md:gap-8 lg:gap-10">
         {/* Page Header */}
         <div className="space-y-2">
-          <div className="w-fit bg-linear-to-r from-primary via-sky-400 to-primary bg-clip-text text-transparent">
+          <div className="from-primary to-primary w-fit bg-linear-to-r via-sky-400 bg-clip-text text-transparent">
             <h1 className="font-rubik text-3xl font-bold">Your QR Code</h1>
           </div>
           <p className="text-textMuted max-md:text-sm">
@@ -54,7 +46,7 @@ export default async function QRCodePage() {
           {/* QR Code Section */}
           <div className="w-full max-w-2xl">
             <div
-              className="group relative flex h-full flex-col gap-6 overflow-hidden rounded-lg border border-primary/20 bg-white/50 p-6 transition-all duration-500 hover:border-primary/40 hover:shadow-lg md:p-8"
+              className="group border-primary/20 hover:border-primary/40 relative flex h-full flex-col gap-6 overflow-hidden rounded-lg border bg-white/50 p-6 transition-all duration-500 hover:shadow-lg md:p-8"
               role="region"
               aria-label="QR Code Display"
             >
@@ -63,7 +55,7 @@ export default async function QRCodePage() {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.1),rgba(255,255,255,0))]" />
 
                 {/* Animated gradient background */}
-                <div className="absolute inset-0 bg-linear-to-br from-info/30 via-primaryLight/30 to-primary/30 opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-100" />
+                <div className="from-info/30 via-primaryLight/30 to-primary/30 absolute inset-0 bg-linear-to-br opacity-50 transition-all duration-700 group-hover:scale-110 group-hover:opacity-100" />
 
                 {/* Mesh gradient pattern */}
                 <div className="absolute inset-0 opacity-0 mix-blend-normal transition-all duration-700 group-hover:opacity-80">
@@ -90,7 +82,7 @@ export default async function QRCodePage() {
                   <div
                     className={cn(
                       "relative z-10 overflow-hidden rounded-xl border bg-white p-4 shadow-lg md:p-6",
-                      "transition-all duration-500 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/25",
+                      "hover:shadow-primary/25 transition-all duration-500 hover:scale-[1.02] hover:shadow-xl",
                       "group-hover:border-primary/40",
                     )}
                   >
@@ -100,6 +92,7 @@ export default async function QRCodePage() {
                     </div>
 
                     <QRCodeSVG
+                      data-qr-code="true"
                       value={profileUrl}
                       size={225}
                       level="H"
@@ -113,12 +106,19 @@ export default async function QRCodePage() {
                   </div>
 
                   <div className="max-w-md text-center">
-                    <p className="text-sm text-textSecondary transition-colors duration-300 group-hover:text-textPrimary md:text-base">
-                      Screenshot and save this QR code to your device for quick
-                      and easy access during the event. You&apos;ll need it for
-                      check-ins and other activities!
+                    <p className="text-sm text-slate-600 transition-colors duration-300 group-hover:text-slate-700 md:text-base">
+                      Save this QR code to your device for quick and easy access
+                      during the event. You&apos;ll need it for check-ins and
+                      other activities!
                     </p>
                   </div>
+
+                  <QRCodeActions
+                    userId={currentUser.id}
+                    userName={currentUser.name || "Hacker"}
+                    userEmail={currentUser.email || ""}
+                    profileUrl={profileUrl}
+                  />
                 </div>
               </div>
             </div>

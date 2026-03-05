@@ -1,13 +1,20 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 import { db } from "@/lib/db";
-import { profileIntegrations, profiles, users } from "@/lib/db/schema";
+import {
+  hackerApplications,
+  profileIntegrations,
+  profiles,
+  users,
+} from "@/lib/db/schema";
 import { Platform, ProfileFormData } from "@/lib/validations/profile";
 
 export type ProfileWithUser = {
   id: string;
   bio: string | null;
   hobbies: string | null;
+  skills: string[] | null;
+  askMeAbout: string | null;
   integrations: {
     platform: Platform;
     url: string;
@@ -28,14 +35,20 @@ export async function getProfileWithUser(
         id: profiles.id,
         bio: profiles.bio,
         hobbies: profiles.hobbies,
+        skills: profiles.skills,
+        askMeAbout: profiles.askMeAbout,
         user: {
           id: users.id,
-          name: users.name,
+          name: sql<string>`COALESCE(
+            CONCAT(${hackerApplications.firstName}, ' ', ${hackerApplications.lastName}),
+            ${users.name}
+          )`.as("name"),
           role: users.role,
         },
       })
       .from(profiles)
       .innerJoin(users, eq(profiles.userId, users.id))
+      .leftJoin(hackerApplications, eq(users.id, hackerApplications.userId))
       .where(eq(profiles.userId, userId))
       .execute();
 
@@ -73,12 +86,16 @@ export async function upsertProfile(userId: string, data: ProfileFormData) {
         userId,
         bio: data.bio,
         hobbies: data.hobbies,
+        skills: data.skills,
+        askMeAbout: data.askMeAbout,
       })
       .onConflictDoUpdate({
         target: profiles.userId,
         set: {
           bio: data.bio,
           hobbies: data.hobbies,
+          skills: data.skills,
+          askMeAbout: data.askMeAbout,
           updatedAt: new Date(),
         },
       })

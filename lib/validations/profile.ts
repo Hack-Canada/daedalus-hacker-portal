@@ -23,13 +23,13 @@ export type Platform = (typeof SUPPORTED_PLATFORMS)[number];
 
 const platformUrlPatterns: Record<Platform, RegExp> = {
   github:
-    /^https:\/\/(www\.)?github\.com\/[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$/,
-  linkedin: /^https:\/\/(www\.)?linkedin\.com\/in\/[\w-]{3,100}$/,
+    /^https:\/\/(www\.)?github\.com\/[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}\/?$/,
+  linkedin: /^https:\/\/(www\.)?linkedin\.com\/in\/[a-zA-Z0-9-]{3,100}\/?$/,
   instagram:
-    /^https:\/\/(www\.)?instagram\.com\/(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/,
-  twitch: /^https:\/\/(www\.)?twitch\.tv\/[a-zA-Z0-9]\w{3,24}$/,
+    /^https:\/\/(www\.)?instagram\.com\/(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}\/?$/,
+  twitch: /^https:\/\/(www\.)?twitch\.tv\/[a-zA-Z0-9]\w{3,24}\/?$/,
   youtube:
-    /^https:\/\/(www\.)?(youtube\.com\/(c\/|channel\/|user\/|@)[a-zA-Z0-9-_]{3,}|youtube\.com\/@[a-zA-Z0-9-_]{3,})$/,
+    /^https:\/\/(www\.)?(youtube\.com\/(c\/|channel\/|user\/|@)[a-zA-Z0-9_-]{3,}|youtube\.com\/@[a-zA-Z0-9_-]{3,})\/?$/,
   portfolio:
     /^https?:\/\/(?:localhost(?::\d{1,5})?|(?:[\w-]+\.)+[\w-]+)(?:\/[\w-./?%&=]*)?$/,
 };
@@ -37,15 +37,16 @@ const platformUrlPatterns: Record<Platform, RegExp> = {
 export const profileIntegrationSchema = z
   .object({
     platform: z.enum(SUPPORTED_PLATFORMS),
-    url: z.string().min(1, "URL is required"),
+    url: z.string().trim().min(1, "URL is required"),
   })
   .superRefine((data, ctx) => {
     const { platform, url } = data;
     if (!platform || !platformUrlPatterns[platform]) return;
 
     // First check if it's a valid URL
+    let parsedUrl: URL;
     try {
-      new URL(url);
+      parsedUrl = new URL(url);
     } catch {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -55,12 +56,15 @@ export const profileIntegrationSchema = z
       return;
     }
 
+    // Strip query params and fragments for validation (use origin + pathname only)
+    const cleanUrl = parsedUrl.origin + parsedUrl.pathname;
+
     // Check if it matches the correct platform pattern
     const currentPlatformPattern = platformUrlPatterns[platform];
-    if (!currentPlatformPattern.test(url)) {
+    if (!currentPlatformPattern.test(cleanUrl)) {
       // Test if it matches any other platform
       const matchedPlatform = Object.entries(platformUrlPatterns).find(
-        ([key, pattern]) => key !== platform && pattern.test(url),
+        ([key, pattern]) => key !== platform && pattern.test(cleanUrl),
       );
 
       if (matchedPlatform) {
@@ -82,6 +86,59 @@ Example: ${PLATFORM_PLACEHOLDERS[platform]}`,
     }
   });
 
+export const AVAILABLE_SKILLS = [
+  "JavaScript",
+  "TypeScript",
+  "Python",
+  "Java",
+  "C++",
+  "C#",
+  "Go",
+  "Rust",
+  "Ruby",
+  "Swift",
+  "Kotlin",
+  "React",
+  "Vue",
+  "Angular",
+  "Next.js",
+  "Node.js",
+  "Django",
+  "Flask",
+  "Spring",
+  "Express",
+  "PostgreSQL",
+  "MongoDB",
+  "MySQL",
+  "Redis",
+  "AWS",
+  "GCP",
+  "Azure",
+  "Docker",
+  "Kubernetes",
+  "Machine Learning",
+  "AI/LLMs",
+  "Data Science",
+  "Computer Vision",
+  "NLP",
+  "Blockchain",
+  "Web3",
+  "Mobile Dev",
+  "iOS",
+  "Android",
+  "Flutter",
+  "React Native",
+  "DevOps",
+  "Cybersecurity",
+  "Game Dev",
+  "UI/UX Design",
+  "Figma",
+  "Hardware/IoT",
+  "AR/VR",
+] as const;
+
+export type Skill = (typeof AVAILABLE_SKILLS)[number];
+
 export const profileSchema = z.object({
   bio: z
     .string()
@@ -94,6 +151,16 @@ export const profileSchema = z.object({
     .trim()
     .max(200, { message: "Hobbies must not exceed 200 characters in total" })
     .default(""),
+  skills: z
+    .array(z.string())
+    .max(8, { message: "You can select up to 8 skills" })
+    .default([]),
+  askMeAbout: z
+    .string()
+    .trim()
+    .max(100, { message: "Ask me about must not exceed 100 characters" })
+    .nullable()
+    .transform((val) => val || null),
   integrations: z
     .array(profileIntegrationSchema)
     .max(5, { message: "You can add up to 5 social integrations" })

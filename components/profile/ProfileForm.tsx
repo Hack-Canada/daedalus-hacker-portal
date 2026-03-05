@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/form";
 import { HobbiesSelect } from "@/components/ui/hobbies-select";
 import { Input } from "@/components/ui/input";
+import { SkillsSelect } from "@/components/ui/skills-select";
 import { Textarea } from "@/components/ui/textarea";
 
 import { ProfileIntegrations } from "./ProfileIntegrations";
@@ -37,6 +38,8 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
   const defaultValues = {
     bio: initialData?.bio || "",
     hobbies: initialData?.hobbies || "",
+    skills: initialData?.skills || [],
+    askMeAbout: initialData?.askMeAbout || "",
     integrations: initialData?.integrations || [],
   };
 
@@ -51,6 +54,8 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
       form.reset({
         bio: initialData.bio || "",
         hobbies: initialData.hobbies || "",
+        skills: initialData.skills || [],
+        askMeAbout: initialData.askMeAbout || "",
         integrations: initialData.integrations || [],
       });
     }
@@ -160,6 +165,58 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
                 Select up to 5 hobbies/interests, or type your own.
               </FormDescription>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Skills Section */}
+        <FormField
+          control={form.control}
+          name="skills"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Skills & Tech Stack</FormLabel>
+              <FormControl>
+                <SkillsSelect
+                  value={field.value}
+                  onChange={field.onChange}
+                  disabled={isPending}
+                />
+              </FormControl>
+              <FormDescription>
+                Select up to 8 technologies you work with. Helps others find
+                collaborators!
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Ask Me About Section */}
+        <FormField
+          control={form.control}
+          name="askMeAbout"
+          render={({ field }) => (
+            <FormItem className="relative">
+              <FormLabel>Ask Me About...</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="e.g., Building AI apps, competitive programming, my startup idea..."
+                  value={field.value || ""}
+                  disabled={isPending}
+                />
+              </FormControl>
+              <FormDescription>
+                A fun conversation starter! What do you love talking about? Max
+                100 characters.
+              </FormDescription>
+              <FormMessage />
+              <span
+                className={`${field.value?.length && field.value.length > 100 ? "text-destructive" : "text-muted-foreground"} absolute text-sm max-md:right-0 max-md:top-0 md:bottom-2 md:right-2`}
+              >
+                {field.value?.length || 0}/100
+              </span>
             </FormItem>
           )}
         />
