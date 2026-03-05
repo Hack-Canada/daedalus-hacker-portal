@@ -17,22 +17,11 @@ import { ProfileHobbies } from "@/components/profile/ProfileHobbies";
 import { ProfileSkills } from "@/components/profile/ProfileSkills";
 import { SocialLinkCard } from "@/components/profile/SocialLinkCard";
 
-export default async function ProfilePage(
-  props: {
-    params: Promise<{ userId: string }>;
-  }
-) {
+export default async function ProfilePage(props: {
+  params: Promise<{ userId: string }>;
+}) {
   const params = await props.params;
   const currentUser = await getCurrentUser();
-
-  if (currentUser?.role === "hacker") {
-    return (
-      <EmptyPage
-        title="Will be live soon"
-        message="Profiles will be available closer to the event. Check back later!"
-      />
-    );
-  }
 
   const profile = await getProfileWithUser(params.userId);
 
