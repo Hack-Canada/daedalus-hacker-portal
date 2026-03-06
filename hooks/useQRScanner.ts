@@ -394,6 +394,48 @@ export const useQRScanner = ({
     }
   };
 
+  const handleChallengeSubmission = async (userData: {
+    userId: string;
+    challengeId: string;
+  }) => {
+    try {
+      const response = await fetch("/api/challenges/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userData.userId,
+          challengeId: userData.challengeId,
+        }),
+      });
+
+      const data = await response.json();
+      setScanData([]); // Set scan data to nothing as it is a challenge check in
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to submit challenge");
+      }
+
+      setScannedUserName(data.userName || "No name found");
+      await playSound("success");
+      setScanResult("success");
+      toast.success("Challenge submission successful!");
+    } catch (error) {
+      await playSound("error");
+      setScanResult("error");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to process challenge submission",
+      );
+    } finally {
+      stopCamera();
+      isProcessing.current = false;
+      setTimeout(() => setScanResult(null), 500);
+    }
+  };
+
   const handleResetEvent = async (userId?: string, eventName?: string) => {
     const userIdToReset = userId || lastUserId;
     const eventNameToReset = eventName || selectedEvent;
