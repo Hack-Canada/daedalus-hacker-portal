@@ -37,8 +37,7 @@ const dummyItems = [
     itemDescription: "A massive bottle of liquid gold. Only one available!",
     purchasePrice: 25,
     stock: 1,
-    image:
-      "https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/now/now06948/y/57.jpg",
+    image: "https://i.imgur.com/iAn2RJo.png",
   },
   {
     itemName: "Microwave Popcorn",
