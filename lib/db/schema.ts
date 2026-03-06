@@ -3,6 +3,7 @@ import { sql } from "drizzle-orm";
 import {
   boolean,
   integer,
+  jsonb,
   pgTable,
   text,
   timestamp,
@@ -437,3 +438,45 @@ export const emailCampaignRecipients = pgTable("emailCampaignRecipient", {
 
 export type EmailCampaignRecipient = typeof emailCampaignRecipients.$inferSelect;
 export type NewEmailCampaignRecipient = typeof emailCampaignRecipients.$inferInsert;
+
+export const shopItems = pgTable("shopItem", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  image: text("image"),
+  itemName: text("itemName").notNull(),
+  itemDescription: text("itemDescription"),
+  purchasePrice: integer("purchasePrice").notNull(),
+  stock: integer("stock"),
+});
+
+export type ShopItem = typeof shopItems.$inferSelect;
+export type NewShopItem = typeof shopItems.$inferInsert;
+
+export const pointsTransactions = pgTable("pointsTransaction", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  createdAt: timestamp("createdAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  points: integer("points").notNull(),
+  referenceId: text("referenceId"), // The id of the challenge / shop item / whatever the points were for
+  metadata: jsonb("metadata"),
+});
+
+export type PointsTransaction = typeof pointsTransactions.$inferSelect;
+export type NewPointsTransaction = typeof pointsTransactions.$inferInsert;
+
+export const userBalance = pgTable("userBalance", {
+  userId: text("userId")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  points: integer("points").notNull().default(0),
+});
+
+export type UserBalance = typeof userBalance.$inferSelect;
+export type NewUserBalance = typeof userBalance.$inferInsert;
