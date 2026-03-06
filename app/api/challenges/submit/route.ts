@@ -12,6 +12,8 @@ import {
   challenges,
   challengesSubmitted,
   ChallengeSubmission,
+  pointsTransactions,
+  userBalance,
 } from "@/lib/db/schema";
 import { isVolunteer } from "@/lib/utils";
 
@@ -153,9 +155,31 @@ export async function POST(
         })
         .returning();
 
+      // 5. Award points - upsert userBalance
+      await tx
+        .insert(userBalance)
+        .values({
+          userId,
+          points: challenge.points,
+        })
+        .onConflictDoUpdate({
+          target: userBalance.userId,
+          set: {
+            points: sql`${userBalance.points} + ${challenge.points}`,
+          },
+        });
+
+      // 6. Log points transaction
+      await tx.insert(pointsTransactions).values({
+        userId,
+        points: challenge.points,
+        referenceId: challengeId,
+        metadata: { type: "challenge_completion", challengeName: challenge.name },
+      });
+
       return NextResponse.json({
         success: true,
-        message: "Challenge completed",
+        message: `Challenge completed! +${challenge.points} points`,
         data: newChallengeSubmission,
         userName: existingUser.name,
       });
