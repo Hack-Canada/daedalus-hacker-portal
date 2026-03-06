@@ -4,7 +4,6 @@ import {
   LayoutDashboard,
   NotebookPen,
   QrCode,
-  Trophy,
   ScanQrCode,
   ShoppingCart,
   Trophy,

@@ -15,6 +15,7 @@ import { ProfileChallengePoints } from "@/components/profile/ProfileChallengePoi
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { ProfileHobbies } from "@/components/profile/ProfileHobbies";
 import { ProfileSkills } from "@/components/profile/ProfileSkills";
+import { ProfileVisitTracker } from "@/components/profile/ProfileVisitTracker";
 import { SocialLinkCard } from "@/components/profile/SocialLinkCard";
 
 export default async function ProfilePage(props: {
@@ -83,6 +84,15 @@ export default async function ProfilePage(props: {
 
   return (
     <PageWrapper>
+      {/* Track profile visits for hacker-to-hacker networking rewards */}
+      {currentUser && (
+        <ProfileVisitTracker
+          visitedUserId={params.userId}
+          visitorRole={currentUser.role}
+          isOwner={isOwner}
+          visitedUserRole={profile.user.role}
+        />
+      )}
       <div className="relative space-y-3">
         <ProfileHeader
           name={profile.user.name.split(" ")[0]}

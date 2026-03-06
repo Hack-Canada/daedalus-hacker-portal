@@ -8,6 +8,7 @@ import {
   text,
   timestamp,
   unique,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("user", {
@@ -513,3 +514,30 @@ export const pointsBannedUsers = pgTable("pointsBannedUsers", {
 
 export type PointsBannedUser = typeof pointsBannedUsers.$inferSelect;
 export type NewPointsBannedUser = typeof pointsBannedUsers.$inferInsert;
+
+export const profileVisits = pgTable(
+  "profileVisit",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    visitorId: text("visitorId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    visitedUserId: text("visitedUserId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    visitedAt: timestamp("visitedAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+  },
+  (table) => [
+    uniqueIndex("profile_visit_unique_idx").on(
+      table.visitorId,
+      table.visitedUserId,
+    ),
+  ],
+);
+
+export type ProfileVisit = typeof profileVisits.$inferSelect;
+export type NewProfileVisit = typeof profileVisits.$inferInsert;

@@ -8,6 +8,7 @@ import {
   Coins,
   ShoppingBag,
   Trophy,
+  Users,
 } from "lucide-react";
 
 import { db } from "@/lib/db";
@@ -18,9 +19,10 @@ import { EmptyPage } from "@/components/EmptyPage";
 import PageWrapper from "@/components/PageWrapper";
 
 interface TransactionMetadata {
-  type?: "challenge_completion" | "shop_redemption";
+  type?: "challenge_completion" | "shop_redemption" | "profile_visit_reward";
   challengeName?: string;
   itemName?: string;
+  visitCount?: number;
 }
 
 export default async function PointsHistoryPage() {
@@ -60,6 +62,9 @@ export default async function PointsHistoryPage() {
     if (metadata?.type === "shop_redemption") {
       return <ShoppingBag className="h-4 w-4 text-rose-500" />;
     }
+    if (metadata?.type === "profile_visit_reward") {
+      return <Users className="h-4 w-4 text-sky-500" />;
+    }
     return <Coins className="h-4 w-4 text-primary" />;
   };
 
@@ -72,6 +77,9 @@ export default async function PointsHistoryPage() {
     }
     if (metadata?.type === "shop_redemption") {
       return `Redeemed: ${metadata.itemName || "Unknown Item"}`;
+    }
+    if (metadata?.type === "profile_visit_reward") {
+      return `Networking Reward (${metadata.visitCount || 0} profiles visited)`;
     }
     return points > 0 ? "Points Earned" : "Points Spent";
   };
