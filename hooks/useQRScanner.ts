@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { BrowserMultiFormatReader } from "@zxing/library";
+import { BrowserQRCodeReader } from "@zxing/library";
 import { toast } from "sonner";
 
 import { Event } from "@/config/qr-code";
@@ -47,7 +47,7 @@ export const useQRScanner = ({
   const [isConfirming, setIsConfirming] = useState(false);
   
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const codeReader = useRef(new BrowserMultiFormatReader());
+  const codeReader = useRef(new BrowserQRCodeReader());
   const isProcessing = useRef(false);
   const { permissionState, requestPermission } = useCameraPermission();
 
