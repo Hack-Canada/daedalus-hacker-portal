@@ -27,6 +27,7 @@ export const EVENTS = [
   "extra-1",
   "extra-2",
   "challenge",
+  "shop-redeem",
 ] as const;
 
 export type Event = (typeof EVENTS)[number];

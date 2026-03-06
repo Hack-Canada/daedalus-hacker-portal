@@ -1,7 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { CheckCircle2, Cookie, Plus, Trophy, Utensils } from "lucide-react";
+import {
+  CheckCircle2,
+  Cookie,
+  Plus,
+  ShoppingBag,
+  Trophy,
+  Utensils,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -118,6 +125,34 @@ export function EventSelectionGrid() {
             </h3>
             <p className="text-sm text-textSecondary">
               Scan challenge-specific QR codes from participants
+            </p>
+          </div>
+        </div>
+      </Link>
+
+      {/* Shop Redemption Scanner */}
+      <Link
+        href="/scanner/shop-redeem"
+        className={cn(
+          "group relative block w-full overflow-hidden rounded-lg border-2 p-6 text-left transition-all duration-300",
+          "border-rose-500/30 bg-gradient-to-br from-rose-500/5 to-pink-500/5 hover:border-rose-500/50 hover:shadow-md hover:shadow-rose-500/10",
+        )}
+      >
+        <div className="flex items-center gap-4">
+          <div
+            className={cn(
+              "flex h-14 w-14 shrink-0 items-center justify-center rounded-full transition-all duration-300",
+              "bg-rose-500/20 text-rose-600 group-hover:bg-rose-500/30",
+            )}
+          >
+            <ShoppingBag className="h-7 w-7" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-bold text-textPrimary group-hover:text-rose-600 transition-colors">
+              SHOP REDEMPTION
+            </h3>
+            <p className="text-sm text-textSecondary">
+              Scan shop QR codes to process purchases (Organizers only)
             </p>
           </div>
         </div>

@@ -9,6 +9,7 @@ import { useQRScanner } from "@/hooks/useQRScanner";
 import { Checkbox } from "@/components/ui/checkbox";
 import { CameraPermissionPrompt } from "./CameraPermissionPrompt";
 import { HackathonConfirmDialog } from "./HackathonConfirmDialog";
+import { ShopRedeemConfirmDialog } from "./ShopRedeemConfirmDialog";
 
 const STORAGE_KEY_KEEP_CAMERA = "scanner-keep-camera-on";
 
@@ -44,6 +45,11 @@ export function Scanner({ selectedEvent }: ScannerProps) {
     isConfirming,
     confirmHackathonCheckIn,
     cancelHackathonCheckIn,
+    showShopRedeemDialog,
+    pendingShopRedeem,
+    isRedeemingShop,
+    confirmShopRedeem,
+    cancelShopRedeem,
   } = useQRScanner({
     selectedEvent,
     keepCameraOn,
@@ -213,6 +219,18 @@ export function Scanner({ selectedEvent }: ScannerProps) {
           isLoading={isConfirming}
           onConfirm={confirmHackathonCheckIn}
           onCancel={cancelHackathonCheckIn}
+        />
+      )}
+
+      {/* Shop Redeem Confirmation Dialog */}
+      {pendingShopRedeem && pendingUserData && (
+        <ShopRedeemConfirmDialog
+          shopData={pendingShopRedeem}
+          userData={pendingUserData}
+          isOpen={showShopRedeemDialog}
+          isLoading={isRedeemingShop}
+          onConfirm={confirmShopRedeem}
+          onCancel={cancelShopRedeem}
         />
       )}
     </>

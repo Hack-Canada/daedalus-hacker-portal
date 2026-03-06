@@ -12,6 +12,7 @@ import {
   challenges,
   challengesSubmitted,
   ChallengeSubmission,
+  pointsBannedUsers,
   pointsTransactions,
   userBalance,
 } from "@/lib/db/schema";
@@ -83,6 +84,23 @@ export async function POST(
           error: "Invalid user role",
         },
         { status: 400 },
+      );
+    }
+
+    // Check if user is banned from earning points
+    const [banned] = await db
+      .select()
+      .from(pointsBannedUsers)
+      .where(eq(pointsBannedUsers.userId, userId));
+
+    if (banned) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "User is banned from earning points",
+          error: "User banned",
+        },
+        { status: 403 },
       );
     }
 

@@ -6,6 +6,14 @@ import { Event } from "@/config/qr-code";
 import { CheckIn } from "@/lib/db/schema";
 import type { UserVerifyData } from "@/app/api/check-ins/verify/route";
 
+export interface ShopRedeemData {
+  type: "shop-redeem";
+  userId: string;
+  itemId: string;
+  itemName: string;
+  price: number;
+}
+
 import { useCameraPermission } from "./useCameraPermission";
 
 export interface CameraDevice {
@@ -45,6 +53,11 @@ export const useQRScanner = ({
   const [pendingUserId, setPendingUserId] = useState<string | null>(null);
   const [pendingUserData, setPendingUserData] = useState<UserVerifyData | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
+
+  // Shop redeem confirmation dialog state
+  const [showShopRedeemDialog, setShowShopRedeemDialog] = useState(false);
+  const [pendingShopRedeem, setPendingShopRedeem] = useState<ShopRedeemData | null>(null);
+  const [isRedeemingShop, setIsRedeemingShop] = useState(false);
   
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const codeReader = useRef(new BrowserQRCodeReader());
@@ -262,6 +275,83 @@ export const useQRScanner = ({
     }
   };
 
+  // Handle shop redeem QR code scan
+  const handleShopRedeemScan = async (shopData: ShopRedeemData) => {
+    // Verify the user exists first
+    const userData = await verifyUserForHackathon(shopData.userId);
+    if (userData) {
+      setPendingShopRedeem(shopData);
+      setPendingUserData(userData);
+      setShowShopRedeemDialog(true);
+      // Keep camera paused but don't fully stop - user might cancel
+      codeReader.current.reset();
+    } else {
+      await playSound("error");
+      setScanResult("error");
+      stopCamera();
+      isProcessing.current = false;
+      setTimeout(() => setScanResult(null), 500);
+    }
+  };
+
+  // Confirm shop redemption from dialog
+  const confirmShopRedeem = async () => {
+    if (!pendingShopRedeem) return;
+
+    setIsRedeemingShop(true);
+    try {
+      const response = await fetch("/api/shop/redeem", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: pendingShopRedeem.userId,
+          itemId: pendingShopRedeem.itemId,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to process redemption");
+      }
+
+      setScannedUserName(data.userName || "No name found");
+      await playSound("success");
+      setScanResult("success");
+      toast.success(`Successfully redeemed ${pendingShopRedeem.itemName}!`);
+    } catch (error) {
+      await playSound("error");
+      setScanResult("error");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to process redemption",
+      );
+    } finally {
+      setShowShopRedeemDialog(false);
+      setPendingShopRedeem(null);
+      setPendingUserData(null);
+      setIsRedeemingShop(false);
+      stopCamera();
+      isProcessing.current = false;
+      setTimeout(() => setScanResult(null), 500);
+    }
+  };
+
+  // Cancel shop redemption from dialog
+  const cancelShopRedeem = () => {
+    setShowShopRedeemDialog(false);
+    setPendingShopRedeem(null);
+    setPendingUserData(null);
+    isProcessing.current = false;
+    // Optionally restart camera for another scan
+    if (keepCameraOn) {
+      startCamera();
+    } else {
+      stopCamera(true);
+    }
+  };
+
   const handleChallengeSubmission = async (userData: {
     userId: string;
     challengeId: string;
@@ -384,17 +474,23 @@ export const useQRScanner = ({
           console.log(scannedText);
           let userId: string | undefined;
           let challengeId: string | undefined;
+          let shopRedeemData: ShopRedeemData | undefined;
 
           // Determine QR code type
           if (scannedText.startsWith("https://app.hackcanada.org/profile/")) {
             // Regular profile URL
             userId = scannedText.split("/profile/")[1];
           } else {
-            // JSON QR code (for challenges)
+            // JSON QR code (for challenges or shop redemption)
             try {
               const parsed = JSON.parse(scannedText);
               userId = parsed.userId;
               challengeId = parsed.challengeId;
+
+              // Check if this is a shop-redeem QR code
+              if (parsed.type === "shop-redeem") {
+                shopRedeemData = parsed as ShopRedeemData;
+              }
             } catch (e) {
               console.error("Failed to parse QR code JSON:", e);
             }
@@ -408,12 +504,24 @@ export const useQRScanner = ({
             return;
           }
 
-          // Validate challenge-specific requirements
+          // Validate event-specific requirements
           if (selectedEvent === "challenge") {
             if (!challengeId) {
               await playSound("error");
               toast.error(
                 "Please scan the challenge-specific QR code, not the profile QR code",
+              );
+              setScanResult("error");
+              setTimeout(() => setScanResult(null), 1000);
+              return;
+            }
+          }
+
+          if (selectedEvent === "shop-redeem") {
+            if (!shopRedeemData) {
+              await playSound("error");
+              toast.error(
+                "Please scan a shop redemption QR code from a hacker's shop page",
               );
               setScanResult("error");
               setTimeout(() => setScanResult(null), 1000);
@@ -441,6 +549,8 @@ export const useQRScanner = ({
               userId,
               challengeId: challengeId!,
             });
+          } else if (selectedEvent === "shop-redeem") {
+            await handleShopRedeemScan(shopRedeemData!);
           } else {
             await handleCheckIn(userId);
           }
@@ -499,5 +609,11 @@ export const useQRScanner = ({
     isConfirming,
     confirmHackathonCheckIn,
     cancelHackathonCheckIn,
+    // Shop redeem confirmation dialog
+    showShopRedeemDialog,
+    pendingShopRedeem,
+    isRedeemingShop,
+    confirmShopRedeem,
+    cancelShopRedeem,
   };
 };

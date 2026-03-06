@@ -453,6 +453,25 @@ export const shopItems = pgTable("shopItem", {
 export type ShopItem = typeof shopItems.$inferSelect;
 export type NewShopItem = typeof shopItems.$inferInsert;
 
+export const shopPurchases = pgTable("shopPurchase", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  itemId: text("itemId")
+    .notNull()
+    .references(() => shopItems.id, { onDelete: "cascade" }),
+  pointsSpent: integer("pointsSpent").notNull(),
+  purchasedAt: timestamp("purchasedAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+});
+
+export type ShopPurchase = typeof shopPurchases.$inferSelect;
+export type NewShopPurchase = typeof shopPurchases.$inferInsert;
+
 export const pointsTransactions = pgTable("pointsTransaction", {
   id: text("id")
     .primaryKey()
@@ -480,3 +499,17 @@ export const userBalance = pgTable("userBalance", {
 
 export type UserBalance = typeof userBalance.$inferSelect;
 export type NewUserBalance = typeof userBalance.$inferInsert;
+
+export const pointsBannedUsers = pgTable("pointsBannedUsers", {
+  userId: text("userId")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  bannedAt: timestamp("bannedAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  bannedBy: text("bannedBy").references(() => users.id),
+  reason: text("reason"),
+});
+
+export type PointsBannedUser = typeof pointsBannedUsers.$inferSelect;
+export type NewPointsBannedUser = typeof pointsBannedUsers.$inferInsert;
