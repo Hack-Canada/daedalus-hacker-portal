@@ -128,7 +128,7 @@ export const phaseFeatures: Record<HackathonPhase, PhaseFeatures> = {
     oauthSignIn: true,
     applicationSubmission: false,
     applicationSaving: false,
-    applicationViewing: false,
+    applicationViewing: true,
     rsvpAccess: true,
     rsvpCancellation: true,
     showApplicationStatus: true,
