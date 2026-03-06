@@ -88,6 +88,9 @@ export function CameraPermissionPrompt({
   }
 
   if (permissionState === "unavailable") {
+    // Check if this is due to non-secure context (HTTP instead of HTTPS)
+    const isInsecureContext = typeof window !== "undefined" && !window.isSecureContext;
+    
     return (
       <div className="flex flex-col items-center gap-6 rounded-lg border-2 border-error/20 bg-error/5 p-8 text-center">
         <div className="flex h-20 w-20 items-center justify-center rounded-full bg-error/20">
@@ -95,14 +98,35 @@ export function CameraPermissionPrompt({
         </div>
         <div className="space-y-2">
           <h3 className="text-xl font-semibold text-textPrimary">
-            Camera Not Available
+            {isInsecureContext ? "Secure Connection Required" : "Camera Not Available"}
           </h3>
-          <p className="text-textSecondary">
-            Camera access is not supported on this device or browser.
-          </p>
-          <p className="text-sm text-textMuted">
-            Please try using a different browser or device with camera support.
-          </p>
+          {isInsecureContext ? (
+            <>
+              <p className="text-textSecondary">
+                Camera access requires a secure (HTTPS) connection.
+              </p>
+              <p className="text-sm text-textMuted">
+                Please access this page via HTTPS or use the production site at{" "}
+                <a 
+                  href="https://app.hackcanada.org" 
+                  className="text-primary underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  app.hackcanada.org
+                </a>
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-textSecondary">
+                Camera access is not supported on this device or browser.
+              </p>
+              <p className="text-sm text-textMuted">
+                Please try using a different browser or device with camera support.
+              </p>
+            </>
+          )}
         </div>
       </div>
     );

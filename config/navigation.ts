@@ -4,8 +4,9 @@ import {
   LayoutDashboard,
   NotebookPen,
   QrCode,
-  Trophy,
   ScanQrCode,
+  ShoppingCart,
+  Trophy,
   User,
 } from "lucide-react";
 
@@ -45,6 +46,11 @@ export const navigation = [
     href: "/scanner",
     icon: ScanQrCode,
     requiresVolunteer: true, // Only show for volunteers/organizers/admins
+  },
+  {
+    name: "Shop",
+    href: "/shops",
+    icon: ShoppingCart,
   },
   { name: "Landing Page", href: "https://hackcanada.org", icon: Home },
 ];

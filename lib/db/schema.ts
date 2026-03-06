@@ -3,10 +3,12 @@ import { sql } from "drizzle-orm";
 import {
   boolean,
   integer,
+  jsonb,
   pgTable,
   text,
   timestamp,
   unique,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("user", {
@@ -437,3 +439,105 @@ export const emailCampaignRecipients = pgTable("emailCampaignRecipient", {
 
 export type EmailCampaignRecipient = typeof emailCampaignRecipients.$inferSelect;
 export type NewEmailCampaignRecipient = typeof emailCampaignRecipients.$inferInsert;
+
+export const shopItems = pgTable("shopItem", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  image: text("image"),
+  itemName: text("itemName").notNull(),
+  itemDescription: text("itemDescription"),
+  purchasePrice: integer("purchasePrice").notNull(),
+  stock: integer("stock"),
+});
+
+export type ShopItem = typeof shopItems.$inferSelect;
+export type NewShopItem = typeof shopItems.$inferInsert;
+
+export const shopPurchases = pgTable("shopPurchase", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  itemId: text("itemId")
+    .notNull()
+    .references(() => shopItems.id, { onDelete: "cascade" }),
+  pointsSpent: integer("pointsSpent").notNull(),
+  purchasedAt: timestamp("purchasedAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+});
+
+export type ShopPurchase = typeof shopPurchases.$inferSelect;
+export type NewShopPurchase = typeof shopPurchases.$inferInsert;
+
+export const pointsTransactions = pgTable("pointsTransaction", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  createdAt: timestamp("createdAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  points: integer("points").notNull(),
+  referenceId: text("referenceId"), // The id of the challenge / shop item / whatever the points were for
+  metadata: jsonb("metadata"),
+});
+
+export type PointsTransaction = typeof pointsTransactions.$inferSelect;
+export type NewPointsTransaction = typeof pointsTransactions.$inferInsert;
+
+export const userBalance = pgTable("userBalance", {
+  userId: text("userId")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  points: integer("points").notNull().default(0),
+});
+
+export type UserBalance = typeof userBalance.$inferSelect;
+export type NewUserBalance = typeof userBalance.$inferInsert;
+
+export const pointsBannedUsers = pgTable("pointsBannedUsers", {
+  userId: text("userId")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  bannedAt: timestamp("bannedAt")
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  bannedBy: text("bannedBy").references(() => users.id),
+  reason: text("reason"),
+});
+
+export type PointsBannedUser = typeof pointsBannedUsers.$inferSelect;
+export type NewPointsBannedUser = typeof pointsBannedUsers.$inferInsert;
+
+export const profileVisits = pgTable(
+  "profileVisit",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    visitorId: text("visitorId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    visitedUserId: text("visitedUserId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    visitedAt: timestamp("visitedAt")
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+  },
+  (table) => [
+    uniqueIndex("profile_visit_unique_idx").on(
+      table.visitorId,
+      table.visitedUserId,
+    ),
+  ],
+);
+
+export type ProfileVisit = typeof profileVisits.$inferSelect;
+export type NewProfileVisit = typeof profileVisits.$inferInsert;

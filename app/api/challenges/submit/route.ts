@@ -12,6 +12,9 @@ import {
   challenges,
   challengesSubmitted,
   ChallengeSubmission,
+  pointsBannedUsers,
+  pointsTransactions,
+  userBalance,
 } from "@/lib/db/schema";
 import { isVolunteer } from "@/lib/utils";
 
@@ -84,6 +87,23 @@ export async function POST(
       );
     }
 
+    // Check if user is banned from earning points
+    const [banned] = await db
+      .select()
+      .from(pointsBannedUsers)
+      .where(eq(pointsBannedUsers.userId, userId));
+
+    if (banned) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "User is banned from earning points",
+          error: "User banned",
+        },
+        { status: 403 },
+      );
+    }
+
     return await db.transaction(async (tx) => {
       // 1. Fetch challenge details with a lock to ensure atomicity for maxCompletions check
       // Note: 'for update' locks the row so other transactions waiting to submit for this challenge will wait
@@ -153,9 +173,31 @@ export async function POST(
         })
         .returning();
 
+      // 5. Award points - upsert userBalance
+      await tx
+        .insert(userBalance)
+        .values({
+          userId,
+          points: challenge.points,
+        })
+        .onConflictDoUpdate({
+          target: userBalance.userId,
+          set: {
+            points: sql`${userBalance.points} + ${challenge.points}`,
+          },
+        });
+
+      // 6. Log points transaction
+      await tx.insert(pointsTransactions).values({
+        userId,
+        points: challenge.points,
+        referenceId: challengeId,
+        metadata: { type: "challenge_completion", challengeName: challenge.name },
+      });
+
       return NextResponse.json({
         success: true,
-        message: "Challenge completed",
+        message: `Challenge completed! +${challenge.points} points`,
         data: newChallengeSubmission,
         userName: existingUser.name,
       });

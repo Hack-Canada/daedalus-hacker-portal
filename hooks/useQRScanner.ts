@@ -1,16 +1,32 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { BrowserMultiFormatReader } from "@zxing/library";
+import { BrowserQRCodeReader } from "@zxing/library";
 import { toast } from "sonner";
 
 import { Event } from "@/config/qr-code";
 import { CheckIn } from "@/lib/db/schema";
+import type { UserVerifyData } from "@/app/api/check-ins/verify/route";
+
+export interface ShopRedeemData {
+  type: "shop-redeem";
+  userId: string;
+  itemId: string;
+  itemName: string;
+  price: number;
+}
 
 import { useCameraPermission } from "./useCameraPermission";
+
+export interface CameraDevice {
+  deviceId: string;
+  label: string;
+}
 
 interface UseQRScannerProps {
   selectedEvent: Event | "";
   keepCameraOn: boolean;
 }
+
+const STORAGE_KEY_CAMERA = "scanner-selected-camera";
 
 export const useQRScanner = ({
   selectedEvent,
@@ -24,10 +40,67 @@ export const useQRScanner = ({
   const [lastUserId, setLastUserId] = useState<string | null>(null);
   const [scanData, setScanData] = useState<CheckIn[]>([]);
   const [scannedUserName, setScannedUserName] = useState<string | null>(null);
+  const [availableCameras, setAvailableCameras] = useState<CameraDevice[]>([]);
+  const [selectedCameraId, setSelectedCameraId] = useState<string | null>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(STORAGE_KEY_CAMERA);
+    }
+    return null;
+  });
+  
+  // Hackathon confirmation dialog state
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [pendingUserId, setPendingUserId] = useState<string | null>(null);
+  const [pendingUserData, setPendingUserData] = useState<UserVerifyData | null>(null);
+  const [isConfirming, setIsConfirming] = useState(false);
+
+  // Shop redeem confirmation dialog state
+  const [showShopRedeemDialog, setShowShopRedeemDialog] = useState(false);
+  const [pendingShopRedeem, setPendingShopRedeem] = useState<ShopRedeemData | null>(null);
+  const [isRedeemingShop, setIsRedeemingShop] = useState(false);
+  
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const codeReader = useRef(new BrowserMultiFormatReader());
+  const codeReader = useRef(new BrowserQRCodeReader());
   const isProcessing = useRef(false);
   const { permissionState, requestPermission } = useCameraPermission();
+
+  // List available cameras on mount or when permission is granted
+  useEffect(() => {
+    const listCameras = async () => {
+      if (permissionState !== "granted") return;
+      
+      try {
+        const devices = await codeReader.current.listVideoInputDevices();
+        const cameras: CameraDevice[] = devices.map((device, index) => ({
+          deviceId: device.deviceId,
+          label: device.label || `Camera ${index + 1}`,
+        }));
+        setAvailableCameras(cameras);
+        
+        // If no camera is selected yet, select the first one (usually back camera on mobile)
+        if (!selectedCameraId && cameras.length > 0) {
+          // Try to find a back camera (usually contains "back" or "environment" in label)
+          const backCamera = cameras.find(
+            (c) => c.label.toLowerCase().includes("back") || 
+                   c.label.toLowerCase().includes("environment")
+          );
+          const defaultCamera = backCamera || cameras[0];
+          setSelectedCameraId(defaultCamera.deviceId);
+          localStorage.setItem(STORAGE_KEY_CAMERA, defaultCamera.deviceId);
+        }
+      } catch (error) {
+        console.error("Failed to list cameras:", error);
+      }
+    };
+
+    listCameras();
+  }, [permissionState, selectedCameraId]);
+
+  // Save selected camera to localStorage
+  const handleCameraChange = useCallback((deviceId: string) => {
+    setSelectedCameraId(deviceId);
+    localStorage.setItem(STORAGE_KEY_CAMERA, deviceId);
+  }, []);
 
   const successAudio = useRef<HTMLAudioElement | null>(null);
   const errorAudio = useRef<HTMLAudioElement | null>(null);
@@ -50,8 +123,8 @@ export const useQRScanner = ({
     }
   }, []);
 
-  const stopCamera = useCallback(() => {
-    if (keepCameraOn) return;
+  const stopCamera = useCallback((force = false) => {
+    if (keepCameraOn && !force) return;
     try {
       codeReader.current.reset();
       if (videoRef.current?.srcObject) {
@@ -73,7 +146,27 @@ export const useQRScanner = ({
     };
   }, [stopCamera]);
 
-  const handleCheckIn = async (userId: string) => {
+  // Fetch user details for hackathon check-in verification
+  const verifyUserForHackathon = async (userId: string): Promise<UserVerifyData | null> => {
+    try {
+      const response = await fetch(`/api/check-ins/verify?userId=${userId}`);
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to verify user");
+      }
+      
+      return data.data;
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to verify user",
+      );
+      return null;
+    }
+  };
+
+  // Handle the actual check-in (called after confirmation for hackathon, directly for others)
+  const performCheckIn = async (userId: string, showFeedback = true) => {
     try {
       const response = await fetch("/api/check-ins", {
         method: "POST",
@@ -87,26 +180,175 @@ export const useQRScanner = ({
       });
 
       const data = await response.json();
-      setScanData(data.data || []); // Set scan data regardless of success/failure
+      setScanData(data.data || []);
 
       if (!response.ok) {
         throw new Error(data.message || "Failed to check in");
       }
 
       setScannedUserName(data.userName || "No name found");
+      if (showFeedback) {
+        await playSound("success");
+        setScanResult("success");
+        toast.success("Check-in successful!");
+      }
+      return true;
+    } catch (error) {
+      if (showFeedback) {
+        await playSound("error");
+        setScanResult("error");
+        toast.error(
+          error instanceof Error ? error.message : "Failed to check in",
+        );
+      }
+      return false;
+    } finally {
+      if (showFeedback) {
+        stopCamera();
+        isProcessing.current = false;
+        setTimeout(() => setScanResult(null), 500);
+      }
+    }
+  };
+
+  // Handle check-in flow (with confirmation for hackathon)
+  const handleCheckIn = async (userId: string) => {
+    // For hackathon check-in, show confirmation dialog first
+    if (selectedEvent === "hackathon-check-in") {
+      const userData = await verifyUserForHackathon(userId);
+      if (userData) {
+        setPendingUserId(userId);
+        setPendingUserData(userData);
+        setShowConfirmDialog(true);
+        // Keep camera paused but don't fully stop - user might cancel
+        codeReader.current.reset();
+      } else {
+        await playSound("error");
+        setScanResult("error");
+        stopCamera();
+        isProcessing.current = false;
+        setTimeout(() => setScanResult(null), 500);
+      }
+      return;
+    }
+
+    // For other events, proceed directly
+    await performCheckIn(userId);
+  };
+
+  // Confirm hackathon check-in from dialog
+  const confirmHackathonCheckIn = async () => {
+    if (!pendingUserId) return;
+    
+    setIsConfirming(true);
+    const success = await performCheckIn(pendingUserId, false);
+    
+    if (success) {
       await playSound("success");
       setScanResult("success");
       toast.success("Check-in successful!");
+    } else {
+      await playSound("error");
+      setScanResult("error");
+    }
+    
+    setShowConfirmDialog(false);
+    setPendingUserId(null);
+    setPendingUserData(null);
+    setIsConfirming(false);
+    stopCamera();
+    isProcessing.current = false;
+    setTimeout(() => setScanResult(null), 500);
+  };
+
+  // Cancel hackathon check-in from dialog
+  const cancelHackathonCheckIn = () => {
+    setShowConfirmDialog(false);
+    setPendingUserId(null);
+    setPendingUserData(null);
+    isProcessing.current = false;
+    // Optionally restart camera for another scan
+    if (keepCameraOn) {
+      startCamera();
+    } else {
+      stopCamera(true);
+    }
+  };
+
+  // Handle shop redeem QR code scan
+  const handleShopRedeemScan = async (shopData: ShopRedeemData) => {
+    // Verify the user exists first
+    const userData = await verifyUserForHackathon(shopData.userId);
+    if (userData) {
+      setPendingShopRedeem(shopData);
+      setPendingUserData(userData);
+      setShowShopRedeemDialog(true);
+      // Keep camera paused but don't fully stop - user might cancel
+      codeReader.current.reset();
+    } else {
+      await playSound("error");
+      setScanResult("error");
+      stopCamera();
+      isProcessing.current = false;
+      setTimeout(() => setScanResult(null), 500);
+    }
+  };
+
+  // Confirm shop redemption from dialog
+  const confirmShopRedeem = async () => {
+    if (!pendingShopRedeem) return;
+
+    setIsRedeemingShop(true);
+    try {
+      const response = await fetch("/api/shop/redeem", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: pendingShopRedeem.userId,
+          itemId: pendingShopRedeem.itemId,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to process redemption");
+      }
+
+      setScannedUserName(data.userName || "No name found");
+      await playSound("success");
+      setScanResult("success");
+      toast.success(`Successfully redeemed ${pendingShopRedeem.itemName}!`);
     } catch (error) {
       await playSound("error");
       setScanResult("error");
       toast.error(
-        error instanceof Error ? error.message : "Failed to check in",
+        error instanceof Error ? error.message : "Failed to process redemption",
       );
     } finally {
+      setShowShopRedeemDialog(false);
+      setPendingShopRedeem(null);
+      setPendingUserData(null);
+      setIsRedeemingShop(false);
       stopCamera();
       isProcessing.current = false;
       setTimeout(() => setScanResult(null), 500);
+    }
+  };
+
+  // Cancel shop redemption from dialog
+  const cancelShopRedeem = () => {
+    setShowShopRedeemDialog(false);
+    setPendingShopRedeem(null);
+    setPendingUserData(null);
+    isProcessing.current = false;
+    // Optionally restart camera for another scan
+    if (keepCameraOn) {
+      startCamera();
+    } else {
+      stopCamera(true);
     }
   };
 
@@ -218,9 +460,9 @@ export const useQRScanner = ({
     let lastUserIdVar: String = ""; // to prevent double scans of the same user, we need this as react wont re-render in time to prevent double scans
 
     try {
-      // Start the QR code reader directly with constraints
+      // Start the QR code reader with the selected camera
       await codeReader.current.decodeFromVideoDevice(
-        null, // Use default device
+        selectedCameraId, // Use selected camera or null for default
         videoRef.current,
         async (
           result: { getText(): string } | null,
@@ -232,17 +474,23 @@ export const useQRScanner = ({
           console.log(scannedText);
           let userId: string | undefined;
           let challengeId: string | undefined;
+          let shopRedeemData: ShopRedeemData | undefined;
 
           // Determine QR code type
           if (scannedText.startsWith("https://app.hackcanada.org/profile/")) {
             // Regular profile URL
             userId = scannedText.split("/profile/")[1];
           } else {
-            // JSON QR code (for challenges)
+            // JSON QR code (for challenges or shop redemption)
             try {
               const parsed = JSON.parse(scannedText);
               userId = parsed.userId;
               challengeId = parsed.challengeId;
+
+              // Check if this is a shop-redeem QR code
+              if (parsed.type === "shop-redeem") {
+                shopRedeemData = parsed as ShopRedeemData;
+              }
             } catch (e) {
               console.error("Failed to parse QR code JSON:", e);
             }
@@ -256,12 +504,24 @@ export const useQRScanner = ({
             return;
           }
 
-          // Validate challenge-specific requirements
+          // Validate event-specific requirements
           if (selectedEvent === "challenge") {
             if (!challengeId) {
               await playSound("error");
               toast.error(
                 "Please scan the challenge-specific QR code, not the profile QR code",
+              );
+              setScanResult("error");
+              setTimeout(() => setScanResult(null), 1000);
+              return;
+            }
+          }
+
+          if (selectedEvent === "shop-redeem") {
+            if (!shopRedeemData) {
+              await playSound("error");
+              toast.error(
+                "Please scan a shop redemption QR code from a hacker's shop page",
               );
               setScanResult("error");
               setTimeout(() => setScanResult(null), 1000);
@@ -289,6 +549,8 @@ export const useQRScanner = ({
               userId,
               challengeId: challengeId!,
             });
+          } else if (selectedEvent === "shop-redeem") {
+            await handleShopRedeemScan(shopRedeemData!);
           } else {
             await handleCheckIn(userId);
           }
@@ -309,11 +571,24 @@ export const useQRScanner = ({
 
   const handleToggleCamera = async () => {
     if (isCameraOn) {
-      stopCamera();
+      stopCamera(true);
     } else {
       await startCamera();
     }
   };
+
+  // Switch camera - stop current and restart with new camera
+  const switchCamera = useCallback(async (deviceId: string) => {
+    handleCameraChange(deviceId);
+    if (isCameraOn) {
+      stopCamera(true);
+      // Small delay to ensure camera is fully stopped
+      setTimeout(() => {
+        startCamera();
+      }, 100);
+    }
+  }, [isCameraOn, stopCamera, handleCameraChange]);
+
   return {
     isCameraOn,
     videoRef,
@@ -325,5 +600,20 @@ export const useQRScanner = ({
     handleResetEvent,
     scanData,
     scannedUserName,
+    availableCameras,
+    selectedCameraId,
+    switchCamera,
+    // Hackathon confirmation dialog
+    showConfirmDialog,
+    pendingUserData,
+    isConfirming,
+    confirmHackathonCheckIn,
+    cancelHackathonCheckIn,
+    // Shop redeem confirmation dialog
+    showShopRedeemDialog,
+    pendingShopRedeem,
+    isRedeemingShop,
+    confirmShopRedeem,
+    cancelShopRedeem,
   };
 };

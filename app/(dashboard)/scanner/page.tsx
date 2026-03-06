@@ -4,7 +4,7 @@ import { getCurrentUser } from "@/auth";
 import { isVolunteer } from "@/lib/utils";
 import { BackButton } from "@/components/ui/back-button";
 import PageWrapper from "@/components/PageWrapper";
-import { Scanner } from "@/components/scanner/Scanner";
+import { EventSelectionGrid } from "@/components/scanner/EventSelectionGrid";
 
 export default async function ScannerPage() {
   const currentUser = await getCurrentUser();
@@ -25,11 +25,11 @@ export default async function ScannerPage() {
             <h1 className="font-rubik text-3xl font-bold">QR Code Scanner</h1>
           </div>
           <p className="text-textMuted max-md:text-sm">
-            Point the camera at a participant&apos;s QR code to check them in.
+            Select an event below to start scanning participant QR codes.
           </p>
         </div>
 
-        <Scanner />
+        <EventSelectionGrid />
       </div>
       <BackButton />
     </PageWrapper>
