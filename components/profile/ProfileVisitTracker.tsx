@@ -19,13 +19,18 @@ export function ProfileVisitTracker({
   visitedUserRole,
 }: ProfileVisitTrackerProps) {
   const [hasTracked, setHasTracked] = useState(false);
-  const startTimeRef = useRef<number>(Date.now());
+  const startTimeRef = useRef<number | null>(null);
   const hasInteractedRef = useRef(false);
 
   useEffect(() => {
     // Only track for hackers visiting other hackers' profiles
     if (isOwner || visitorRole !== "hacker" || visitedUserRole !== "hacker") {
       return;
+    }
+
+    // Initialize start time inside useEffect to avoid impure render
+    if (startTimeRef.current === null) {
+      startTimeRef.current = Date.now();
     }
 
     const trackVisit = async () => {
@@ -66,15 +71,14 @@ export function ProfileVisitTracker({
 
     // Timer to track time spent on page
     const timer = setTimeout(() => {
-      const timeSpent = (Date.now() - startTimeRef.current) / 1000;
-      if (timeSpent >= MIN_TIME_SECONDS) {
-        trackVisit();
-      }
+      trackVisit();
     }, MIN_TIME_SECONDS * 1000);
 
     // Also track if user scrolls (indicates engagement)
     const handleScroll = () => {
-      const timeSpent = (Date.now() - startTimeRef.current) / 1000;
+      const startTime = startTimeRef.current;
+      if (startTime === null) return;
+      const timeSpent = (Date.now() - startTime) / 1000;
       if (timeSpent >= MIN_TIME_SECONDS / 2) {
         trackVisit();
       }

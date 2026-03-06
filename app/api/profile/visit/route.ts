@@ -37,6 +37,8 @@ export async function POST(
       );
     }
 
+    const visitorId = currentUser.id;
+
     // Only hackers can earn profile visit rewards
     if (currentUser.role !== "hacker") {
       return NextResponse.json(
@@ -53,7 +55,7 @@ export async function POST(
     const { visitedUserId } = visitSchema.parse(body);
 
     // Can't visit your own profile for rewards
-    if (currentUser.id === visitedUserId) {
+    if (visitorId === visitedUserId) {
       return NextResponse.json(
         {
           success: false,
@@ -92,7 +94,7 @@ export async function POST(
     const [banned] = await db
       .select()
       .from(pointsBannedUsers)
-      .where(eq(pointsBannedUsers.userId, currentUser.id));
+      .where(eq(pointsBannedUsers.userId, visitorId));
 
     if (banned) {
       return NextResponse.json(
@@ -111,7 +113,7 @@ export async function POST(
       .from(profileVisits)
       .where(
         and(
-          eq(profileVisits.visitorId, currentUser.id),
+          eq(profileVisits.visitorId, visitorId),
           eq(profileVisits.visitedUserId, visitedUserId),
         ),
       );
@@ -121,7 +123,7 @@ export async function POST(
       const [visitCount] = await db
         .select({ count: count() })
         .from(profileVisits)
-        .where(eq(profileVisits.visitorId, currentUser.id));
+        .where(eq(profileVisits.visitorId, visitorId));
 
       return NextResponse.json({
         success: true,
@@ -138,7 +140,7 @@ export async function POST(
     return await db.transaction(async (tx) => {
       // Insert the new visit
       await tx.insert(profileVisits).values({
-        visitorId: currentUser.id,
+        visitorId,
         visitedUserId,
       });
 
@@ -146,7 +148,7 @@ export async function POST(
       const [visitCount] = await tx
         .select({ count: count() })
         .from(profileVisits)
-        .where(eq(profileVisits.visitorId, currentUser.id));
+        .where(eq(profileVisits.visitorId, visitorId));
 
       const totalVisits = visitCount.count;
       let pointsAwarded = 0;
@@ -159,7 +161,7 @@ export async function POST(
         await tx
           .insert(userBalance)
           .values({
-            userId: currentUser.id,
+            userId: visitorId,
             points: 1,
           })
           .onConflictDoUpdate({
@@ -171,7 +173,7 @@ export async function POST(
 
         // Log the transaction
         await tx.insert(pointsTransactions).values({
-          userId: currentUser.id,
+          userId: visitorId,
           points: 1,
           referenceId: visitedUserId,
           metadata: {
