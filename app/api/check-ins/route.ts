@@ -104,6 +104,25 @@ export async function POST(
       );
     }
 
+    // For non-hackathon events, check if user has completed hackathon check-in first
+    if (eventName !== "hackathon-check-in") {
+      const hasHackathonCheckIn = userCheckIns.some(
+        (checkIn) => checkIn.eventName === "hackathon-check-in",
+      );
+
+      if (!hasHackathonCheckIn) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "User must check in for hackathon first",
+            error: "Missing hackathon check-in",
+            data: userCheckIns,
+          },
+          { status: 400 },
+        );
+      }
+    }
+
     // Create new check-in
     const [newCheckIn] = await db
       .insert(checkIns)

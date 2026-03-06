@@ -1,28 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Loader2, Trash2 } from "lucide-react";
+import { Loader2, Trash2, SwitchCamera } from "lucide-react";
 
 import { Event } from "@/config/qr-code";
 import { cn, formatDate } from "@/lib/utils";
 import { useQRScanner } from "@/hooks/useQRScanner";
 import { Checkbox } from "@/components/ui/checkbox";
-import { EventSelector } from "@/components/EventSelector";
 import { CameraPermissionPrompt } from "./CameraPermissionPrompt";
+import { HackathonConfirmDialog } from "./HackathonConfirmDialog";
 
-const STORAGE_KEY_EVENT = "scanner-selected-event";
 const STORAGE_KEY_KEEP_CAMERA = "scanner-keep-camera-on";
 
-export function Scanner() {
-  // Initialize state with localStorage values (lazy initialization)
-  const [selectedEvent, setSelectedEvent] = useState<Event | "">(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem(STORAGE_KEY_EVENT);
-      return (saved as Event) || "";
-    }
-    return "";
-  });
+interface ScannerProps {
+  selectedEvent: Event;
+}
 
+export function Scanner({ selectedEvent }: ScannerProps) {
   const [keepCameraOn, setKeepCameraOn] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem(STORAGE_KEY_KEEP_CAMERA);
@@ -42,17 +36,18 @@ export function Scanner() {
     handleResetEvent,
     scanData,
     scannedUserName,
+    availableCameras,
+    selectedCameraId,
+    switchCamera,
+    showConfirmDialog,
+    pendingUserData,
+    isConfirming,
+    confirmHackathonCheckIn,
+    cancelHackathonCheckIn,
   } = useQRScanner({
     selectedEvent,
     keepCameraOn,
   });
-
-  // Save selectedEvent to localStorage when it changes
-  useEffect(() => {
-    if (selectedEvent) {
-      localStorage.setItem(STORAGE_KEY_EVENT, selectedEvent);
-    }
-  }, [selectedEvent]);
 
   // Save keepCameraOn to localStorage when it changes
   useEffect(() => {
@@ -61,20 +56,17 @@ export function Scanner() {
 
   return (
     <>
-      <div className="border-primary/25 hover:border-primary/50 hover:shadow-primaryLight/50 flex flex-col gap-8 rounded-md border-2 p-4 transition-all duration-500 hover:shadow-2xl md:p-6">
-        {/* Visual feedback overlay */}
-        {scanResult && (
-          <div
-            className={`animate-flash absolute -inset-full z-50 duration-500 ${
-              scanResult === "success" ? "bg-success" : "bg-error"
-            }`}
-          />
-        )}
-
-        <EventSelector
-          selectedEvent={selectedEvent}
-          onEventChange={(value) => setSelectedEvent(value as Event)}
+      {/* Visual feedback overlay */}
+      {scanResult && (
+        <div
+          className={`animate-flash fixed inset-0 z-50 pointer-events-none duration-500 ${
+            scanResult === "success" ? "bg-success/30" : "bg-error/30"
+          }`}
         />
+      )}
+
+      {/* Settings */}
+      <div className="border-primary/25 hover:border-primary/50 hover:shadow-primaryLight/50 flex flex-col gap-4 rounded-md border-2 p-4 transition-all duration-500 hover:shadow-2xl md:p-6">
         <div className="flex items-center gap-2">
           <Checkbox
             id="keep-camera-on"
@@ -84,59 +76,90 @@ export function Scanner() {
             }}
           />
           <label htmlFor="keep-camera-on" className="text-textPrimary text-sm">
-            Keep Camera On
+            Keep Camera On After Scan
           </label>
         </div>
       </div>
 
-      {selectedEvent && (
-        <>
-          {/* Show camera permission prompt if not granted */}
-          {permissionState !== "granted" ? (
-            <CameraPermissionPrompt
-              permissionState={permissionState}
-              onRequestPermission={requestPermission}
-            />
-          ) : (
-            <div className="relative flex flex-col items-center">
-              {/* Camera container */}
-              <div className="group relative mx-auto w-full max-w-96 rounded-md border-2 border-primary/25 bg-primary/25 p-2 transition-all duration-500">
-                <div className="relative mx-auto aspect-square w-full overflow-hidden rounded-md">
-                  <video
-                    ref={videoRef}
-                    style={{
-                      aspectRatio: "1 / 1",
-                      objectFit: "cover",
-                      width: "100%",
-                      height: "100%",
-                    }}
-                    className={cn(
-                      "absolute inset-0 scale-x-0 scale-y-0 rounded-[50px] bg-black transition-all duration-500",
-                      {
-                        "scale-x-100 scale-y-100 rounded-none": isCameraOn,
-                      },
-                    )}
-                  />
-                  <button
-                    onClick={handleToggleCamera}
-                    className={cn(
-                      "flex h-full w-full items-center justify-center bg-backgroundMuted text-lg font-semibold text-textPrimary/70 transition hover:text-textPrimary",
-                      {
-                        "opacity-0": isCameraOn,
-                      },
-                    )}
-                  >
-                    {startingCamera ? (
-                      <Loader2 className="size-8 animate-spin" />
-                    ) : !isCameraOn ? (
-                      "Turn On Camera"
-                    ) : null}
-                  </button>
-                </div>
-              </div>
+      {/* Show camera permission prompt if not granted */}
+      {permissionState !== "granted" ? (
+        <CameraPermissionPrompt
+          permissionState={permissionState}
+          onRequestPermission={requestPermission}
+        />
+      ) : (
+        <div className="relative flex flex-col items-center gap-4">
+          {/* Camera container */}
+          <div className="group relative mx-auto w-full max-w-96 rounded-md border-2 border-primary/25 bg-primary/25 p-2 transition-all duration-500">
+            <div className="relative mx-auto aspect-square w-full overflow-hidden rounded-md">
+              <video
+                ref={videoRef}
+                style={{
+                  aspectRatio: "1 / 1",
+                  objectFit: "cover",
+                  width: "100%",
+                  height: "100%",
+                }}
+                className={cn(
+                  "absolute inset-0 scale-x-0 scale-y-0 rounded-[50px] bg-black transition-all duration-500",
+                  {
+                    "scale-x-100 scale-y-100 rounded-none": isCameraOn,
+                  },
+                )}
+              />
+              <button
+                onClick={handleToggleCamera}
+                className={cn(
+                  "flex h-full w-full items-center justify-center bg-backgroundMuted text-lg font-semibold text-textPrimary/70 transition hover:text-textPrimary",
+                  {
+                    "opacity-0": isCameraOn,
+                  },
+                )}
+              >
+                {startingCamera ? (
+                  <Loader2 className="size-8 animate-spin" />
+                ) : !isCameraOn ? (
+                  "Turn On Camera"
+                ) : null}
+              </button>
+
+              {/* Camera switch button - only show when camera is on and multiple cameras available */}
+              {isCameraOn && availableCameras.length > 1 && (
+                <button
+                  onClick={() => {
+                    const currentIndex = availableCameras.findIndex(
+                      (c) => c.deviceId === selectedCameraId
+                    );
+                    const nextIndex = (currentIndex + 1) % availableCameras.length;
+                    switchCamera(availableCameras[nextIndex].deviceId);
+                  }}
+                  className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm transition hover:bg-black/70"
+                  title="Switch Camera"
+                >
+                  <SwitchCamera className="h-5 w-5" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Camera selector dropdown - show when multiple cameras available */}
+          {availableCameras.length > 1 && (
+            <div className="flex items-center gap-2 text-sm">
+              <span className="text-textSecondary">Camera:</span>
+              <select
+                value={selectedCameraId || ""}
+                onChange={(e) => switchCamera(e.target.value)}
+                className="rounded-md border border-primary/25 bg-background px-2 py-1 text-textPrimary focus:border-primary focus:outline-none"
+              >
+                {availableCameras.map((camera) => (
+                  <option key={camera.deviceId} value={camera.deviceId}>
+                    {camera.label}
+                  </option>
+                ))}
+              </select>
             </div>
           )}
-        </>
+        </div>
       )}
 
       {scannedUserName && (
@@ -180,6 +203,17 @@ export function Scanner() {
             ))}
           </div>
         </div>
+      )}
+
+      {/* Hackathon Check-In Confirmation Dialog */}
+      {pendingUserData && (
+        <HackathonConfirmDialog
+          userData={pendingUserData}
+          isOpen={showConfirmDialog}
+          isLoading={isConfirming}
+          onConfirm={confirmHackathonCheckIn}
+          onCancel={cancelHackathonCheckIn}
+        />
       )}
     </>
   );
