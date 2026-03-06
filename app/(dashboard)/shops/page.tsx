@@ -99,7 +99,7 @@ export default async function ShopsPage() {
               <ShopItemCard
                 key={item.id}
                 item={item}
-                userId={currentUser.id}
+                userId={currentUser.id!}
                 purchaseCount={purchaseCountMap.get(item.id) ?? 0}
               />
             ))}
