@@ -3,6 +3,7 @@
 import Link from "next/link";
 import {
   CheckCircle2,
+  Coins,
   Cookie,
   Plus,
   ShoppingBag,
@@ -153,6 +154,34 @@ export function EventSelectionGrid() {
             </h3>
             <p className="text-sm text-textSecondary">
               Scan shop QR codes to process purchases (Organizers only)
+            </p>
+          </div>
+        </div>
+      </Link>
+
+      {/* Points Manager (Organizers only) */}
+      <Link
+        href="/points-manager"
+        className={cn(
+          "group relative block w-full overflow-hidden rounded-lg border-2 p-6 text-left transition-all duration-300",
+          "border-amber-500/30 bg-gradient-to-br from-amber-500/5 to-yellow-500/5 hover:border-amber-500/50 hover:shadow-md hover:shadow-amber-500/10",
+        )}
+      >
+        <div className="flex items-center gap-4">
+          <div
+            className={cn(
+              "flex h-14 w-14 shrink-0 items-center justify-center rounded-full transition-all duration-300",
+              "bg-amber-500/20 text-amber-600 group-hover:bg-amber-500/30",
+            )}
+          >
+            <Coins className="h-7 w-7" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-bold text-textPrimary group-hover:text-amber-600 transition-colors">
+              POINTS MANAGER
+            </h3>
+            <p className="text-sm text-textSecondary">
+              Give or take back points from hackers (Organizers only)
             </p>
           </div>
         </div>
