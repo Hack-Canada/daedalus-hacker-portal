@@ -29,6 +29,10 @@ const checkInSchema: z.ZodType<ChallengeSubmissionRequest> = z.object({
   challengeId: z.string().uuid(),
 });
 
+// Points limits
+const POINTS_PER_CHALLENGE = 5;
+const MAX_TOTAL_POINTS = 250;
+
 export async function POST(
   req: NextRequest,
 ): Promise<NextResponse<ApiResponse<ChallengeSubmission>>> {
@@ -164,7 +168,31 @@ export async function POST(
         }
       }
 
-      // 4. Create new submission
+      // 4. Check current user balance to enforce max points cap
+      const [currentBalance] = await tx
+        .select()
+        .from(userBalance)
+        .where(eq(userBalance.userId, userId));
+
+      const currentPoints = currentBalance?.points ?? 0;
+
+      // If user is already at max points, don't allow more
+      if (currentPoints >= MAX_TOTAL_POINTS) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: `User has reached the maximum points limit of ${MAX_TOTAL_POINTS}`,
+            error: "Max points reached",
+          },
+          { status: 400 },
+        );
+      }
+
+      // Calculate points to award (capped at POINTS_PER_CHALLENGE and remaining room to max)
+      const remainingRoom = MAX_TOTAL_POINTS - currentPoints;
+      const pointsToAward = Math.min(POINTS_PER_CHALLENGE, remainingRoom);
+
+      // 5. Create new submission
       const [newChallengeSubmission] = await tx
         .insert(challengesSubmitted)
         .values({
@@ -173,31 +201,31 @@ export async function POST(
         })
         .returning();
 
-      // 5. Award points - upsert userBalance
+      // 6. Award points - upsert userBalance
       await tx
         .insert(userBalance)
         .values({
           userId,
-          points: challenge.points,
+          points: pointsToAward,
         })
         .onConflictDoUpdate({
           target: userBalance.userId,
           set: {
-            points: sql`${userBalance.points} + ${challenge.points}`,
+            points: sql`${userBalance.points} + ${pointsToAward}`,
           },
         });
 
-      // 6. Log points transaction
+      // 7. Log points transaction
       await tx.insert(pointsTransactions).values({
         userId,
-        points: challenge.points,
+        points: pointsToAward,
         referenceId: challengeId,
         metadata: { type: "challenge_completion", challengeName: challenge.name },
       });
 
       return NextResponse.json({
         success: true,
-        message: `Challenge completed! +${challenge.points} points`,
+        message: `Challenge completed! +${pointsToAward} points`,
         data: newChallengeSubmission,
         userName: existingUser.name,
       });

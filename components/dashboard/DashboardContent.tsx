@@ -11,6 +11,8 @@ import { ContactSection } from "./ContactSection";
 import { CountdownSection } from "./CountdownSection";
 import { DashboardHeader } from "./DashboardHeader";
 import DashboardQRCode from "./DashboardQRCode";
+import DevpostCard from "./DevpostCard";
+import HackerPackageCard from "./HackerPackageCard";
 import { HackathonConclusion } from "./HackathonConclusion";
 import HackathonsCanadaDiscord from "./HackathonsCanadaDiscord";
 import ProfileCard from "./ProfileCard";
@@ -46,6 +48,14 @@ export const DashboardContent = ({ user }: DashboardContentProps) => {
           <div className="space-y-6 md:space-y-8 lg:space-y-10">
             <HackathonConclusion role={user.role} />
             <ThankYouCard role={user.role} />
+          </div>
+        </PhaseGuard>
+
+        {/* Hacker Package & Devpost - shown during pre-event and during-event */}
+        <PhaseGuard phases={["pre-event", "during-event"]}>
+          <div className="grid w-full grid-cols-1 gap-6 md:gap-8 lg:grid-cols-4 lg:gap-10">
+            <HackerPackageCard isLocked={isLocked} />
+            <DevpostCard />
           </div>
         </PhaseGuard>
 
