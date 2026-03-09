@@ -122,7 +122,7 @@ export const userRegistrationEnabled: boolean =
 export const discordInviteUrl: string = "https://discord.gg/52Ev4CCUxe";
 export const hackathonsCanadaDiscordUrl: string =
   "https://discord.gg/52Ev4CCUxe";
-export const viewProjectsUrl: string = "https://example.com/projects";
+export const viewProjectsUrl: string = "https://hack-canada-2026.devpost.com/";
 export const hackerPackageUrl: string =
   "https://hack-canada-2026.notion.site/Hack-Canada-2026-Hacker-Package-2de5d88c3a2180aaa469e760de714317#3165d88c3a2180fa9fc0e4f75ebf34e0";
 export const devpostUrl: string = "https://hack-canada-2026.devpost.com/";
